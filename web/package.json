@@ -1,0 +1,25 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack --config webpack.config.js --progress --colors --watch"
+  },
+  "keywords": [],
+  "author": "Thibault H <thibaulthottou@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-preset-env": "*",
+    "cross-env": "*",
+    "css-loader": "*",
+    "file-loader": "*",
+    "vue-loader": "*",
+    "vue-template-compiler": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  }
+}

@@ -1,0 +1,37 @@
+:root {
+  --z-nav: 10;
+  --z-content: 9;
+}
+
+html, body {
+  font-family: 'Encode Sans', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+
+.content {
+  flex-grow: 1;
+  background: rgb(245, 245, 245);
+
+  z-index: var(--z-content);
+  padding-top: 5em;
+}
+
+.content .post {
+  margin: 1em 20vw;
+
+  border-bottom: solid 1px rgba(20, 20, 20, 0.2);
+  padding-bottom: 1em;
+}
+
+.content .post div div {
+  display: inline-block;
+}
+
+.content .post div div {
+  margin-right: 1em;
+}
