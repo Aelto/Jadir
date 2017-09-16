@@ -5,9 +5,12 @@
       <h1>Sign in</h1>
 
       <p>
-        <input type='text' placeholder="login">
-        <input type='password' placeholder="password">
-        <button>Login</button>
+        <input type='text' placeholder="login"
+          v-model="login">
+        <input type='password' placeholder="password"
+          v-model="password">
+        <button
+          v-on:click="authenticate">Login</button>
       </p>
 
       <router-link to='/signup'>need an account?</router-link>
@@ -20,6 +23,16 @@
 
 export default {
   props: ['global'],
+  data: () => ({
+    login: 'Aeltoth',
+    password: 'password'
+  }),
+  methods: {
+    authenticate() {
+      this.global.api.auth.authenticate(this.login, this.password)
+      .then(() => this.global.api.routes.route('/home/1'))
+    }
+  }
 }
 
 </script>
