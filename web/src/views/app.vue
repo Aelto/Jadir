@@ -31,10 +31,9 @@ export default {
 
 .app .nav + div {
   flex-grow: 1;
-  background: rgb(245, 245, 245);
+  background: rgb(250, 250, 250);
 
   z-index: var(--z-content);
-  padding-top: 5em;
 }
 
 </style>

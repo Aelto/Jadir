@@ -55,6 +55,27 @@ const posts = (router, data) => ({
       })
     }).then(response => response.json()),
 
+  getPostComments: id =>
+    fetch('http://localhost:3000/graphql', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
+      body: JSON.stringify({
+        query: `
+      {
+        postComments(id: ${id}) {
+          id
+          content
+          author_id
+          answers_comment
+          post_id
+          creation_date
+          author
+        }
+      }
+    `
+      })
+    }).then(response => response.json()),
+
   getPostsPage: id =>
     fetch('http://localhost:3000/graphql', {
       method: 'post',

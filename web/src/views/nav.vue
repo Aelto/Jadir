@@ -1,14 +1,18 @@
 <template>
   <div class='nav'>
 
-    <router-link to="/home/1">Home</router-link>
+    <router-link to="/home/1" class='home'>Jadir</router-link>
 
     <div class='wrapper' v-if="account.logged === false">
+      <div class="bar"></div>
       <router-link to="/signin">Sign in</router-link>
       <router-link to="/signup">Sign up</router-link>
     </div>
 
+    
+
     <div class='wrapper' v-else>
+      <div class="bar"></div>
       <router-link to="/new-post">New post</router-link>
       <div>Logged as <span>{{ account.username }}</span></div>
 
@@ -26,6 +30,16 @@ export default {
 </script>
 
 <style scoped>
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .nav {
   display: flex;
   flex-direction: row;
@@ -33,6 +47,15 @@ export default {
   padding: 1em;
   align-items: center;
   z-index: var(--z-nav);
+  font-weight: 900
+}
+
+.nav a {
+  /* color: currentColor; */
+}
+
+.nav .home {
+  font-weight: bold;
 }
 
 .nav a, .nav div {
@@ -50,6 +73,17 @@ export default {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+}
+
+.nav .wrapper .bar {
+  flex-grow: 1;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.8;
+  padding: 0;
+  /* transform-origin: right; */
+  margin: 0 5vw;
+  animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;
 }
 
 .nav .profile-pic {

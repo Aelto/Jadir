@@ -29,13 +29,13 @@ exports.getPost = function getPost(con, id) {
         resolve(results[0])
       }
       if (results.length > 1) {
-        reject(`Duplicate in data, found ${results.length} where title = ${title}`)
+        reject(`Duplicate in data, found ${results.length} where id = ${id}`)
       }
     })
   })
 }
 
-exports.getPosts = function getPost(con, firstId, lastId) {
+exports.getPosts = function getPosts(con, firstId, lastId) {
   return new Promise((resolve, reject) => {
     con.query(`SELECT * FROM posts WHERE id BETWEEN ? and ?`, [firstId, lastId], (err, results, fields) => {
       if (err) reject(err)

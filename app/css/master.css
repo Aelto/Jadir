@@ -13,7 +13,9 @@ html, body {
 }
 
 
-
+a {
+  color: rgb(101, 134, 148)
+}
 
 
 .content {
@@ -37,4 +39,26 @@ html, body {
 
 .content .post div div {
   margin-right: 1em;
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0.8;
+    transform:  scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

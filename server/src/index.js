@@ -37,6 +37,9 @@ const schema = buildSchema(`
       postsPage(number: Int!): [Post]!
       newPost(title: String!, content: String!, tags: String!): Post!
       user(id: Int, name: String): User
+      comment(id: Int!): Comment
+      postComments(id: Int!): [Comment]!
+      newComment(post_id: Int!, author_name: String!, answers_comment: Int, content: String!): Comment
     }
 
     type Post {
@@ -51,9 +54,18 @@ const schema = buildSchema(`
     type User {
       id: Int!
       name: String!
-      password: String
       role: Int!
       posts: [Post]
+    }
+
+    type Comment {
+      id: Int!
+      content: String!
+      author_id: Int!
+      answers_comment: Int
+      post_id: Int!
+      creation_date: String!
+      author: String!
     }
   `)
 
@@ -67,7 +79,7 @@ const root = {
   },
   postsPage: async ({ number }, req, res) => {
     try {
-      return (await api.posts.getPosts(connection, number * 10, number * 10 + 10)) || []
+      return (await api.posts.getPosts(connection, (number - 1) * 20, (number - 1) * 20 + 20)) || []
     } catch (err) {
       console.log(err)
     }
@@ -76,7 +88,6 @@ const root = {
     try {
       if (id) {
         const user = await api.users.getUserById(connection, id)
-        console.log(user)
         return user
       } else if (name) {
         return await api.users.getUserByName(connection, name)
@@ -95,8 +106,46 @@ const root = {
 
       if (userData === null) throw new Error('Could not find user in database')
 
+      if (userData.name !== user.name) throw new Error('Unauthorized')
+
       const results = await api.posts.createPost(connection, title, content, tags, user.name, userData.id)
       return await api.posts.getPost(connection, results.insertId)
+    } catch (err) {
+      throw err
+    }
+  },
+  comment: async ({ id }, req, res) => {
+    try {
+      const comment = await api.comments.getComment(connection, id)
+
+      return comment
+    } catch (err) {
+      throw err
+    }
+  },
+  postComments: async ({ id }, req, res) => {
+    try {
+      const posts = await api.comments.getPostComments(connection, id)
+      console.log(posts)
+      return posts || []
+    } catch (err) {
+      throw err
+    }
+  },
+  newComment: async ({ post_id, author_name, answers_comment, content }, req, res) => {
+    if (!isAuth(req)) throw new Error('Unauthorized')
+
+    const user = tokenUserMap.getUser(req.headers['x-access-token'])
+
+    try {
+      if (user.name !== author_name) throw new Error('Unauthorized')
+
+      const userData = await api.users.getUserByName(connection, user.name)
+      if (userData === null) throw new Error('Could not find user in database')
+
+      const comment = await api.comments.createPostComment(connection, post_id, answers_comment, userData.id, content)
+
+      return await api.comments.getComment(connection, comment.insertId)
     } catch (err) {
       throw err
     }
@@ -104,7 +153,6 @@ const root = {
 }
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, `temp.html`)))
-
 
 app.use('/graphql', graphqlHTTP({ schema, rootValue: root, graphiql: true }))
 
@@ -135,7 +183,6 @@ app.post('/posts/new-post', async (req, res) => {
 app.get('/posts/:id', async (req, res) => {
   try {
     const post = await api.posts.getPost(connection, req.params.id)
-    console.log(post)
     res.status(200).send(post)
   } catch (err) {
     res.status(500).send({ err })

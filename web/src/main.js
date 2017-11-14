@@ -4,7 +4,7 @@ import { _fetch } from './utils'
 import app from './views/app.vue'
 import api from './api/index.js'
 
-const router = new VueRouter({ routes })
+const router = new VueRouter({ routes, mode: 'history' })
 const data = {
   global: {},
   
