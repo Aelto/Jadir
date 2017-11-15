@@ -40,6 +40,9 @@ const schema = buildSchema(`
       comment(id: Int!): Comment
       postComments(id: Int!): [Comment]!
       newComment(post_id: Int!, author_name: String!, answers_comment: Int, content: String!): Comment
+      votePost(post_id: Int!, vote_value: Boolean!, user_name: String!): Int!
+      getPostVotes(post_id: Int!): [Post_vote]
+      getPostVoteScore(post_id: Int!): Int!
     }
 
     type Post {
@@ -49,6 +52,7 @@ const schema = buildSchema(`
       content: String!
       tags: String!
       author: String!
+      score: Int!
     }
 
     type User {
@@ -67,88 +71,159 @@ const schema = buildSchema(`
       creation_date: String!
       author: String!
     }
+
+    type Post_vote {
+      id: Int!
+      post_id: Int!
+      user_id: Int!
+      is_upvote: Boolean!
+    }
   `)
 
-const root = {
-  post: async ({ id }, req, res) => {
-    try {
-      return (await api.posts.getPost(connection, id)) || []
-    } catch (err) {
-      console.log(err)
+const root = {}
+
+root.post = async ({ id }, req, res) => {
+  try {
+    const post = await api.posts.getPost(connection, id)
+    const score = await api.posts.getPostVoteScore(connection, id)
+
+    post.score = score
+    return post
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+root.postsPage = async ({ number }, req, res) => {
+  try {
+    const posts = await api.posts.getPosts(connection, (number - 1) * 20, (number - 1) * 20 + 20)
+    
+    for (const post of posts) {
+      const score = await api.posts.getPostVoteScore(connection, post.id)
+      post.score = score
     }
-  },
-  postsPage: async ({ number }, req, res) => {
-    try {
-      return (await api.posts.getPosts(connection, (number - 1) * 20, (number - 1) * 20 + 20)) || []
-    } catch (err) {
-      console.log(err)
+
+    return posts || []
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+root.user = async ({ id, name }, req, res) => {
+  try {
+    if (id) {
+      const user = await api.users.getUserById(connection, id)
+      return user
+    } else if (name) {
+      return await api.users.getUserByName(connection, name)
     }
-  },
-  user: async ({ id, name }, req, res) => {
-    try {
-      if (id) {
-        const user = await api.users.getUserById(connection, id)
-        return user
-      } else if (name) {
-        return await api.users.getUserByName(connection, name)
-      }
-    } catch (err) {
-      console.log(err)
-    }
-  },
-  newPost: async ({ title, content, tags }, req, res) => {
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+root.newPost = async ({ title, content, tags }, req, res) => {
+  if (!isAuth(req)) throw new Error('Unauthorized')
+
+  const user = tokenUserMap.getUser(req.headers['x-access-token'])
+
+  try {
+    const userData = await api.users.getUserByName(connection, user.name)
+
+    if (userData === null) throw new Error('Could not find user in database')
+
+    if (userData.name !== user.name) throw new Error('Unauthorized')
+
+    const results = await api.posts.createPost(connection, title, content, tags, user.name, userData.id)
+    return await root.post({ id: results.insertId }, req, res)
+  } catch (err) {
+    throw err
+  }
+}
+
+root.comment = async ({ id }, req, res) => {
+  try {
+    const comment = await api.comments.getComment(connection, id)
+
+    return comment
+  } catch (err) {
+    throw err
+  }
+}
+
+root.postComments = async ({ id }, req, res) => {
+  try {
+    const posts = await api.comments.getPostComments(connection, id)
+    return posts || []
+  } catch (err) {
+    throw err
+  }
+}
+
+root.getPostVotes = async ({ post_id }, req, res) => {
+  try {
+    const votes = await api.posts.getPostVote(connection, post_id)
+    
+    return votes
+  } catch (err) {
+    throw err
+  }
+}
+
+root.getPostVoteScore = async ({ post_id }, req, res) => {
+  try {
+    const score = await api.posts.getPostVoteScore(connection, post_id)
+    return score
+  } catch (err) {
+    throw err
+  }
+}
+
+root.votePost = async ({ post_id, vote_value, user_name }, req, res) => {
+  try {
     if (!isAuth(req)) throw new Error('Unauthorized')
 
     const user = tokenUserMap.getUser(req.headers['x-access-token'])
 
-    try {
-      const userData = await api.users.getUserByName(connection, user.name)
-
-      if (userData === null) throw new Error('Could not find user in database')
-
-      if (userData.name !== user.name) throw new Error('Unauthorized')
-
-      const results = await api.posts.createPost(connection, title, content, tags, user.name, userData.id)
-      return await api.posts.getPost(connection, results.insertId)
-    } catch (err) {
-      throw err
+    if (user.name !== user_name) {
+      return await api.posts.getPostVoteScore(connection, post_id)
     }
-  },
-  comment: async ({ id }, req, res) => {
-    try {
-      const comment = await api.comments.getComment(connection, id)
+    
+    const userData = await api.users.getUserByName(connection, user.name)
 
-      return comment
-    } catch (err) {
-      throw err
+    const postVoteFromUser = await api.posts.getPostVoteFromUser(connection, userData.id, post_id)
+
+    if (postVoteFromUser === null) {
+      await api.posts.newPostVote(connection, post_id, userData.id, vote_value)
     }
-  },
-  postComments: async ({ id }, req, res) => {
-    try {
-      const posts = await api.comments.getPostComments(connection, id)
-      console.log(posts)
-      return posts || []
-    } catch (err) {
-      throw err
+
+    else if (vote_value !== postVoteFromUser.is_upvote) {
+      await api.posts.updatePostVote(connection, post_id, userData.id, vote_value)
     }
-  },
-  newComment: async ({ post_id, author_name, answers_comment, content }, req, res) => {
-    if (!isAuth(req)) throw new Error('Unauthorized')
 
-    const user = tokenUserMap.getUser(req.headers['x-access-token'])
+    const newScore = await api.posts.getPostVoteScore(connection, post_id)
+    return newScore
+  } catch (err) {
+    console.log(err)
+  }
+}
 
-    try {
-      if (user.name !== author_name) throw new Error('Unauthorized')
+root.newComment = async ({ post_id, author_name, answers_comment, content }, req, res) => {
+  if (!isAuth(req)) throw new Error('Unauthorized')
 
-      const userData = await api.users.getUserByName(connection, user.name)
-      if (userData === null) throw new Error('Could not find user in database')
+  const user = tokenUserMap.getUser(req.headers['x-access-token'])
 
-      const comment = await api.comments.createPostComment(connection, post_id, answers_comment, userData.id, content)
+  try {
+    if (user.name !== author_name) throw new Error('Unauthorized')
 
-      return await api.comments.getComment(connection, comment.insertId)
-    } catch (err) {
-      throw err
-    }
+    const userData = await api.users.getUserByName(connection, user.name)
+    if (userData === null) throw new Error('Could not find user in database')
+
+    const comment = await api.comments.createPostComment(connection, post_id, answers_comment, userData.id, content)
+
+    return await api.comments.getComment(connection, comment.insertId)
+  } catch (err) {
+    throw err
   }
 }
 
@@ -219,6 +294,8 @@ app.get('/users/name/:userName', (req, res) => {
     err => res.status(500).send({ err })
   )
 })
+
+app.get('*', (req, res) => res.sendFile(path.join(webRoot, `index.html`)))
 
 app.listen(port)
 console.log(`server listening on port ${chalk.magenta(port)}`)

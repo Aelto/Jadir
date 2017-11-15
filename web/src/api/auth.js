@@ -1,6 +1,6 @@
 export default (router, data) => ({
   authenticate: (name, password) => {
-    return fetch('http://localhost:3000/signin', {
+    return fetch(`http://${location.hostname}:3000/signin`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, password })

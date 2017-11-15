@@ -14,7 +14,7 @@ const posts = (router, data) => ({
   },
 
   createPost: (title, content, tags) => {
-    return fetch('http://localhost:3000/graphql', {
+    return fetch(`http://${location.hostname}:3000/graphql`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
       body: JSON.stringify({
@@ -26,6 +26,7 @@ const posts = (router, data) => ({
               content
               author
               tags
+              score
             }
           }
         `,
@@ -34,10 +35,28 @@ const posts = (router, data) => ({
     }).then(response => response.json())
   },
 
+  votePost: (post_id, vote_value) => {
+    if (!data.account.token || !data.account.username || !data.account.logged)
+      return Promise.resolve('Unauthorized')
+
+    return fetch(`http://${location.hostname}:3000/graphql`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
+      body: JSON.stringify({
+        query: `
+          query VotePost($post_id: Int!, $vote_value: Boolean!, $username: String!) {
+            votePost(post_id: $post_id, vote_value: $vote_value, user_name: $username)
+          }
+        `,
+        variables: { post_id, vote_value, username: data.account.username }
+      })
+    }).then(response => response.json())
+  },
+
   setCurrentPost: post => (data.currentPost = post),
 
   getPost: id =>
-    fetch('http://localhost:3000/graphql', {
+    fetch(`http://${location.hostname}:3000/graphql`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
       body: JSON.stringify({
@@ -49,6 +68,7 @@ const posts = (router, data) => ({
           content
           author
           tags
+          score
         }
       }
     `
@@ -56,7 +76,7 @@ const posts = (router, data) => ({
     }).then(response => response.json()),
 
   getPostComments: id =>
-    fetch('http://localhost:3000/graphql', {
+    fetch(`http://${location.hostname}:3000/graphql`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
       body: JSON.stringify({
@@ -77,7 +97,7 @@ const posts = (router, data) => ({
     }).then(response => response.json()),
 
   getPostsPage: id =>
-    fetch('http://localhost:3000/graphql', {
+    fetch(`http://${location.hostname}:3000/graphql`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
       body: JSON.stringify({
@@ -89,6 +109,7 @@ const posts = (router, data) => ({
           content
           author
           tags
+          score
         }
       }
     `

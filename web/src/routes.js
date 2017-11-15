@@ -5,6 +5,8 @@ import signup from './views/signup.vue'
 import newPost from './views/new-post.vue'
 import post from './views/post.vue'
 
+let beforeSigninRoute = null
+
 export default [
   {
     path: '/',
@@ -20,7 +22,28 @@ export default [
     props: { home: true }
   },
   { path: '/signup', component: signup },
-  { path: '/signin', component: signin },
+  { path: '/signin', component: signin,
+    beforeEnter: (to, from, next) => {
+      beforeSigninRoute = from
+
+      next()
+    }
+  },
+  { path: '/signin/done', 
+    beforeEnter: (to, from, next) => {
+      if (beforeSigninRoute === null) {
+        next('/')
+      }
+
+      else {
+        next(beforeSigninRoute.path)
+      }
+    }
+  },
   { path: '/new-post', component: newPost },
-  { path: '/post/:id', component: post, props: { post: true } }
+  { path: '/post/:id', component: post, props: { post: true } },
+  { 
+    path: '*',
+    beforeEnter: (to, from, next) => next('/home')
+  }
 ]

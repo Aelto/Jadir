@@ -1,6 +1,6 @@
 export default (router, data) => ({
   newComment: (postId, answersComment, authorName, _content) => {
-    return fetch('http://localhost:3000/graphql', {
+    return fetch(`http://${location.hostname}:3000/graphql`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json', 'x-access-token': data.account.token },
       body: JSON.stringify({

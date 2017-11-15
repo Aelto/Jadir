@@ -6,8 +6,8 @@
       <input type="text" class="title" v-model="postTitle">
 
       <textarea type="text" class="description" v-model="postDescription">
-
       </textarea>
+      <div class="char-limit">{{ postDescription.length }} / 1024</div>
 
       <label for="tags">Add tags</label>
       <input name="tags" type="text" class="tags" v-model="postTags">
@@ -33,7 +33,7 @@ export default {
   methods: {
     async submit() {
       try {
-        const post = await this.global.api.posts.createPost(this.postTitle, this.postDescription, this.postTags)
+        const post = await this.global.api.posts.createPost(this.postTitle, this.postDescription.slice(0, 1024), this.postTags)
         this.global.api.posts.viewPost(post.data.newPost)
 
       } catch (error) {
@@ -76,5 +76,10 @@ textarea.description {
 input.tags {
   border: none;
   color: var(--color-blue);
+}
+
+.char-limit {
+  display: block;
+  text-align: center;
 }
 </style>

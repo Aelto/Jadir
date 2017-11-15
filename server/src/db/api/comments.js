@@ -27,7 +27,8 @@ exports.getPostComments = function getPostComments(con, id) {
     con.query(
       `SELECT c.*, u.name as author FROM comments as c
        LEFT JOIN users as u on c.author_id = u.id
-       WHERE c.post_id=?`,
+       WHERE c.post_id=?
+       ORDER BY c.creation_date`,
       [id],
       (err, results, fields) => {
         if (err) reject(err)
@@ -38,7 +39,6 @@ exports.getPostComments = function getPostComments(con, id) {
 }
 
 exports.createPostComment = function createPostComment(con, post_id, answers_comment, author_id, content) {
-  console.log(post_id, answers_comment, author_id, post_id, content)
   return new Promise((resolve, reject) => {
     con.query(
       `INSERT INTO comments (answers_comment, author_id, post_id, content)

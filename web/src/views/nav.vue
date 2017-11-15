@@ -5,7 +5,8 @@
 
     <div class='wrapper' v-if="account.logged === false">
       <div class="bar"></div>
-      <router-link to="/signin">Sign in</router-link>
+      <router-link to="/signin">Log in</router-link>
+      or
       <router-link to="/signup">Sign up</router-link>
     </div>
 

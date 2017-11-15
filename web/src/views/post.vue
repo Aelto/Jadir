@@ -3,33 +3,37 @@
 
     <div class='post-content' v-if="currentPost">
       <h5>{{ currentPost.title }}</h5>
-      <div>{{ currentPost.content }}</div>
-      <div>
-        <div>by {{ currentPost.author }}</div>
-      </div>
 
-      <div>
-        <a class="tag" v-for="tag in currentPost.tags.split(' ')" href="#">{{ tag }}</a>
+      <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags">
+      </postinfo>
+
+      <div>{{ currentPost.content }}</div>
+
+      <div class="score" v-if="account.logged">
+        <button class="up" v-on:click="upvotePost">upvote</button>
+        <button class="down" v-on:click="downvotePost">downvote</button>
       </div>
     </div>
 
     <div class="answer-wrapper" v-if="account.logged">
-      <textarea name="" id="" cols="30" rows="10" v-model="newCommentContent"></textarea>
+      <textarea name="" id="" cols="30" rows="10" v-model="newCommentContent" placeholder="Write a wonderful a comment..."></textarea>
+      <div class="char-limit">{{ newCommentContent.length }} / 1024</div>
 
-      <button v-on:click="newComment()">Send</button>
+      <button v-on:click="newComment()" :class="{ disabled: newCommentContent.length > 1024 }">Send</button>
     </div>
 
     <div class="comments-wrapper">
 
       <div class="comment" v-for="comment in comments">
-        <div>{{ comment.content }}</div>
         <div class='author-wrapper'>
           <div class='profile-pic' style="background-image: url('/assets/img/dog.jpg')"></div>
           <div class="col">
             <a class='author' href='#'>@{{ comment.author }}</a>
-            <div class="comments">{{ comment.creation_date_ago }}</div>
+            <div class="date">{{ comment.creation_date_ago }}</div>
           </div>
         </div>
+
+        <div>{{ comment.content }}</div>
       </div>
     </div>
 
@@ -41,8 +45,13 @@
 </template>
 
 <script>
+import postInfo from './post-info.vue'
+
 export default {
   props: ['global', 'currentPost', 'account'],
+  components: {
+    postinfo: postInfo
+  },
   created() {
     this.checkData()
       .then(() => this.global.api.posts.getPostComments(this.currentPost.id))
@@ -71,7 +80,7 @@ export default {
   data: () => ({
     comments: [],
     displayEmptyMessage: false,
-    newCommentContent: 'Write a wonderful a comment...'
+    newCommentContent: ''
   }),
   watch: { '$route': 'checkData' },
   methods: {
@@ -89,12 +98,32 @@ export default {
     },
 
     newComment(answers_comment = null) {
-      if (!this.account.logged && this.account.username)
+      if (!this.account.logged || !this.account.username)
         return
 
-      this.global.api.comments.newComment(this.currentPost.id, answers_comment, this.account.username, this.newCommentContent)
+      this.global.api.comments.newComment(this.currentPost.id, answers_comment, this.account.username, this.newCommentContent.slice(0, 1024))
       .then(r => this.comments.push(r.data.newComment))
       .then(() => this.newCommentContent = '')
+    },
+
+    upvotePost() {
+      if (!this.account.logged || !this.account.username)
+        return
+
+      this.global.api.posts.votePost(this.currentPost.id, true, this.account.username)
+      .then(success => {
+        this.currentPost.score = success.data.votePost
+      }, failure => console.log('failure: ', failure))
+    },
+
+    downvotePost() {
+      if (!this.account.logged || !this.account.username)
+        return
+
+      this.global.api.posts.votePost(this.currentPost.id, false, this.account.username)
+      .then(success => {
+        this.currentPost.score = success.data.votePost
+      }, failure => console.log('failure: ', failure))
     }
   }
 }
@@ -113,19 +142,17 @@ export default {
   margin-bottom: 1em;
 }
 
-.post .post-content div div {
-  display: inline-block;
-}
-
-.post .post-content div div {
-  margin-right: 1em;
+.post .post-content h5 {
+  margin-bottom: 0;
 }
 
 .post .post-content a.tag {
   margin-right: 0.4em;
 }
 
-
+/**
+ * Answer input wrapper
+ **/
 .post .answer-wrapper {
   display: flex;
   flex-direction: column;
@@ -142,7 +169,13 @@ export default {
   min-height: 150px;
 }
 
-.post .comments-wrapper {}
+/**
+ * comments wrapper
+ **/
+.post .comments-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+}
 
 .post .comments-wrapper .comment {
   margin-bottom: 1em;
@@ -172,5 +205,9 @@ export default {
   cursor: pointer;
   margin-right: 1em;
   animation: pop cubic-bezier(0.6, 0.2, 0.45, 1.2) 0.3s forwards;
+}
+
+.post .comments-wrapper .comment .author-wrapper .date {
+  font-size: .8em
 }
 </style>

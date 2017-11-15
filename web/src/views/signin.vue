@@ -30,7 +30,7 @@ export default {
   methods: {
     authenticate() {
       this.global.api.auth.authenticate(this.login, this.password)
-      .then(() => this.global.api.routes.route('/home/1'))
+      .then(() => this.global.api.routes.route('/signin/done'))
     }
   }
 }
