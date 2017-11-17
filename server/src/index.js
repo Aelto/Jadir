@@ -123,7 +123,11 @@ root.user = async ({ id, name }, req, res) => {
 }
 
 root.newPost = async ({ title, content, tags }, req, res) => {
-  if (!isAuth(req)) throw new Error('Unauthorized')
+  if (!isAuth(req))  {
+    res.status(401)
+    return { error: 'Unauthorized' }
+    // throw new Error('Unauthorized')
+  }
 
   const user = tokenUserMap.getUser(req.headers['x-access-token'])
 

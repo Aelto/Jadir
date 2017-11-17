@@ -73,8 +73,8 @@ export default {
 .post .profile-pic {
   background-size: cover;
   background-position: center;
-  width: 66px;
-  height: 66px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   box-shadow: 0 0 12px rgba(20, 20, 20, 0.3);
   cursor: pointer;

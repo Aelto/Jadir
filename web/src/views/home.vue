@@ -3,7 +3,12 @@
 
     <div class='page-number'>{{ page }}</div>
 
-    <postdisplay :post="post" :global="global" v-for="(post, index) in posts" v-bind:style="'animation-delay: ' + index * 0.15 + 's'"></postdisplay>
+    <postdisplay 
+      v-for="(post, index) in posts"
+      :post="post" 
+      :global="global" 
+      :key="index"
+      v-bind:style="'animation-delay: ' + index * 0.15 + 's'"></postdisplay>
 
     <div class='no-posts' v-if="!posts.length && displayEmptyMessage">
       <h1>This page seems empty</h1>
@@ -18,7 +23,7 @@
 </template>
 
 <script>
-import postDisplay from './post-display.vue'
+import postDisplay from './post/post-display.vue'
 
 export default {
   props: ['global', 'homePagePosts', 'page'],
@@ -88,5 +93,19 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 50vh;
+
+  animation-name: messagePop;
+  animation-duration: .25s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1)
+}
+
+@keyframes messagePop {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 </style>

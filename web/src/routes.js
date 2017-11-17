@@ -3,7 +3,7 @@ import home from './views/home.vue'
 import signin from './views/signin.vue'
 import signup from './views/signup.vue'
 import newPost from './views/new-post.vue'
-import post from './views/post.vue'
+import post from './views/post/post.vue'
 
 let beforeSigninRoute = null
 

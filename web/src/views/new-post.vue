@@ -26,16 +26,38 @@
 export default {
   props: ['global'],
   data: () => ({
-    postTitle: 'Title',
+    postTitle: 'Set a new title',
     postDescription: 'Tell what you want',
     postTags: '#all #first-post'
   }),
+  watch: {
+    postTags(val) {
+      let changed = false
+      
+      const tags = val.split(' ')
+      for (let i = 0; i < tags.length; i++) {
+        if (!tags[i].startsWith('#')) {
+          changed = true
+
+          tags[i] = '#' + tags[i]
+        }
+      }
+
+      if (changed)
+        this.postTags = tags.join(' ')
+    },
+    postDescription(val) {
+
+    }
+  },
   methods: {
     async submit() {
       try {
+        console.log(this.postTitle, this.postDescription, this.postTags)
         const post = await this.global.api.posts.createPost(this.postTitle, this.postDescription.slice(0, 1024), this.postTags)
-        this.global.api.posts.viewPost(post.data.newPost)
-
+        
+        if (post.data !== null)
+          this.global.api.posts.viewPost(post.data.newPost)
       } catch (error) {
         console.log(error)
       }
@@ -71,11 +93,13 @@ textarea.description {
   max-width: 90vw;
 
   min-height: 40vh;
+  border: none;
 }
 
 input.tags {
   border: none;
   color: var(--color-blue);
+  width: 100%;
 }
 
 .char-limit {
