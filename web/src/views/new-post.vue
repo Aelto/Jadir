@@ -3,9 +3,9 @@
 
     <div class="card">
 
-      <input type="text" class="title" v-model="postTitle">
+      <input type="text" class="title" v-model="postTitle" placeholder="Set a new title">
 
-      <textarea type="text" class="description" v-model="postDescription">
+      <textarea type="text" class="description" v-model="postDescription" placeholder="Tell what you want">
       </textarea>
       <div class="char-limit">{{ postDescription.length }} / 1024</div>
 
@@ -26,8 +26,8 @@
 export default {
   props: ['global'],
   data: () => ({
-    postTitle: 'Set a new title',
-    postDescription: 'Tell what you want',
+    postTitle: '',
+    postDescription: '',
     postTags: '#all #first-post'
   }),
   watch: {
@@ -53,7 +53,6 @@ export default {
   methods: {
     async submit() {
       try {
-        console.log(this.postTitle, this.postDescription, this.postTags)
         const post = await this.global.api.posts.createPost(this.postTitle, this.postDescription.slice(0, 1024), this.postTags)
         
         if (post.data !== null)

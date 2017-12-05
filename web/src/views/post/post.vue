@@ -70,9 +70,7 @@ export default {
       // need to request the data to the server
       if (this.currentPost === null || String(this.currentPost.id) !== this.$route.params.id) {
         return this.global.api.posts.getPost(this.$route.params.id)
-          .then(response => {
-            this.global.api.posts.setCurrentPost(response.data.post)
-          })
+        .then(response => this.global.api.posts.setCurrentPost(response.data.post))
       }
 
       return Promise.resolve()

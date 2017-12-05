@@ -10,8 +10,6 @@
       <router-link to="/signup">Sign up</router-link>
     </div>
 
-    
-
     <div class='wrapper' v-else>
       <div class="bar"></div>
       <router-link to="/new-post">New post</router-link>
@@ -24,8 +22,16 @@
 </template>
 
 <script>
+import profileMenu from './profile-menu.vue'
+
 export default {
-  props: ['global', 'account']
+  props: ['global', 'account'],
+  data: () => ({
+    isMenuShown: false
+  }),
+  components: {
+
+  }
 }
 
 </script>

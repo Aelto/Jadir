@@ -235,11 +235,8 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, `temp.html`)))
 
 app.use('/graphql', graphqlHTTP({ schema, rootValue: root, graphiql: true }))
 
+app.post('/signup', (req, res) => api.auth.signup(req, res, connection, tokenUserMap))
 app.post('/signin', (req, res) => api.auth.signin(req, res, connection, tokenUserMap))
-
-app.post('/users/:userName', (req, res) =>
-  api.users.addUser(connection, req.params.userName).then(results => res.send({ results }), err => res.send({ err }))
-)
 
 app.post('/posts/new-post', async (req, res) => {
   if (!req.body.title || !req.body.content || !req.body.tags)

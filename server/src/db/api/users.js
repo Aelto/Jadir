@@ -25,7 +25,7 @@ exports.getUserBy_NamePassword = function getUserBy_IdName(con, name, password) 
   )
 }
 
-exports.getUserByName = function getUserByName(con, name) {
+function getUserByName(con, name) {
   return new Promise((resolve, reject) => {
     con.query(`SELECT * FROM users where name=${con.escape(name)}`, (err, results, fields) => {
       if (err) reject(err)
@@ -42,18 +42,24 @@ exports.getUserByName = function getUserByName(con, name) {
     })
   })
 }
+exports.getUserByName = getUserByName
 
-exports.addUser = function addUser(con, name) {
+exports.addUser = function addUser(con, name, password, role = 2) {
   return new Promise((resolve, reject) => {
-    getUserByName(name).then(res => {
+    getUserByName(con, name).then(res => {
       if (res !== null) {
-        res.send({ err: `User [${name}] already exists` })
+        reject(`User [${name}] already exists`)
       }
 
       con.query(
-        `INSERT INTO users (name, password, role) VALUES (?, "password", 2)`,
-        [name],
-        (err, results, fields) => (err ? reject(err) : resolve(results))
+        `INSERT INTO users (name, password, role) VALUES (?, ?, ?)`,
+        [name, password, role],
+        (err, results, fields) => {
+          console.log(err)
+          if (err)
+            reject(err)
+          else resolve(results)
+        }
       )
     })
   })

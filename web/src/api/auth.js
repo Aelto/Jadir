@@ -7,9 +7,26 @@ export default (router, data) => ({
     })
       .then(res => res.json())
       .then(obj => {
-        data.account.logged = true
-        data.account.token = obj.token
-        data.account.username = obj.name
+        if (obj.message === "could not authenticate") {
+          return false
+        } 
+        
+        else {
+          data.account.logged = true
+          data.account.token = obj.token
+          data.account.username = obj.name
+
+          localStorage.session = JSON.stringify({ name, password })
+
+          return true
+        }
       })
+  },
+  signup: (login, password) => {
+    return fetch(`http://${location.hostname}:3000/signup`, {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: login, password })
+    })
   }
 })

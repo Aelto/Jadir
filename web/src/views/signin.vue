@@ -8,7 +8,8 @@
         <input type='text' placeholder="login"
           v-model="login">
         <input type='password' placeholder="password"
-          v-model="password">
+          v-model="password"
+          v-on:keypress.enter="authenticate">
         <button
           v-on:click="authenticate">Login</button>
       </p>
@@ -24,13 +25,15 @@
 export default {
   props: ['global'],
   data: () => ({
-    login: 'Aeltoth',
-    password: 'password'
+    login: '',
+    password: ''
   }),
   methods: {
     authenticate() {
       this.global.api.auth.authenticate(this.login, this.password)
-      .then(() => this.global.api.routes.route('/signin/done'))
+      .then(result => {
+        if (result) this.global.api.routes.route('/signin/done')
+      })
     }
   }
 }

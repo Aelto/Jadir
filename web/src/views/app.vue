@@ -13,6 +13,16 @@ import home from './home.vue'
 
 export default {
   props: ['global', 'account', 'currentPost'],
+  created() {
+    if (localStorage.session) {
+      const session = JSON.parse(localStorage.session)
+
+      this.global.api.auth.authenticate(session.name, session.password)
+      .then(result => {
+        if (result) this.global.api.routes.route('/signin/done')
+      })
+    }
+  },
   components: {
     'comp-nav': nav,
     'comp-home': home

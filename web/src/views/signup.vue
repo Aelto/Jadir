@@ -4,11 +4,19 @@
     <div class="card">
       <h1>Sign up</h1>
 
+      <div class="informations" v-if="informationMessage.length > 0">
+        {{ informationMessage }}
+      </div>
+
       <p>
-        <input type='text' placeholder="login">
-        <input type='password' placeholder="password">
-        <input type='password'placeholder="confirm password">
-        <button>Submit</button>
+        <input type='text' placeholder="login"
+          v-model="login">
+        <input type='password' placeholder="password"
+          v-model="password">
+        <input type='password'placeholder="confirm password"
+          v-model="passwordConfirm">
+        <button
+          v-on:click="submitSignup">Submit</button>
       </p>
 
       <router-link to='/signin'>already got an account?</router-link>
@@ -21,6 +29,30 @@
 
 export default {
   props: ['global'],
+  data: () => ({
+    login: '',
+    password: '',
+    passwordConfirm: '',
+    informationMessage: ''
+  }),
+  methods: {
+    submitSignup() {
+      if (this.password !== this.passwordConfirm) {
+        return this.informationMessage = "The entered passwords do not match"
+      }
+
+      this.global.api.auth.signup(this.login, this.password)
+      .then(success => {
+        if (success) this.global.api.routes.route('/signup/done')
+        else this.informationMessage = "This username is already used"
+      }, err => {
+        this.informationMessage = err
+      })
+      .catch(err => {
+        this.informationMessage = err
+      })
+    }
+  }
 }
 
 </script>
@@ -38,6 +70,13 @@ export default {
   padding: 1em;
   box-shadow: 0 0 6px rgba(20, 20, 20, 0.2);
   background: white;
+}
+
+.informations {
+  padding: .8em;
+  background: rgba(200, 200, 200, 0.15);
+  border-radius: 3px;
+  margin: 1rem;
 }
 
 </style>
