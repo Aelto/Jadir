@@ -17,10 +17,24 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        options: {
+          appendTsSuffixTo: [/\.vue$/]
+        }
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader'
       }
     ]
+  },
+
+  resolve: {
+    alias: {
+      Shared: path.join(__dirname, '../server/src/shared')
+    }
   },
 
   watch: true

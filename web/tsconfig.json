@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "outDir": "../app/",
+      "sourceMap": false,
+      "strict": true,
+      "noImplicitReturns": true,
+      "module": "es2015",
+      "moduleResolution": "node",
+      "target": "es6",
+      "baseUrl": "./",
+      "paths": {
+        "Shared": ["../server/src/shared"]
+      }
+  },
+  "include": [
+      "./src/**/*"
+  ]
+}

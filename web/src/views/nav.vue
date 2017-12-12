@@ -1,7 +1,5 @@
 <template>
-  <div class='nav'>
-
-    <router-link to="/home/1" class='home'>Jadir</router-link>
+  <div class="nav">
 
     <div class='wrapper' v-if="account.logged === false">
       <div class="bar"></div>
@@ -11,8 +9,11 @@
     </div>
 
     <div class='wrapper' v-else>
-      <div class="bar"></div>
       <router-link to="/new-post">New post</router-link>
+
+      <a href="#" 
+        v-on:click="logoff">Disconnect</a>
+
       <div>Logged as <span>{{ account.username }}</span></div>
 
       <div class='profile-pic' style="background-image: url('/assets/img/dog.jpg')"></div>
@@ -22,21 +23,19 @@
 </template>
 
 <script>
-import profileMenu from './profile-menu.vue'
 
 export default {
   props: ['global', 'account'],
-  data: () => ({
-    isMenuShown: false
-  }),
-  components: {
-
+  methods: {
+    logoff() {
+      this.global.logoff()
+    }
   }
 }
 
 </script>
 
-<style scoped>
+<style>
 
 @keyframes grow {
   from {
@@ -46,19 +45,14 @@ export default {
     transform: scaleX(1);
   }
 }
-
 .nav {
   display: flex;
   flex-direction: row;
-  box-shadow: 0 0 6px rgba(20, 20, 20, 0.2);
   padding: 1em;
   align-items: center;
   z-index: var(--z-nav);
-  font-weight: 900
-}
-
-.nav a {
-  /* color: currentColor; */
+  font-weight: 900;
+  filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));
 }
 
 .nav .home {
@@ -103,4 +97,5 @@ export default {
   box-shadow: 0 0 12px rgba(20, 20, 20, 0.2);
   cursor: pointer;
 }
+
 </style>

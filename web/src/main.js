@@ -1,27 +1,70 @@
 import routes from './routes'
-import { _fetch } from './utils'
-
 import app from './views/app.vue'
-import api from './api/index.js'
+import WsManager from './ws-manager.js'
+import api from './api/api.ts'
 
-const router = new VueRouter({ routes, mode: 'history' })
-const data = {
-  global: {},
-  
-  account: {
-    logged: false,
-    token: null,
-    username: null
-  },
+const ws = new WsManager()
+ws.addOnclose(e => console.log("Connection to server closed"))
+ws.open(`${location.hostname}:3000`)
+.then(manager => ws.synchronize())
+.then(res => {
+  console.log(res)
 
-  currentPost: null,
-  homePagePosts: []
-}
-data.global.api = api(router, data)
+  const router = new VueRouter({ routes, mode: 'history' })
+  const data = {
+    global: {
+      ws,
+      api,
+      route: (to) => {
+        router.push({ path: to })
+      }
+    },
 
-const appVue = new Vue({
-  el: '.app-wrapper',
-  components: { app },
-  router,
-  data
+    currentPost: null,
+    
+    account: {
+      logged: false,
+      username: null
+    }
+  }
+  data.global.setCurrentPost = p => data.currentPost = p
+  data.global.setAccountUsername = username => {
+    data.account.username = username
+    data.account.logged = true
+
+    ws.setUsername(username)
+  }
+  data.global.setLocalStorageAccount = (login, token) => {
+    localStorage.session = JSON.stringify({ login, token })
+  }
+  data.global.logoff = () => {
+    data.account.username = null
+    data.account.logged = false
+
+    data.global.setLocalStorageAccount('', '')
+  }
+
+
+  ws.onAnswer('signinToken', res => {
+    console.log(res)
+    data.global.setAccountUsername(res.message.login)
+  })
+
+  if (localStorage.session) {
+    const session = JSON.parse(localStorage.session)    
+
+    if (session.login && session.token) {
+      api.account.signinToken(ws, session.login, session.token)
+    }
+  }
+
+  const appVue = new Vue({
+    el: '.app-wrapper',
+    components: { app },
+    router,
+    data
+  })
+
 })
+
+
