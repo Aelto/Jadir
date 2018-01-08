@@ -28,6 +28,7 @@ ws.open(`${location.hostname}:3000`)
     }
   }
   data.global.setCurrentPost = p => data.currentPost = p
+  data.global.setCurrentPostScore = score => data.currentPost.score = score
   data.global.setAccountUsername = username => {
     data.account.username = username
     data.account.logged = true

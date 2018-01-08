@@ -36,6 +36,7 @@ export interface Post {
   author: string,
   score: number,
   image_url: string
+  root_id: number
 }
 
 /**
@@ -58,6 +59,16 @@ export interface User {
   name: string,
   password: string,
   role: UserRole
+}
+
+/**
+ * Vote
+ */
+export interface PostVote {
+  id: number,
+  post_id: number,
+  user_id: number,
+  is_upvote: boolean
 }
 
 //#region stateUpdate
@@ -132,6 +143,10 @@ export interface response_signinToken extends MessageInterface {
 
 
 //#region GetPostComments
+export interface CommentsTree extends Comment {
+  children_comments: [CommentsTree] | null
+}
+
 export interface message_getPostComments {
   id: number
 }
@@ -141,7 +156,7 @@ export interface query_getPostComments extends MessageInterface {
 }
 
 export interface responseMessage_getPostComments {
-  comments: [Comment]
+  comments: [CommentsTree]
 }
 
 export interface response_getPostComments extends MessageInterface {
@@ -217,9 +232,47 @@ export interface query_votePost extends MessageAuthInterface {
 }
 
 export interface responseMessage_votePost {
+  score: number
 }
 
 export interface response_votePost extends MessageAuthInterface {
   message: responseMessage_votePost
+}
+//#endregion
+
+//#region getPostScore
+export interface message_getPostScore {
+  post_id: number
+}
+
+export interface query_getPostScore extends MessageInterface {
+  message: message_getPostScore
+}
+
+export interface responseMessage_getPostScore {
+  score: number
+}
+
+export interface response_getPostScore extends MessageInterface {
+  message: responseMessage_getPostScore
+}
+//#endregion
+
+//#region createPostComment
+export interface message_createPostComment {
+  post_id: number,
+  answers_comment: number | null,
+  content: string
+}
+
+export interface query_createPostComment extends MessageAuthInterface {
+  message: message_createPostComment
+}
+
+export interface responseMessage_createPostComment extends Comment {
+}
+
+export interface response_createPostComment extends MessageAuthInterface {
+  message: responseMessage_createPostComment
 }
 //#endregion

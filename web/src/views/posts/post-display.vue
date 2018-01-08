@@ -11,7 +11,7 @@
       v-else></div>
 
     <div class="post-text">
-      <h5 v-on:click="readPost(post.id)">{{ post.title }}</h5>
+      <a class="post-title" v-on:click="readPost(post.id)">{{ post.title }}</a>
 
       <postinfo :author="post.author" :score="post.score" :tags="post.tags"></postinfo>
     </div>
@@ -35,8 +35,9 @@ export default {
     })
   },
   methods: {
-    async readPost(id) {
-      this.global.api.posts.getPost(this.global.ws, id)
+    readPost(id) {
+      this.global.route(`/post/${id}`)
+      // this.global.api.posts.getPost(this.global.ws, id)
     }
   }
 }
@@ -61,13 +62,15 @@ export default {
   justify-content: space-between;
 }
 
-.post h5 {
+.post a.post-title {
   display: inline-block;
   cursor: pointer;
   margin-bottom: 0em;
+  font-size: 2em;
+  color: var(--color-black);
 }
 
-.post h5:hover {
+.post a.post-title:hover {
   text-decoration: underline;
 }
 

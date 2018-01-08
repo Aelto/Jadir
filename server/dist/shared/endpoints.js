@@ -11,4 +11,6 @@ var endpoints;
     endpoints["newPost"] = "newPost";
     endpoints["move"] = "move";
     endpoints["votePost"] = "votePost";
+    endpoints["getPostScore"] = "getPostScore";
+    endpoints["createPostComment"] = "createPostComment";
 })(endpoints = exports.endpoints || (exports.endpoints = {}));

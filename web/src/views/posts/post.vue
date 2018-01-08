@@ -1,9 +1,11 @@
 <template>
-  <div class="post no-padding">
+  <div class="post no-padding"
+    v-if="currentPost !== null">
 
     <img alt=""
       v-bind:src="currentPost.image_url"
-      v-if="currentPost.image_url">
+      v-if="currentPost.image_url"
+      v-on:click="toggleFullImageView">
 
     <div class="post-view">
       <div class='post-content' v-if="currentPost">
@@ -14,11 +16,15 @@
 
         <div>{{ currentPost.content }}</div>
 
-        <div class="score" v-if="account.logged">
-          <button class="up" v-on:click="upvotePost">upvote</button>
-          <button class="down" v-on:click="downvotePost">downvote</button>
+        <div class="upvote-wrapper" v-if="account.logged">
+          <button class="up default link-style" v-on:click="upvotePost">upvote</button>
+          <button class="down default link-style" v-on:click="downvotePost">downvote</button>
         </div>
       </div>
+
+      <newcomment :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
+
+      </newcomment>
 
       <div class='post-not-found' v-if="!currentPost && displayEmptyMessage">
         <h5>Post not found</h5>
@@ -29,7 +35,11 @@
           :key="comment.id"
           :author="comment.author"
           :content="comment.content" 
-          :creationdate="comment.creation_date"></comment>
+          :creationdate="comment.creation_date"
+          :global="global"
+          :current-post-id="currentPost.id"
+          :children-comments="comment.children_comments"
+          :comment-id="comment.id"></comment>
       </div>
     </div>
 
@@ -40,37 +50,57 @@
 import postInfo from './post-info.vue'
 import Comment from '../comments/comment.vue'
 import { endpoints } from 'Shared/endpoints.ts'
+import newComment from '../comments/new-comment.vue'
 
 export default {
   props: ['global', 'currentPost', 'account'],
   components: {
     postinfo: postInfo,
-    comment: Comment
+    comment: Comment,
+    newcomment: newComment
   },
+  data: () => ({
+    comments: [],
+    displayEmptyMessage: false,
+    newCommentContent: '',
+    displayFullImage: false
+  }),
   created() {
     setTimeout(function() {
       this.displayEmptyMessage = true
     }, 500)
 
+    this.global.ws.onAnswer(endpoints.getPost, data => {
+      this.global.route(`/post/${data.message.post.id}`)
+      this.global.setCurrentPost(data.message.post)
+    })
+
     this.global.ws.onAnswer(endpoints.getPostComments, data => {
       console.log(data)
-
       this.comments = data.message.comments
     })
 
+    this.global.ws.onAnswer(endpoints.votePost, data => {
+      this.global.setCurrentPostScore(data.message.score)
+    })
+
+    this.global.ws.onAnswer(endpoints.createPostComment, data => {
+      data.message.author = this.account.username
+      if (data.message.answers_comment === null) {
+        this.comments.push(data.message)
+      }
+
+      else {
+        this.appendCommentToComment(data.message)
+      }
+    })
+
+    this.global.api.posts.getPost(this.global.ws, this.$route.params.id)
     this.fetchComments()
   },
-  data: () => ({
-    comments: [],
-    displayEmptyMessage: false,
-    newCommentContent: ''
-  }),
   methods: {
     fetchComments() {
-      if (this.currentPost === null)
-        return
-
-      this.global.api.comments.getPostComments(this.global.ws, this.currentPost.id)
+      this.global.api.comments.getPostComments(this.global.ws, this.$route.params.id)
     },
 
     upvotePost() {
@@ -79,6 +109,33 @@ export default {
 
     downvotePost() {
       this.global.api.posts.votePost(this.global.ws, this.currentPost.id, false)
+    },
+
+    appendCommentToComment(comment, comments = this.comments) {
+      for (const subComment of comments) {
+        
+        if (subComment.id === comment.answers_comment) {
+
+          if (subComment.children_comments) {
+            subComment.children_comments.push(comment)
+          }
+          else subComment.children_comments = [comment]
+
+          return true
+        }
+
+        else if (subComment.children_comments) {
+          if (this.appendCommentToComment(comment, subComment.children_comments))
+            return true
+        }
+
+      }
+
+      return false
+    },
+    
+    toggleFullImageView() {
+      this.displayFullImage = !this.displayFullImage
     }
   }
 }
@@ -87,6 +144,7 @@ export default {
 
 <style scoped>
 .post {
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -105,8 +163,17 @@ export default {
   padding: 1em;
 }
 
+.post-view {
+}
+
 img {
   max-width: 100%;
+}
+
+img.full-view-image {
+    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);
+    background: white;
+    transition: 0.5s margin;  
 }
 
 .post .post-content {
@@ -139,5 +206,23 @@ img {
 .post .comments-wrapper {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.upvote-wrapper {
+  display: flex;
+  /* justify-content: space-around; */
+  padding: 1em;
+}
+
+.upvote-wrapper button {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: 0;
+  text-decoration: none;
+}
+
+.upvote-wrapper button:hover {
+  text-decoration: underline;
 }
 </style>

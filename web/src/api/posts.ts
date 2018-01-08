@@ -24,3 +24,9 @@ export function votePost(ws: any, id: number, is_upvote: boolean) {
     is_upvote
   } as interfaces.message_votePost)
 }
+
+export function getPostScore(ws: any, id: number) {
+  ws.send(endpoints.getPostScore, {
+    post_id: id
+  } as interfaces.message_getPostScore)
+}

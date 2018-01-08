@@ -105,25 +105,64 @@ export default function(ws: WsManager, con: any) {
 
     try {
       const results = await dbQuery(con,
-        `SELECT * FROM posts_votes WHERE post_id = ? and user_id = ?`,
+        `SELECT is_upvote FROM posts_votes WHERE post_id = ? and user_id = ?`,
       [message.message.post_id, user.id])
 
       if (results.length) {
-        await dbQuery(con,
-          `UPDATE posts_votes SET is_upvote = ?
-            WHERE post_id = ? AND user_id = ?`,
-          [message.message.is_upvote, message.message.post_id, user.id])
+        const vote = results[0]
+
+        if (!!vote.is_upvote !== message.message.is_upvote) {
+          await dbQuery(con,
+            `UPDATE posts_votes SET is_upvote = ?
+              WHERE post_id = ? AND user_id = ?;
+              
+            UPDATE posts SET score = score ${message.message.is_upvote ? '+ 2' : '- 2'}
+              WHERE id = ?`,
+            [message.message.is_upvote, message.message.post_id, user.id,
+             message.message.post_id])
+        }
+
+        else {
+          await dbQuery(con,
+            `DELETE FROM posts_votes WHERE post_id = ? and user_id = ?;
+            
+            UPDATE posts SET score = score ${message.message.is_upvote ? '- 1' : '+ 1'}
+              WHERE id = ?`,
+            [message.message.post_id, user.id, message.message.post_id])
+        }
       }
 
       else {
         await dbQuery(con,
           `INSERT INTO posts_votes
             (post_id, user_id, is_upvote)
-           VALUES (?, ?, ?)`,
-          [message.message.post_id, user.id, message.message.is_upvote])
+           VALUES (?, ?, ?);
+           
+           UPDATE posts SET score = score ${message.message.is_upvote ? '+ 1' : '- 1'}
+           WHERE id = ?`,
+          [message.message.post_id, user.id, message.message.is_upvote, message.message.post_id])
       }
 
-      ws.answer(wsClient, endpoints.votePost, {} as interfaces.responseMessage_votePost)
+      const scores = await dbQuery(con, `SELECT score FROM posts where id = ?`, [message.message.post_id])
+      if (scores.length) {
+        ws.answer(wsClient, endpoints.votePost, { score: scores[0].score } as interfaces.responseMessage_votePost)
+      }
+
+      else {
+        ws.answer(wsClient, endpoints.votePost, {}, interfaces.MessageState.databaseError)
+      }
+    } catch (err) {
+      ws.answer(wsClient, endpoints.votePost, {}, interfaces.MessageState.databaseError)
+    }
+  })
+
+  ws.on(endpoints.getPostScore, async (wsClient, message: interfaces.query_getPostScore) => {
+    let votes: [interfaces.PostVote] | null = null
+    try {
+      votes = await dbQuery(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ?`,
+        [message.message.post_id])
+
+      console.log(votes)
     } catch (err) {
       ws.answer(wsClient, endpoints.votePost, {}, interfaces.MessageState.databaseError)
     }

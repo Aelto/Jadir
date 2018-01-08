@@ -5,12 +5,10 @@ import signup from './views/signup.vue'
 import signin from './views/signin.vue'
 import newPost from './views/posts/new-post.vue'
 
-let beforeSigninRoute = null
-
 export default [
   {
     path: '/',
-    beforeEnter: (to, form, next) => next('/explore/1')
+    beforeEnter: (to, from, next) => next('/explore/1')
   },
   {
     path: '/explore',
@@ -38,6 +36,10 @@ export default [
   },
   {
     path: '*',
-    beforeEnter: (to, from, next) => next('/')
+    beforeEnter: (to, from, next) => {
+      console.log('from', from)
+
+      next('/')
+    }
   },
 ]

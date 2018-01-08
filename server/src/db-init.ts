@@ -18,7 +18,8 @@ export default function() {
     user: dbConfig.user,
     password: dbConfig.password,
     database: dbConfig.database,
-    dateStrings: 'date'
+    dateStrings: 'date',
+    multipleStatements: true
   })
 
   connection.connect()

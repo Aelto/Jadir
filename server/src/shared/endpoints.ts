@@ -8,5 +8,7 @@ export enum endpoints {
   signinToken = "signinToken",
   newPost = "newPost",
   move = "move",
-  votePost = "votePost"
+  votePost = "votePost",
+  getPostScore = "getPostScore",
+  createPostComment = "createPostComment"
 }

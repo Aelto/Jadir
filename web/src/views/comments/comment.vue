@@ -7,15 +7,49 @@
       <a class='author' href='#'>@{{ author }}</a>
     </div>
 
-    
+    <button class='default link-style answer-button'
+      v-if="newCommentWindowShown"
+      v-on:click="toggleAnswerWindow">cancel</button>
+    <button class="default link-style answer-button"
+      v-else
+      v-on:click="toggleAnswerWindow">
+      answer
+    </button>
+
+    <newcomment
+      v-if="newCommentWindowShown"
+      :current-post-id="currentPostId" :global="global" :account="account" :attached-comment="commentId"
+      v-on:toggle="toggleAnswerWindow">
+
+    </newcomment>
+
+    <comment
+      v-if="childrenComments.length"
+      v-for="subComment in childrenComments"
+      :key="subComment.id"
+      :author="subComment.author"
+      :content="subComment.content" 
+      :creationdate="subComment.creation_date"
+      :global="global"
+      :current-post-id="currentPostId"
+      :children-comments="subComment.children_comments"
+      :comment-id="subComment.id">
+    </comment>
+
   </div>
 
 </template>
 
 <script>
+import newComment from './new-comment.vue'
 import postInfo from '../posts/post-info.vue'
+
 export default {
-  props: ['content', 'author', 'creationdate'],
+  name: "comment",
+  props: ['content', 'author', 'creationdate', 'commentId', 'global', 'childrenComments', 'currentPostId'],
+  components: {
+    newcomment: newComment
+  },
   computed: {
     creation_date_ago() {
       const diff = Date.now() - new Date(this.creationdate)
@@ -26,44 +60,64 @@ export default {
         return hours + ' hours ago'
       }
     }
+  },
+  data: () => ({
+    newCommentWindowShown: false
+  }),
+  methods: {
+    toggleAnswerWindow() {
+      this.newCommentWindowShown = !this.newCommentWindowShown
+    }
   }
 }
 </script>
 
 <style scoped>
 .comment {
-  margin-bottom: 1em;
-  /* box-shadow: -7px 0 6px -10px; */
-  padding: 1em 0.5em;
-  /* box-shadow: -6px 0 8px -6px rgba(20, 20, 20, 0.2), 0 0 1px 0 rgba(20, 20, 20, 0.1); */
-  /* background: white; */
-  animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;
+  padding: 1em 0;
+  animation-name: commentAppear;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  transform-origin: top center;
 }
 
 .comment .author-wrapper {
   display: flex;
   align-items: center;
-  padding-bottom: 1em;
 }
 
 .comment .author-wrapper .author {
   display: flex;
 }
 
-.comment .author-wrapper .profile-pic {
-  background-size: cover;
-  background-position: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  box-shadow: 0 0 12px rgba(20, 20, 20, 0.3);
-  cursor: pointer;
-  margin-right: 1em;
-  animation: pop cubic-bezier(0.6, 0.2, 0.45, 1.2) 0.3s forwards;
-}
-
 .comment .author-wrapper .date {
   font-size: .8em;
   padding-right: .2em;
+}
+
+button.answer-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+button.answer-button:hover {
+  text-decoration: underline;
+}
+
+.comment .comment {
+  padding-left: 1em;
+  border-left: solid 1px rgba(145, 145, 145, 0.1);
+  padding-bottom: 0;
+}
+
+@keyframes commentAppear {
+  from {
+    transform: scaleY(0)
+  }
+
+  to {
+    transform: scaleY(1)
+  }
 }
 </style>

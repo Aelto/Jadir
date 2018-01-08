@@ -13,7 +13,7 @@ app.use('/app', express.static(webRoot));
 app.use('/assets', express.static(path.join(webRoot, '/assets')));
 app.get('/', (req, res) => res.sendFile(path.join(webRoot, `index.html`)));
 ws.accept(app, '/ws');
-app.get('*', (req, res) => res.redirect('/'));
+app.get('*', (req, res) => res.sendFile(path.join(webRoot, `index.html`)));
 const port = 3000;
 app.listen(port);
 console.log(`server started on port ${port}`);

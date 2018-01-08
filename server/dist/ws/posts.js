@@ -96,17 +96,49 @@ function default_1(ws, con) {
             return ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);
         }
         try {
-            const results = yield db_query_1.default(con, `SELECT * FROM posts_votes WHERE post_id = ? and user_id = ?`, [message.message.post_id, user.id]);
+            const results = yield db_query_1.default(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ? and user_id = ?`, [message.message.post_id, user.id]);
             if (results.length) {
-                yield db_query_1.default(con, `UPDATE posts_votes SET is_upvote = ?
-            WHERE post_id = ? AND user_id = ?`, [message.message.is_upvote, message.message.post_id, user.id]);
+                const vote = results[0];
+                if (!!vote.is_upvote !== message.message.is_upvote) {
+                    yield db_query_1.default(con, `UPDATE posts_votes SET is_upvote = ?
+              WHERE post_id = ? AND user_id = ?;
+              
+            UPDATE posts SET score = score ${message.message.is_upvote ? '+ 2' : '- 2'}
+              WHERE id = ?`, [message.message.is_upvote, message.message.post_id, user.id,
+                        message.message.post_id]);
+                }
+                else {
+                    yield db_query_1.default(con, `DELETE FROM posts_votes WHERE post_id = ? and user_id = ?;
+            
+            UPDATE posts SET score = score ${message.message.is_upvote ? '- 1' : '+ 1'}
+              WHERE id = ?`, [message.message.post_id, user.id, message.message.post_id]);
+                }
             }
             else {
                 yield db_query_1.default(con, `INSERT INTO posts_votes
             (post_id, user_id, is_upvote)
-           VALUES (?, ?, ?)`, [message.message.post_id, user.id, message.message.is_upvote]);
+           VALUES (?, ?, ?);
+           
+           UPDATE posts SET score = score ${message.message.is_upvote ? '+ 1' : '- 1'}
+           WHERE id = ?`, [message.message.post_id, user.id, message.message.is_upvote, message.message.post_id]);
             }
-            ws.answer(wsClient, endpoints_1.endpoints.votePost, {});
+            const scores = yield db_query_1.default(con, `SELECT score FROM posts where id = ?`, [message.message.post_id]);
+            if (scores.length) {
+                ws.answer(wsClient, endpoints_1.endpoints.votePost, { score: scores[0].score });
+            }
+            else {
+                ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);
+            }
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);
+        }
+    }));
+    ws.on(endpoints_1.endpoints.getPostScore, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        let votes = null;
+        try {
+            votes = yield db_query_1.default(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ?`, [message.message.post_id]);
+            console.log(votes);
         }
         catch (err) {
             ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);
