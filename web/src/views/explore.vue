@@ -39,7 +39,8 @@ export default {
   }),
   created() {
     this.global.ws.onAnswer(endpoints.getPagePosts, e => {
-      this.posts = e.message.posts
+      if (e.message.posts)
+        this.posts = e.message.posts
 
       if (!this.posts.length)
         this.displayEmptyMessage = true
@@ -53,12 +54,41 @@ export default {
         this.displayEmptyMessage = true
     })
 
-    this.syncPosts()
+    this.fetchData()
+  },
+  watch: {
+    '$route': 'fetchData'
   },
   methods: {
+    fetchData() {
+      console.log('---', this.$route.name)
+
+      if (this.$route.name === 'explore') {
+        this.syncPosts()
+      }
+
+      else if (this.$route.name === 'tag') {
+        this.syncTagSearch()
+      }
+
+      else {
+        this.syncSearch()
+      }
+    },
+    
     syncPosts() {
       this.posts = []
       this.global.api.posts.getPagePosts(this.global.ws, this.$route.params.page - 1)
+    },
+
+    syncTagSearch() {
+      this.posts = []
+      this.global.search(`#${this.$route.params.tag}`)
+    },
+
+    syncSearch() {
+      this.posts = []
+      this.global.search(this.$route.params.search)
     },
 
     nextPage() {
@@ -74,7 +104,7 @@ export default {
 
 <style scoped>
 
-.post/*:nth-child(-n + 10)*/ {
+.post {
   animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;
   opacity: 0;
 }

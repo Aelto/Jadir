@@ -162,11 +162,8 @@ export default {
   padding: 1em;
 }
 
-.post-view {
-}
-
 img {
-  max-width: 100%;
+  width: 100%;
 }
 
 img.full-view-image {

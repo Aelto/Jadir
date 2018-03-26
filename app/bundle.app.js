@@ -803,7 +803,8 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
   beforeEnter: (to, from, next) => next('/explore/1')
 }, {
   path: '/explore/:page',
-  component: __WEBPACK_IMPORTED_MODULE_1__views_explore_vue__["a" /* default */]
+  component: __WEBPACK_IMPORTED_MODULE_1__views_explore_vue__["a" /* default */],
+  name: 'explore'
 }, {
   path: '/post/:id',
   component: __WEBPACK_IMPORTED_MODULE_2__views_posts_post_vue__["a" /* default */]
@@ -817,9 +818,16 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
   path: '/new-post',
   component: __WEBPACK_IMPORTED_MODULE_5__views_posts_new_post_vue__["a" /* default */]
 }, {
+  path: '/tag/:tag',
+  component: __WEBPACK_IMPORTED_MODULE_1__views_explore_vue__["a" /* default */],
+  name: 'tag'
+}, {
+  path: '/search/:search',
+  component: __WEBPACK_IMPORTED_MODULE_1__views_explore_vue__["a" /* default */],
+  name: 'search'
+}, {
   path: '*',
   beforeEnter: (to, from, next) => {
-    console.log('from', from);
 
     next('/');
   }
@@ -1077,9 +1085,13 @@ exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0)
 
     search() {
       if (!this.searchContent) {
-        this.global.api.posts.getPagePosts(this.global.ws, 0);
+        this.global.route(`/`);
+      } else if (this.searchContent.startsWith('#')) {
+        const firstTag = this.searchContent.split(' ')[0].replace('#', '').trim();
+
+        this.global.route(`/tag/${firstTag}`);
       } else {
-        this.global.search(this.searchContent);
+        this.global.route(`/search/${this.searchContent}`);
       }
     }
   }
@@ -1198,7 +1210,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-15fd4a6e]/*:nth-child(-n + 10)*/ {\r\n  animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;\r\n  opacity: 0;\n}\n.page-navigation[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  padding-bottom: 1em;\n}\n.page-navigation button[data-v-15fd4a6e], .page-navigation .next[data-v-15fd4a6e] {\r\n  margin: 1em;\n}\n.no-posts[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  min-height: 50vh;\r\n  animation-name: messagePop-data-v-15fd4a6e;\r\n  animation-duration: .25s;\r\n  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1)\n}\n@keyframes messagePop-data-v-15fd4a6e {\nfrom {\r\n    transform: scale(0);\n}\nto {\r\n    transform: scale(1);\n}\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;\r\n  opacity: 0;\n}\n.page-navigation[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  padding-bottom: 1em;\n}\n.page-navigation button[data-v-15fd4a6e], .page-navigation .next[data-v-15fd4a6e] {\r\n  margin: 1em;\n}\n.no-posts[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  min-height: 50vh;\r\n  animation-name: messagePop-data-v-15fd4a6e;\r\n  animation-duration: .25s;\r\n  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1)\n}\n@keyframes messagePop-data-v-15fd4a6e {\nfrom {\r\n    transform: scale(0);\n}\nto {\r\n    transform: scale(1);\n}\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -1251,7 +1263,7 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e]/*:nth-child(-n + 10)*/ {\r\n  
   }),
   created() {
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].getPagePosts, e => {
-      this.posts = e.message.posts;
+      if (e.message.posts) this.posts = e.message.posts;
 
       if (!this.posts.length) this.displayEmptyMessage = true;
     });
@@ -1263,12 +1275,37 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e]/*:nth-child(-n + 10)*/ {\r\n  
       if (!this.posts.length) this.displayEmptyMessage = true;
     });
 
-    this.syncPosts();
+    this.fetchData();
+  },
+  watch: {
+    '$route': 'fetchData'
   },
   methods: {
+    fetchData() {
+      console.log('---', this.$route.name);
+
+      if (this.$route.name === 'explore') {
+        this.syncPosts();
+      } else if (this.$route.name === 'tag') {
+        this.syncTagSearch();
+      } else {
+        this.syncSearch();
+      }
+    },
+
     syncPosts() {
       this.posts = [];
       this.global.api.posts.getPagePosts(this.global.ws, this.$route.params.page - 1);
+    },
+
+    syncTagSearch() {
+      this.posts = [];
+      this.global.search(`#${this.$route.params.tag}`);
+    },
+
+    syncSearch() {
+      this.posts = [];
+      this.global.search(this.$route.params.search);
     },
 
     nextPage() {
@@ -1896,7 +1933,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view[data-v-3c0b775e] {\n}\nimg[data-v-3c0b775e] {\r\n  max-width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
 
 // exports
 

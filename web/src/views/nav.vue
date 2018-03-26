@@ -42,11 +42,19 @@ export default {
 
     search() {
       if (!this.searchContent) {
-        this.global.api.posts.getPagePosts(this.global.ws, 0)
+        this.global.route(`/`)
+      }
+
+      else if (this.searchContent.startsWith('#')) {
+        const firstTag = this.searchContent.split(' ')[0]
+          .replace('#', '')
+          .trim()
+
+        this.global.route(`/tag/${firstTag}`)
       }
 
       else {
-        this.global.search(this.searchContent)
+        this.global.route(`/search/${this.searchContent}`)
       }
     }
   }

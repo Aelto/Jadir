@@ -16,7 +16,8 @@ export default [
   },
   {
     path: '/explore/:page',
-    component: explore
+    component: explore,
+    name: 'explore'
   },
   {
     path: '/post/:id',
@@ -35,9 +36,18 @@ export default [
     component: newPost
   },
   {
+    path: '/tag/:tag',
+    component: explore,
+    name: 'tag'
+  },
+  {
+    path: '/search/:search',
+    component: explore,
+    name: 'search'
+  },
+  {
     path: '*',
     beforeEnter: (to, from, next) => {
-      console.log('from', from)
 
       next('/')
     }
