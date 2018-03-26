@@ -11,7 +11,7 @@
       <div class='post-content' v-if="currentPost">
         <h5>{{ currentPost.title }}</h5>
 
-        <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags">
+        <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :global="global">
         </postinfo>
 
         <div>{{ currentPost.content }}</div>

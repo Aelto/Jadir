@@ -2186,7 +2186,6 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_comment_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__posts_post_info_vue__ = __webpack_require__(4);
 //
 //
 //
@@ -2229,7 +2228,6 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
 //
 //
 //
-
 
 
 
@@ -2478,7 +2476,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "author": _vm.currentPost.author,
       "score": _vm.currentPost.score,
-      "tags": _vm.currentPost.tags
+      "tags": _vm.currentPost.tags,
+      "global": _vm.global
     }
   }), _vm._v(" "), _c('div', [_vm._v(_vm._s(_vm.currentPost.content))]), _vm._v(" "), (_vm.account.logged) ? _c('div', {
     staticClass: "upvote-wrapper"

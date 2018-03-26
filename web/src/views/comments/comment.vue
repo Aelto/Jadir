@@ -42,7 +42,6 @@
 
 <script>
 import newComment from './new-comment.vue'
-import postInfo from '../posts/post-info.vue'
 
 export default {
   name: "comment",
