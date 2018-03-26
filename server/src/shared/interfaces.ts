@@ -221,6 +221,25 @@ export interface response_getPagePosts extends MessageInterface {
 }
 //#endregion
 
+//#region getPagePostsSearch
+export interface message_getPagePostsSearch {
+  page: number,
+  search: string
+}
+
+export interface query_getPagePostsSearch extends MessageInterface {
+  message: message_getPagePostsSearch
+}
+
+export interface responseMessage_getPagePostsSearch {
+  posts: [Post]
+}
+
+export interface response_getPagePostsSearch extends MessageInterface {
+  message: responseMessage_getPagePostsSearch
+}
+//#endregion
+
 //#region votePost
 export interface message_votePost {
   post_id: number,

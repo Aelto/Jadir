@@ -1,6 +1,12 @@
 <template>
   <div class="nav">
 
+    <div class="search-area">
+      <input class="search-input" type="text" placeholder="search by title or by tag with #"
+        v-model="searchContent"
+        v-on:keypress.enter="search()">
+    </div>
+
     <div class='wrapper' v-if="account.logged === false">
       <div class="bar"></div>
       <router-link to="/signin">Log in</router-link>
@@ -26,9 +32,22 @@
 
 export default {
   props: ['global', 'account'],
+  data: () => ({
+    searchContent: ''
+  }),
   methods: {
     logoff() {
       this.global.logoff()
+    },
+
+    search() {
+      if (!this.searchContent) {
+        this.global.api.posts.getPagePosts(this.global.ws, 0)
+      }
+
+      else {
+        this.global.search(this.searchContent)
+      }
     }
   }
 }
@@ -53,6 +72,16 @@ export default {
   z-index: var(--z-nav);
   font-weight: 900;
   filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));
+}
+
+.nav .search-area {
+  flex-grow: 1;
+  display: flex;
+}
+
+.nav .search-area .search-input {
+  margin: 0;
+  flex-grow: 1;
 }
 
 .nav .home {

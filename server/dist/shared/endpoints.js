@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var endpoints;
 (function (endpoints) {
     endpoints["getPagePosts"] = "getPagePosts";
+    endpoints["getPagePostsSearch"] = "getPagePostsSearch";
     endpoints["getPost"] = "getPost";
     endpoints["getPostComments"] = "getPostComments";
     endpoints["signup"] = "signup";

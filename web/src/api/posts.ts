@@ -5,6 +5,10 @@ export function getPagePosts(ws: any, page: number) {
   ws.send(endpoints.getPagePosts, { page } as interfaces.message_getPagePosts)
 }
 
+export function getPagePostsSearch(ws: any, page: number, search: string) {
+  ws.send(endpoints.getPagePostsSearch, { page, search } as interfaces.message_getPagePostsSearch)
+}
+
 export function getPost(ws: any, id: number) {
   ws.send(endpoints.getPost, { id } as interfaces.message_getPost)
 }

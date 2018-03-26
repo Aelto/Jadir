@@ -35,6 +35,9 @@ ws.open(`${location.hostname}:3000`)
 
     ws.setUsername(username)
   }
+  data.global.search = (searchContent) => {
+    api.posts.getPagePostsSearch(ws, 0, searchContent)
+  }
   data.global.setLocalStorageAccount = (login, token) => {
     localStorage.session = JSON.stringify({ login, token })
   }

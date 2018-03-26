@@ -39,7 +39,6 @@ class WsManager {
         });
         app.ws(path, (ws, req) => {
             ws.on('message', (message) => {
-                console.log('received ' + message);
                 this._onmessage(JSON.parse(message), ws);
             });
         });

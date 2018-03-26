@@ -3,12 +3,11 @@
   <div class="post">
 
     <div class='profile-pic' style="background-image: url('/assets/img/robert-magnusson.jpg')"
-      v-if="post.image_url"
-      v-bind:style="`animation-delay: ${index * 0.15}s; background-image: url(${post.image_url})`"
+      v-bind:style="`animation-delay: ${index * 0.15}s; background-image: url(${post.image_url || defaultPostImage})`"
       v-on:click="readPost(post.id)"></div>
 
-    <div class='profile-pic spacer'
-      v-else></div>
+    <!-- <div class='profile-pic spacer'
+      v-else></div> -->
 
     <div class="post-text">
       <a class="post-title" v-on:click="readPost(post.id)">{{ post.title }}</a>
@@ -28,6 +27,9 @@ export default {
   components: {
     postinfo: postInfo
   },
+  data: () => ({
+    defaultPostImage: '/assets/img/typewriter.jpg'
+  }),
   created() {
     this.global.ws.onAnswer(endpoints.getPost, data => {
       this.global.route(`/post/${data.message.post.id}`)

@@ -69,6 +69,10 @@ export default {
   },
   methods: {
     submit() {
+      if (!this.postTitle.trim().length) {
+        return 
+      }
+      
       this.global.api.posts.newPost(
         this.global.ws,
         this.postTitle,

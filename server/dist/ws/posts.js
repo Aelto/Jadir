@@ -22,6 +22,24 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.getPagePosts, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.getPagePostsSearch, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        const page = message.message.page || 0;
+        try {
+            if (message.message.search.startsWith('#')) {
+                const firstTag = message.message.search.split(' ')[0]
+                    .slice(1);
+                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date DESC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20]);
+                ws.answer(wsClient, endpoints_1.endpoints.getPagePostsSearch, { posts: results });
+            }
+            else {
+                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date DESC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20]);
+                ws.answer(wsClient, endpoints_1.endpoints.getPagePostsSearch, { posts: results });
+            }
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.getPagePosts, {}, interfaces.MessageState.databaseError);
+        }
+    }));
     ws.on(endpoints_1.endpoints.getPost, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
         let id = 0;
         if (message.message.id && message.message.id > 0)
@@ -42,6 +60,9 @@ function default_1(ws, con) {
     ws.on(endpoints_1.endpoints.newPost, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
         if (!message.isAuth) {
             return ws.answer(wsClient, endpoints_1.endpoints.newPost, {}, interfaces.MessageState.unauthorized);
+        }
+        if (!message.message.title.trim().length) {
+            return ws.answer(wsClient, endpoints_1.endpoints.newPost, {}, interfaces.MessageState.error);
         }
         let user = null;
         try {

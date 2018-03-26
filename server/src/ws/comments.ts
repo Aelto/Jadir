@@ -69,6 +69,10 @@ export default function(ws: WsManager, con: any) {
       return ws.answer(wsClient, endpoints.createPostComment, {}, interfaces.MessageState.unauthorized)
     }
 
+    if (!message.message.content.trim().length) {
+      return ws.answer(wsClient, endpoints.createPostComment, {}, interfaces.MessageState.error)
+    }
+
     let user: interfaces.User = null
     try {
       const results = await dbQuery(con, 'SELECT * FROM users WHERE name = ?', [message.login])

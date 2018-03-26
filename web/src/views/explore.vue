@@ -45,6 +45,14 @@ export default {
         this.displayEmptyMessage = true
     })
 
+    this.global.ws.onAnswer(endpoints.getPagePostsSearch, e => {
+      console.log(e)
+      this.posts = e.message.posts
+
+      if (!this.posts.length)
+        this.displayEmptyMessage = true
+    })
+
     this.syncPosts()
   },
   methods: {

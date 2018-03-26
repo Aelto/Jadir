@@ -59,6 +59,9 @@ function default_1(ws, con) {
         if (!message.isAuth) {
             return ws.answer(wsClient, endpoints_1.endpoints.createPostComment, {}, interfaces.MessageState.unauthorized);
         }
+        if (!message.message.content.trim().length) {
+            return ws.answer(wsClient, endpoints_1.endpoints.createPostComment, {}, interfaces.MessageState.error);
+        }
         let user = null;
         try {
             const results = yield db_query_1.default(con, 'SELECT * FROM users WHERE name = ?', [message.login]);

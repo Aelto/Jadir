@@ -22,6 +22,10 @@ export default {
   }),
   methods: {
     submitComment() {
+      if (!this.newCommentContent.trim().length) {
+        return
+      }
+
       this.global.api.comments.createPostComment(
         this.global.ws, 
         this.currentPostId,

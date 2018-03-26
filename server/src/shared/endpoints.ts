@@ -1,6 +1,7 @@
 
 export enum endpoints {
   getPagePosts = "getPagePosts",
+  getPagePostsSearch = "getPagePostsSearch",
   getPost = "getPost",
   getPostComments = "getPostComments",
   signup = "signup",

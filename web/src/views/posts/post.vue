@@ -23,7 +23,6 @@
       </div>
 
       <newcomment :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
-
       </newcomment>
 
       <div class='post-not-found' v-if="!currentPost && displayEmptyMessage">

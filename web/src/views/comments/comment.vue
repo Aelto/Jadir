@@ -1,7 +1,7 @@
 <template>
 
   <div class="comment">
-    <div>{{ content }}</div>
+    <pre class="comment-content">{{ content }}</pre>
     <div class='author-wrapper'>
       <div class="date">{{ creation_date_ago }} by</div>
       <a class='author' href='#'>@{{ author }}</a>
@@ -79,6 +79,11 @@ export default {
   animation-duration: 1s;
   animation-iteration-count: 1;
   transform-origin: top center;
+}
+
+.comment .comment-content {
+  font-family: 'Encode Sans';
+  margin: 0;
 }
 
 .comment .author-wrapper {

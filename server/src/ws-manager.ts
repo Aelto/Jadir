@@ -58,7 +58,6 @@ export default class WsManager {
 
     app.ws(path, (ws: Websocket, req: any) => {
       ws.on('message', (message: any) => {
-        console.log('received ' + message)
         this._onmessage(JSON.parse(message), ws)
       })
     })

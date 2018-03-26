@@ -17,6 +17,28 @@ export default function(ws: WsManager, con: any) {
     }
   })
 
+  ws.on(endpoints.getPagePostsSearch, async (wsClient, message: interfaces.query_getPagePostsSearch) => {
+    const page = message.message.page || 0
+
+    try {
+      if (message.message.search.startsWith('#')) {
+        const firstTag = message.message.search.split(' ')[0]
+          .slice(1)
+        const results = await dbQuery(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date DESC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20])
+
+        ws.answer(wsClient, endpoints.getPagePostsSearch, { posts: results })
+      }
+
+      else {
+        const results = await dbQuery(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date DESC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20])
+
+      ws.answer(wsClient, endpoints.getPagePostsSearch, { posts: results })
+      }
+    } catch (err) {
+      ws.answer(wsClient, endpoints.getPagePosts, {}, interfaces.MessageState.databaseError)
+    }
+  })
+
   ws.on(endpoints.getPost, async (wsClient, message: interfaces.query_getPost) => {
     let id = 0
 
@@ -41,6 +63,10 @@ export default function(ws: WsManager, con: any) {
   ws.on(endpoints.newPost, async (wsClient, message: interfaces.query_newPost) => {
     if (!message.isAuth) {
       return ws.answer(wsClient, endpoints.newPost, {}, interfaces.MessageState.unauthorized)
+    }
+
+    if (!message.message.title.trim().length) {
+      return ws.answer(wsClient, endpoints.newPost, {}, interfaces.MessageState.error)
     }
 
     let user: interfaces.User = null
