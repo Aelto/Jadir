@@ -9,7 +9,7 @@ export default function(ws: WsManager, con: any) {
     const page = message.message.page || 0
 
     try {
-      const results = await dbQuery(con, `SELECT * FROM posts ORDER BY date DESC LIMIT ?, ?`, [page * 20, page + 20])
+      const results = await dbQuery(con, `SELECT * FROM posts ORDER BY date ASC LIMIT ?, ?`, [page * 20, page + 20])
 
       ws.answer(wsClient, endpoints.getPagePosts, { posts: results })
     } catch (err) {
@@ -24,13 +24,13 @@ export default function(ws: WsManager, con: any) {
       if (message.message.search.startsWith('#')) {
         const firstTag = message.message.search.split(' ')[0]
           .slice(1)
-        const results = await dbQuery(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date DESC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20])
+        const results = await dbQuery(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date ASC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20])
 
         ws.answer(wsClient, endpoints.getPagePostsSearch, { posts: results })
       }
 
       else {
-        const results = await dbQuery(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date DESC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20])
+        const results = await dbQuery(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date ASC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20])
 
       ws.answer(wsClient, endpoints.getPagePostsSearch, { posts: results })
       }
