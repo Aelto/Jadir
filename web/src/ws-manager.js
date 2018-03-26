@@ -89,7 +89,14 @@ export default class WsManager {
    */
   open(address) {
     return new Promise((resolve, reject) => {
-      this.ws = new WebSocket(`ws://${address}/ws`)
+      if (window.location.protocol === 'https:') {
+        this.ws = new WebSocket(`wss://${address}/ws`)
+      }
+
+      else {
+        this.ws = new WebSocket(`ws://${address}/ws`)
+      }
+      
 
       this.ws.onopen = _ => resolve(this)
 

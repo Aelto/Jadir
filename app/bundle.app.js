@@ -1419,11 +1419,9 @@ exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.pos
   methods: {
     readPost(id) {
       this.global.route(`/post/${id}`);
-      // this.global.api.posts.getPost(this.global.ws, id)
     },
 
     isNsfw() {
-      console.log(this.post.tags.indexOf('#nsfw'));
       return this.post.tags.indexOf('nsfw') >= 0;
     }
   }
@@ -3425,7 +3423,11 @@ class WsManager {
    */
   open(address) {
     return new Promise((resolve, reject) => {
-      this.ws = new WebSocket(`ws://${address}/ws`);
+      if (window.location.protocol === 'https:') {
+        this.ws = new WebSocket(`wss://${address}/ws`);
+      } else {
+        this.ws = new WebSocket(`ws://${address}/ws`);
+      }
 
       this.ws.onopen = _ => resolve(this);
 

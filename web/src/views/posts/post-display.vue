@@ -37,11 +37,9 @@ export default {
   methods: {
     readPost(id) {
       this.global.route(`/post/${id}`)
-      // this.global.api.posts.getPost(this.global.ws, id)
     },
 
     isNsfw() {
-      console.log(this.post.tags.indexOf('#nsfw'))
       return this.post.tags.indexOf('nsfw') >= 0
     }
   }
