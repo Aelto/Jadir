@@ -5,7 +5,7 @@ import api from './api/api.ts'
 
 const ws = new WsManager()
 ws.addOnclose(e => console.log("Connection to server closed"))
-ws.open(`${location.hostname}:3000`)
+ws.open(`${location.hostname}:${location.port}`)
 .then(manager => ws.synchronize())
 .then(res => {
   console.log(res)
