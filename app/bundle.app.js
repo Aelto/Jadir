@@ -1269,7 +1269,6 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-righ
     });
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].getPagePostsSearch, e => {
-      console.log(e);
       this.posts = e.message.posts;
 
       if (!this.posts.length) this.displayEmptyMessage = true;
@@ -1282,7 +1281,6 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-righ
   },
   methods: {
     fetchData() {
-      console.log('---', this.$route.name);
 
       if (this.$route.name === 'explore') {
         this.syncPosts();
@@ -1499,7 +1497,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\r\n", ""]);
+exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\n.tag[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\r\n", ""]);
 
 // exports
 
@@ -1523,10 +1521,15 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ['author', 'score', 'tags'],
-  methods: {}
+  props: ['author', 'score', 'tags', 'global'],
+  methods: {
+    searchTag(tag) {
+      this.global.route(`/tag/${tag.replace('#', '')}`);
+    }
+  }
 });
 
 /***/ }),
@@ -1547,8 +1550,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('a', {
       key: index,
       staticClass: "tag",
-      attrs: {
-        "href": "#"
+      on: {
+        "click": function($event) {
+          _vm.searchTag(tag)
+        }
       }
     }, [_vm._v(_vm._s(tag) + " ")])
   })], 2)])
@@ -1599,7 +1604,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "author": _vm.post.author,
       "score": _vm.post.score,
-      "tags": _vm.post.tags
+      "tags": _vm.post.tags,
+      "global": _vm.global
     }
   })], 1)])
 }

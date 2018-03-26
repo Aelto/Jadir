@@ -47,7 +47,6 @@ export default {
     })
 
     this.global.ws.onAnswer(endpoints.getPagePostsSearch, e => {
-      console.log(e)
       this.posts = e.message.posts
 
       if (!this.posts.length)
@@ -61,7 +60,6 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log('---', this.$route.name)
 
       if (this.$route.name === 'explore') {
         this.syncPosts()

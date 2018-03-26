@@ -15,7 +15,7 @@ function default_1(ws, con) {
     ws.on(endpoints_1.endpoints.getPagePosts, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
         const page = message.message.page || 0;
         try {
-            const results = yield db_query_1.default(con, `SELECT * FROM posts ORDER BY date ASC LIMIT ?, ?`, [page * 20, page + 20]);
+            const results = yield db_query_1.default(con, `SELECT * FROM posts ORDER BY date DESC LIMIT ?, ?`, [page * 20, page + 20]);
             ws.answer(wsClient, endpoints_1.endpoints.getPagePosts, { posts: results });
         }
         catch (err) {
@@ -28,11 +28,11 @@ function default_1(ws, con) {
             if (message.message.search.startsWith('#')) {
                 const firstTag = message.message.search.split(' ')[0]
                     .slice(1);
-                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date ASC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20]);
+                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE tags like ? ORDER BY date DESC LIMIT ?, ?`, [`%${firstTag}%`, page * 20, page + 20]);
                 ws.answer(wsClient, endpoints_1.endpoints.getPagePostsSearch, { posts: results });
             }
             else {
-                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date ASC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20]);
+                const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE title LIKE ? ORDER BY date DESC LIMIT ?, ?`, [`%${message.message.search}%`, page * 20, page + 20]);
                 ws.answer(wsClient, endpoints_1.endpoints.getPagePostsSearch, { posts: results });
             }
         }

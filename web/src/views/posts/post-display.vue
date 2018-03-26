@@ -10,7 +10,7 @@
     <div class="post-text">
       <a class="post-title" v-on:click="readPost(post.id)">{{ post.title }}</a>
 
-      <postinfo :author="post.author" :score="post.score" :tags="post.tags"></postinfo>
+      <postinfo :author="post.author" :score="post.score" :tags="post.tags" :global="global"></postinfo>
     </div>
   </div>
 
