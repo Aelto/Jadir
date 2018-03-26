@@ -1368,7 +1368,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.post + .post[data-v-10e31674] {\r\n  margin-top: 2em;\n}\n.post .spacer[data-v-10e31674] {\r\n  box-shadow: none;\n}\n.post .post-text[data-v-10e31674] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\n}\n.post a.post-title[data-v-10e31674] {\r\n  display: inline-block;\r\n  cursor: pointer;\r\n  margin-bottom: 0em;\r\n  font-size: 2em;\r\n  color: var(--color-black);\n}\n.post a.post-title[data-v-10e31674]:hover {\r\n  text-decoration: underline;\n}\n.post a.tag[data-v-10e31674] {\r\n  margin-right: 0.4em;\n}\n.post .author-wrapper[data-v-10e31674] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-top: 1em;\n}\n.post .author[data-v-10e31674] {\r\n  display: flex;\n}\n.post .profile-pic[data-v-10e31674] {\r\n  background-size: cover;\r\n  background-position: center;\r\n  /* width: 48px;\r\n  height: 48px;\r\n  border-radius: 50%; */\r\n  width: 74px;\r\n  height: 74px;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n  margin-right: 1em;\n}\n.post .profile-pic[data-v-10e31674]:not(.spacer) {\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\n}\n.post:nth-child(-n + 10) .profile-pic[data-v-10e31674] {\r\n  animation: pop cubic-bezier(0.6, 0.2, 0.45, 1.2) 0.3s forwards;\r\n  transform: scale(0);\r\n  opacity: 0;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.post + .post[data-v-10e31674] {\r\n  margin-top: 2em;\n}\n.post .spacer[data-v-10e31674] {\r\n  box-shadow: none;\n}\n.post .post-text[data-v-10e31674] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\n}\n.post a.post-title[data-v-10e31674] {\r\n  display: inline-block;\r\n  cursor: pointer;\r\n  margin-bottom: 0em;\r\n  font-size: 2em;\r\n  color: var(--color-black);\n}\n.post a.post-title[data-v-10e31674]:hover {\r\n  text-decoration: underline;\n}\n.post a.tag[data-v-10e31674] {\r\n  margin-right: 0.4em;\n}\n.post .author-wrapper[data-v-10e31674] {\r\n  display: flex;\r\n  align-items: center;\r\n  margin-top: 1em;\n}\n.post .author[data-v-10e31674] {\r\n  display: flex;\n}\n.post .profile-pic[data-v-10e31674] {\r\n  background-size: cover;\r\n  background-position: center;\r\n  /* width: 48px;\r\n  height: 48px;\r\n  border-radius: 50%; */\r\n  width: 74px;\r\n  height: 74px;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n  margin-right: 1em;\n}\n.post .profile-pic[data-v-10e31674]:not(.spacer) {\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\n}\n.post.nsfw .profile-pic[data-v-10e31674] {\r\n  filter: blur(3px);\n}\n.post:nth-child(-n + 10) .profile-pic[data-v-10e31674] {\r\n  animation: pop cubic-bezier(0.6, 0.2, 0.45, 1.2) 0.3s forwards;\r\n  transform: scale(0);\r\n  opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -1380,8 +1380,6 @@ exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.pos
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__post_info_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_Shared_endpoints_ts__ = __webpack_require__(3);
-//
-//
 //
 //
 //
@@ -1422,6 +1420,11 @@ exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.pos
     readPost(id) {
       this.global.route(`/post/${id}`);
       // this.global.api.posts.getPost(this.global.ws, id)
+    },
+
+    isNsfw() {
+      console.log(this.post.tags.indexOf('#nsfw'));
+      return this.post.tags.indexOf('nsfw') >= 0;
     }
   }
 });
@@ -1533,7 +1536,10 @@ if (false) {
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "post"
+    staticClass: "post",
+    class: {
+      nsfw: _vm.isNsfw()
+    }
   }, [_c('div', {
     staticClass: "profile-pic",
     staticStyle: {

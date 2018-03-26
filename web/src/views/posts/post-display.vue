@@ -1,13 +1,11 @@
 <template>
 
-  <div class="post">
+  <div class="post"
+    v-bind:class="{ nsfw: isNsfw() }">
 
     <div class='profile-pic' style="background-image: url('/assets/img/robert-magnusson.jpg')"
       v-bind:style="`animation-delay: ${index * 0.15}s; background-image: url(${post.image_url || defaultPostImage})`"
       v-on:click="readPost(post.id)"></div>
-
-    <!-- <div class='profile-pic spacer'
-      v-else></div> -->
 
     <div class="post-text">
       <a class="post-title" v-on:click="readPost(post.id)">{{ post.title }}</a>
@@ -40,6 +38,11 @@ export default {
     readPost(id) {
       this.global.route(`/post/${id}`)
       // this.global.api.posts.getPost(this.global.ws, id)
+    },
+
+    isNsfw() {
+      console.log(this.post.tags.indexOf('#nsfw'))
+      return this.post.tags.indexOf('nsfw') >= 0
     }
   }
 }
@@ -105,6 +108,10 @@ export default {
 
 .post .profile-pic:not(.spacer) {
   box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);
+}
+
+.post.nsfw .profile-pic {
+  filter: blur(3px);
 }
 
 .post:nth-child(-n + 10) .profile-pic {
