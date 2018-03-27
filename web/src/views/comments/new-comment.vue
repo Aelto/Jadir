@@ -1,7 +1,7 @@
 <template>
   <div class="new-comment">
 
-    <textarea name="newcomment" id="" cols="60" rows="20"
+    <textarea name="newcomment" id="" cols="60" rows="20" ref="newcomment"
       v-model="newCommentContent">
 
     </textarea>
@@ -16,6 +16,9 @@ import { endpoints } from 'Shared/endpoints.ts'
 export default {
   props: ['global', 'currentPostId', 'account', 'attachedComment'],
   created() {
+    setTimeout(() => {
+      this.$refs.newcomment.focus()
+    }, 25)
   },
   data: () => ({
     newCommentContent: ''

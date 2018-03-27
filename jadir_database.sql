@@ -67,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` text NOT NULL,
   `role` tinyint(4) NOT NULL,
   `token` text,
+  `image_url` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 COMMIT;

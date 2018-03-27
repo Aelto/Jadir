@@ -1969,7 +1969,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-content[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-description[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
 
 // exports
 
@@ -2351,7 +2351,11 @@ exports.push([module.i, "\n.new-comment[data-v-0d550ccc] {\r\n  padding-bottom: 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: ['global', 'currentPostId', 'account', 'attachedComment'],
-  created() {},
+  created() {
+    setTimeout(() => {
+      this.$refs.newcomment.focus();
+    }, 25);
+  },
   data: () => ({
     newCommentContent: ''
   }),
@@ -2385,6 +2389,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: (_vm.newCommentContent),
       expression: "newCommentContent"
     }],
+    ref: "newcomment",
     attrs: {
       "name": "newcomment",
       "id": "",
@@ -2510,7 +2515,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "global": _vm.global
     }
   }), _vm._v(" "), _c('pre', {
-    staticClass: "post-content"
+    staticClass: "post-description"
   }, [_vm._v(_vm._s(_vm.currentPost.content))]), _vm._v(" "), (_vm.account.logged) ? _c('div', {
     staticClass: "upvote-wrapper"
   }, [_c('button', {

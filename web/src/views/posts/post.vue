@@ -14,7 +14,7 @@
         <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :global="global">
         </postinfo>
 
-        <pre class="post-content">{{ currentPost.content }}</pre>
+        <pre class="post-description">{{ currentPost.content }}</pre>
 
         <div class="upvote-wrapper" v-if="account.logged">
           <button class="up default link-style" v-on:click="upvotePost">upvote</button>
@@ -162,7 +162,7 @@ export default {
   padding: 1em;
 }
 
-.post-view .post-content {
+.post-view .post-description {
   font-family: 'Encode Sans';
   margin: 0;
 
