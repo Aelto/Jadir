@@ -3,9 +3,7 @@
   <div class='post-info'>
     <div>submitted by <a href="#">@{{ author }}</a>,</div>
     <div class="points"><b>{{ score }}</b> points</div>
-    <div>
-      in
-      <a class="tag" v-for="(tag, index) in tags.split(' ')"
+    <div>in <a class="tag" v-for="(tag, index) in tags.split(' ')"
         :key="index"
         v-on:click="searchTag(tag)">{{ tag }} </a>
     </div>

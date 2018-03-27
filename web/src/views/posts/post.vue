@@ -14,7 +14,7 @@
         <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :global="global">
         </postinfo>
 
-        <div>{{ currentPost.content }}</div>
+        <pre class="post-content">{{ currentPost.content }}</pre>
 
         <div class="upvote-wrapper" v-if="account.logged">
           <button class="up default link-style" v-on:click="upvotePost">upvote</button>
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <newcomment :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
+      <newcomment v-if="account.logged" :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
       </newcomment>
 
       <div class='post-not-found' v-if="!currentPost && displayEmptyMessage">
@@ -160,6 +160,14 @@ export default {
 
 .post-view {
   padding: 1em;
+}
+
+.post-view .post-content {
+  font-family: 'Encode Sans';
+  margin: 0;
+
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 img {

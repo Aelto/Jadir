@@ -1552,8 +1552,6 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   props: ['author', 'score', 'tags', 'global'],
@@ -1578,7 +1576,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("@" + _vm._s(_vm.author))]), _vm._v(",")]), _vm._v(" "), _c('div', {
     staticClass: "points"
-  }, [_c('b', [_vm._v(_vm._s(_vm.score))]), _vm._v(" points")]), _vm._v(" "), _c('div', [_vm._v("\n    in\n    "), _vm._l((_vm.tags.split(' ')), function(tag, index) {
+  }, [_c('b', [_vm._v(_vm._s(_vm.score))]), _vm._v(" points")]), _vm._v(" "), _c('div', [_vm._v("in "), _vm._l((_vm.tags.split(' ')), function(tag, index) {
     return _c('a', {
       key: index,
       staticClass: "tag",
@@ -1971,7 +1969,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-content[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
 
 // exports
 
@@ -2207,7 +2205,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n  animation-name: commentAppear-data-v-8559db0e;\r\n  animation-duration: 1s;\r\n  animation-iteration-count: 1;\r\n  transform-origin: top center;\n}\n.comment .comment-content[data-v-8559db0e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\n}\n.comment .author-wrapper[data-v-8559db0e] {\r\n  display: flex;\r\n  align-items: center;\n}\n.comment .author-wrapper .author[data-v-8559db0e] {\r\n  display: flex;\n}\n.comment .author-wrapper .date[data-v-8559db0e] {\r\n  font-size: .8em;\r\n  padding-right: .2em;\n}\nbutton.answer-button[data-v-8559db0e] {\r\n  background: none;\r\n  border: none;\r\n  cursor: pointer;\r\n  text-decoration: none;\n}\nbutton.answer-button[data-v-8559db0e]:hover {\r\n  text-decoration: underline;\n}\n.comment .comment[data-v-8559db0e] {\r\n  padding-left: 1em;\r\n  border-left: solid 1px rgba(145, 145, 145, 0.1);\r\n  padding-bottom: 0;\n}\n@keyframes commentAppear-data-v-8559db0e {\nfrom {\r\n    transform: scaleY(0)\n}\nto {\r\n    transform: scaleY(1)\n}\n}\r\n", ""]);
+exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n  animation-name: commentAppear-data-v-8559db0e;\r\n  animation-duration: 1s;\r\n  animation-iteration-count: 1;\r\n  transform-origin: top center;\n}\n.comment .comment-content[data-v-8559db0e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\n.comment .author-wrapper[data-v-8559db0e] {\r\n  display: flex;\r\n  align-items: center;\n}\n.comment .author-wrapper .author[data-v-8559db0e] {\r\n  display: flex;\n}\n.comment .author-wrapper .date[data-v-8559db0e] {\r\n  font-size: .8em;\r\n  padding-right: .2em;\n}\nbutton.answer-button[data-v-8559db0e] {\r\n  background: none;\r\n  border: none;\r\n  cursor: pointer;\r\n  text-decoration: none;\n}\nbutton.answer-button[data-v-8559db0e]:hover {\r\n  text-decoration: underline;\n}\n.comment .comment[data-v-8559db0e] {\r\n  padding-left: 1em;\r\n  border-left: solid 1px rgba(145, 145, 145, 0.1);\r\n  padding-bottom: 0;\n}\n@keyframes commentAppear-data-v-8559db0e {\nfrom {\r\n    transform: scaleY(0)\n}\nto {\r\n    transform: scaleY(1)\n}\n}\r\n", ""]);
 
 // exports
 
@@ -2511,7 +2509,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "tags": _vm.currentPost.tags,
       "global": _vm.global
     }
-  }), _vm._v(" "), _c('div', [_vm._v(_vm._s(_vm.currentPost.content))]), _vm._v(" "), (_vm.account.logged) ? _c('div', {
+  }), _vm._v(" "), _c('pre', {
+    staticClass: "post-content"
+  }, [_vm._v(_vm._s(_vm.currentPost.content))]), _vm._v(" "), (_vm.account.logged) ? _c('div', {
     staticClass: "upvote-wrapper"
   }, [_c('button', {
     staticClass: "up default link-style",
@@ -2523,14 +2523,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.downvotePost
     }
-  }, [_vm._v("downvote")])]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), _c('newcomment', {
+  }, [_vm._v("downvote")])]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.account.logged) ? _c('newcomment', {
     attrs: {
       "current-post-id": _vm.currentPost.id,
       "global": _vm.global,
       "account": _vm.account,
       "attached-comment:": null
     }
-  }), _vm._v(" "), (!_vm.currentPost && _vm.displayEmptyMessage) ? _c('div', {
+  }) : _vm._e(), _vm._v(" "), (!_vm.currentPost && _vm.displayEmptyMessage) ? _c('div', {
     staticClass: "post-not-found"
   }, [_c('h5', [_vm._v("Post not found")])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "comments-wrapper"

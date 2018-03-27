@@ -83,6 +83,9 @@ export default {
 .comment .comment-content {
   font-family: 'Encode Sans';
   margin: 0;
+
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .comment .author-wrapper {
