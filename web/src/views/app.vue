@@ -7,7 +7,7 @@
 
     <div class="content background">
       <comp-nav :global='global' :account="account"></comp-nav>
-      <router-view class='content-view' :global='global' :account="account" :current-post="currentPost"></router-view>
+      <router-view class='content-view' :global='global' :account="account" :current-post="currentPost" :current-profile="currentProfile"></router-view>
     </div>
 
   </div>
@@ -19,7 +19,7 @@ import explore from './explore.vue'
 import menu from './menu.vue'
 
 export default {
-  props: ['global', 'currentPost', 'account'],
+  props: ['global', 'currentPost', 'account', 'currentProfile'],
   components: {
     'comp-nav': nav,
     'comp-explore': explore,

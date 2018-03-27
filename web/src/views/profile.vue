@@ -1,8 +1,7 @@
 <template>
-  <div class="profile"
-    v-if="account.profile !== null || profile !== null">
+  <div class="profile">
 
-    <div v-if="isSelfProfile">
+    <div v-if="isSelfProfile && account.profile !== null">
       <img class="user-image"
         v-bind:src="account.profile.image_url">
       
@@ -14,9 +13,9 @@
       </div>
     </div>
 
-    <div v-else-if="profile !== null">
+    <div v-else-if="currentProfile !== null">
       <img class="user-image"
-        v-bind:src="profile.image_url">
+        v-bind:src="currentProfile.image_url">
 
     </div>
   </div>
@@ -26,33 +25,33 @@
 import { endpoints } from 'Shared/endpoints.ts'
 
 export default {
-  props: ['global', 'account'],
+  props: ['global', 'account', 'currentProfile'],
   watch: {
-    '$route': 'syncPosts'
+    '$route': 'fetchData'
   },
   data: () => ({
     newProfileImageUrl: '',
-    profileImageUrl: '',
-    profile: null,
-    isSelfProfile: false
+    profileImageUrl: ''
   }),
   created() {
     this.fetchData()
   },
+  computed: {
+    isSelfProfile() {
+      return this.$route.params.user === this.account.username
+    }
+  },
   methods: {
     fetchData() {
-      // looking at self profile
-      if (this.account.username === this.$route.params.user) {
+      if (this.isSelfProfile) {
         this.global.ws.onAnswer(endpoints.setUserImage, e => {
           this.global.updateProfileData()
         })
-
-        this.isSelfProfile = true
       }
 
       else {
         this.global.updateProfileData(this.$route.params.user, e => {
-          this.profile = e.message.user
+          this.global.setCurrentProfile(e.message.user)
         })
       }
     },

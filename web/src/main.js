@@ -21,6 +21,7 @@ ws.open(`${location.hostname}:${location.port}`)
     },
 
     currentPost: null,
+    currentProfile: null,
     
     account: {
       logged: false,
@@ -29,21 +30,30 @@ ws.open(`${location.hostname}:${location.port}`)
     }
   }
 
+  let updateProfileDataCallbacks = {}
   data.global.updateProfileData = (username = data.account.username, callback = null) => {
     if (!username) {
       throw new Error('no username in memory to update profile data')
     }
 
-    ws.onAnswer('getUserProfile', res => {
-      // update self profile data only when it is equals
-      // to the username in memory
-      if (username === data.account.username) {
-        data.account.profile = res.message.user
-      }
+    updateProfileDataCallbacks[username] = callback
 
-      if (callback !== null) 
-        callback(res)
-    })
+    if (!ws.events['getUserProfile-done']) {
+      ws.onAnswer('getUserProfile', res => {
+        console.log(res)
+        // update self profile data only when it is equals
+        // to the username in memory
+        if (res.message.user.name === data.account.username) {
+          data.global.setProfile(res.message.user)
+        }
+  
+        if (updateProfileDataCallbacks[res.message.user.name] !== null) {
+          updateProfileDataCallbacks[res.message.user.name](res)
+
+          delete updateProfileDataCallbacks[res.message.user.name]
+        }
+      })
+    }
 
     api.users.getUserProfile(ws, username)
   }
@@ -51,6 +61,7 @@ ws.open(`${location.hostname}:${location.port}`)
   data.global.setProfile = profile => data.account.profile = profile
 
   data.global.setCurrentPost = p => data.currentPost = p
+  data.global.setCurrentProfile = p => data.currentProfile = p
   data.global.setCurrentPostScore = score => data.currentPost.score = score
   data.global.setAccountUsername = username => {
     data.account.username = username
@@ -90,8 +101,7 @@ ws.open(`${location.hostname}:${location.port}`)
     components: { app },
     router,
     data
-  })
-
+  }) 
 })
 
 

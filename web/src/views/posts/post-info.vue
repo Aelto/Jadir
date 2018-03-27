@@ -1,7 +1,7 @@
 <template>
 
   <div class='post-info'>
-    <div>submitted by <a href="#" v-on:click="goToProfile(author)">@{{ author }}</a>,</div>
+    <div class='submit-by'>submitted by <a v-on:click="goToProfile(author)">@{{ author }}</a>,</div>
     <div class="points"><b>{{ score }}</b> points</div>
     <div>in <a class="tag" v-for="(tag, index) in tags.split(' ')"
         :key="index"
@@ -33,6 +33,11 @@ export default {
   opacity: .8;
   margin-bottom: 1.2rem;
 }
+
+.post-info .submit-by {
+  cursor: pointer;
+}
+
 .post-info div {
   display: inline-block;
 }

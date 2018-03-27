@@ -731,6 +731,7 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     },
 
     currentPost: null,
+    currentProfile: null,
 
     account: {
       logged: false,
@@ -739,20 +740,30 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     }
   };
 
+  let updateProfileDataCallbacks = {};
   data.global.updateProfileData = (username = data.account.username, callback = null) => {
     if (!username) {
       throw new Error('no username in memory to update profile data');
     }
 
-    ws.onAnswer('getUserProfile', res => {
-      // update self profile data only when it is equals
-      // to the username in memory
-      if (username === data.account.username) {
-        data.account.profile = res.message.user;
-      }
+    updateProfileDataCallbacks[username] = callback;
 
-      if (callback !== null) callback(res);
-    });
+    if (!ws.events['getUserProfile-done']) {
+      ws.onAnswer('getUserProfile', res => {
+        console.log(res);
+        // update self profile data only when it is equals
+        // to the username in memory
+        if (res.message.user.name === data.account.username) {
+          data.global.setProfile(res.message.user);
+        }
+
+        if (updateProfileDataCallbacks[res.message.user.name] !== null) {
+          updateProfileDataCallbacks[res.message.user.name](res);
+
+          delete updateProfileDataCallbacks[res.message.user.name];
+        }
+      });
+    }
 
     __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].users.getUserProfile(ws, username);
   };
@@ -760,6 +771,7 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
   data.global.setProfile = profile => data.account.profile = profile;
 
   data.global.setCurrentPost = p => data.currentPost = p;
+  data.global.setCurrentProfile = p => data.currentProfile = p;
   data.global.setCurrentPostScore = score => data.currentPost.score = score;
   data.global.setAccountUsername = username => {
     data.account.username = username;
@@ -965,7 +977,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ['global', 'currentPost', 'account'],
+  props: ['global', 'currentPost', 'account', 'currentProfile'],
   components: {
     'comp-nav': __WEBPACK_IMPORTED_MODULE_0__nav_vue__["a" /* default */],
     'comp-explore': __WEBPACK_IMPORTED_MODULE_1__explore_vue__["a" /* default */],
@@ -1538,7 +1550,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\n.tag[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\r\n", ""]);
+exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info .submit-by[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\n.tag[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\r\n", ""]);
 
 // exports
 
@@ -1583,10 +1595,9 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "post-info"
-  }, [_c('div', [_vm._v("submitted by "), _c('a', {
-    attrs: {
-      "href": "#"
-    },
+  }, [_c('div', {
+    staticClass: "submit-by"
+  }, [_vm._v("submitted by "), _c('a', {
     on: {
       "click": function($event) {
         _vm.goToProfile(_vm.author)
@@ -1820,6 +1831,7 @@ exports.push([module.i, "\n.menu[data-v-0efdded8] {\r\n  min-width: 200px;\r\n  
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
@@ -1841,7 +1853,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "to": "/explore/1"
     }
-  }, [_vm._v("Home")])], 1)
+  }, [_vm._v("Home")]), _vm._v(" "), _c('router-link', {
+    staticClass: "option",
+    attrs: {
+      "to": "/explore/1"
+    }
+  }, [_vm._v("My posts")])], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -1884,7 +1901,8 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     attrs: {
       "global": _vm.global,
       "account": _vm.account,
-      "current-post": _vm.currentPost
+      "current-post": _vm.currentPost,
+      "current-profile": _vm.currentProfile
     }
   })], 1)], 1)
 }
@@ -3550,36 +3568,35 @@ exports.push([module.i, "\n.profile > div[data-v-76ea5e84] {\r\n  display: flex;
 //
 //
 //
-//
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ['global', 'account'],
+  props: ['global', 'account', 'currentProfile'],
   watch: {
-    '$route': 'syncPosts'
+    '$route': 'fetchData'
   },
   data: () => ({
     newProfileImageUrl: '',
-    profileImageUrl: '',
-    profile: null,
-    isSelfProfile: false
+    profileImageUrl: ''
   }),
   created() {
     this.fetchData();
   },
+  computed: {
+    isSelfProfile() {
+      return this.$route.params.user === this.account.username;
+    }
+  },
   methods: {
     fetchData() {
-      // looking at self profile
-      if (this.account.username === this.$route.params.user) {
+      if (this.isSelfProfile) {
         this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].setUserImage, e => {
           this.global.updateProfileData();
         });
-
-        this.isSelfProfile = true;
       } else {
         this.global.updateProfileData(this.$route.params.user, e => {
-          this.profile = e.message.user;
+          this.global.setCurrentProfile(e.message.user);
         });
       }
     },
@@ -3596,9 +3613,9 @@ exports.push([module.i, "\n.profile > div[data-v-76ea5e84] {\r\n  display: flex;
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.account.profile !== null || _vm.profile !== null) ? _c('div', {
+  return _c('div', {
     staticClass: "profile"
-  }, [(_vm.isSelfProfile) ? _c('div', [_c('img', {
+  }, [(_vm.isSelfProfile && _vm.account.profile !== null) ? _c('div', [_c('img', {
     staticClass: "user-image",
     attrs: {
       "src": _vm.account.profile.image_url
@@ -3631,12 +3648,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.setProfileImage
     }
-  }, [_vm._v("confirm")])])]) : (_vm.profile !== null) ? _c('div', [_c('img', {
+  }, [_vm._v("confirm")])])]) : (_vm.currentProfile !== null) ? _c('div', [_c('img', {
     staticClass: "user-image",
     attrs: {
-      "src": _vm.profile.image_url
+      "src": _vm.currentProfile.image_url
     }
-  })]) : _vm._e()]) : _vm._e()
+  })]) : _vm._e()])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3792,7 +3809,7 @@ class WsManager {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__posts_ts__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comments_ts__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__account_ts__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__users_ts__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__users_ts__ = __webpack_require__(78);
 
 
 
@@ -3893,8 +3910,7 @@ function logoff(ws, login, token) {
 
 
 /***/ }),
-/* 78 */,
-/* 79 */
+/* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

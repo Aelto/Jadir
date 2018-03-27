@@ -4,6 +4,7 @@
     <div class="jadir">jadir</div>
 
     <router-link to="/explore/1" class='option home'>Home</router-link>
+    <router-link to="/explore/1" class='option'>My posts</router-link>
 
   </div>
 </template>
