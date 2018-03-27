@@ -5,6 +5,7 @@ const state_update_1 = require("./state-update");
 const posts_1 = require("./posts");
 const comments_1 = require("./comments");
 const account_1 = require("./account");
+const users_1 = require("./users");
 function default_1(app, con) {
     const ws = new ws_manager_1.default();
     const inactivityInterval = setInterval(() => {
@@ -14,6 +15,7 @@ function default_1(app, con) {
     posts_1.default(ws, con);
     comments_1.default(ws, con);
     account_1.default(ws, con);
+    users_1.default(ws, con);
     return ws;
 }
 exports.default = default_1;

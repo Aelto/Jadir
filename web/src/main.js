@@ -24,8 +24,17 @@ ws.open(`${location.hostname}:${location.port}`)
     
     account: {
       logged: false,
-      username: null
+      username: null,
+      profile: null
     }
+  }
+
+  data.global.updateProfileData = () => {
+    if (!data.account.username) {
+      throw new Error('no username in memory to update profile data')
+    }
+
+    api.users.getUserProfile(ws, data.account.username)
   }
   data.global.setCurrentPost = p => data.currentPost = p
   data.global.setCurrentPostScore = score => data.currentPost.score = score
@@ -50,8 +59,12 @@ ws.open(`${location.hostname}:${location.port}`)
 
 
   ws.onAnswer('signinToken', res => {
-    console.log(res)
     data.global.setAccountUsername(res.message.login)
+    data.global.updateProfileData()
+  })
+
+  ws.onAnswer('getUserProfile', res => {
+    data.account.profile = res.message.user
   })
 
   if (localStorage.session) {

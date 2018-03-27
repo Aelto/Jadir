@@ -22,7 +22,9 @@
 
       <div>Logged as <span>{{ account.username }}</span></div>
 
-      <div class='profile-pic' style="background-image: url('/assets/img/dog.jpg')"></div>
+      <div class='profile-pic'
+        v-bind:style="{ backgroundImage: account.profile !== null ? `url('${account.profile.image_url}')` : `url('/assets/img/dog.jpg')` }"
+        v-on:click="goToProfile(account.username)"></div>
     </div>
 
   </div>
@@ -56,6 +58,10 @@ export default {
       else {
         this.global.route(`/search/${this.searchContent}`)
       }
+    },
+
+    goToProfile(username) {
+      this.global.route(`/profile/${username}`)
     }
   }
 }

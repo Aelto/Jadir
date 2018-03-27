@@ -5,6 +5,7 @@ import stateUpdate from './state-update'
 import posts from './posts'
 import comments from './comments'
 import account from './account'
+import users from './users'
 
 export default function(app: any, con: any): WsManager {
   const ws = new WsManager()
@@ -17,6 +18,7 @@ export default function(app: any, con: any): WsManager {
   posts(ws, con)
   comments(ws, con)
   account(ws, con)
+  users(ws, con)
 
   return ws
 }

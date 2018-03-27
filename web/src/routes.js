@@ -4,6 +4,7 @@ import post from './views/posts/post.vue'
 import signup from './views/signup.vue'
 import signin from './views/signin.vue'
 import newPost from './views/posts/new-post.vue'
+import profile from './views/profile.vue'
 
 export default [
   {
@@ -44,6 +45,11 @@ export default [
     path: '/search/:search',
     component: explore,
     name: 'search'
+  },
+  {
+    path: '/profile/:user',
+    component: profile,
+    name: 'profile'
   },
   {
     path: '*',

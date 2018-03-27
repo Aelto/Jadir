@@ -54,12 +54,17 @@ export interface Comment {
 /**
  * User
  */
-export interface User {
+export interface SafeUser {
   id: number,
   name: string,
   password: string,
-  role: UserRole
+  image_url: string
 }
+
+export interface User extends SafeUser{
+  role: UserRole,
+}
+
 
 /**
  * Vote
@@ -293,5 +298,42 @@ export interface responseMessage_createPostComment extends Comment {
 
 export interface response_createPostComment extends MessageAuthInterface {
   message: responseMessage_createPostComment
+}
+//#endregion
+
+
+//#region setUserImage
+export interface message_setUserImage {
+  image_url: string
+}
+
+export interface query_setUserImage extends MessageAuthInterface {
+  message: message_setUserImage
+}
+
+export interface responseMessage_setUserImage {
+  image_url: string
+}
+
+export interface response_setUserImage extends MessageAuthInterface {
+  message: responseMessage_setUserImage
+}
+//#endregion
+
+//#region getUserProfile
+export interface message_getUserProfile {
+  username: string
+}
+
+export interface query_getUserProfile {
+  message: message_getUserProfile
+}
+
+export interface responseMessage_getUserProfile {
+  user: SafeUser
+}
+
+export interface response_getUserProfile {
+  message: responseMessage_getUserProfile
 }
 //#endregion
