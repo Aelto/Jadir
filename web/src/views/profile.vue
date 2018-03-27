@@ -1,21 +1,26 @@
 <template>
   <div class="profile"
-    v-if="account.profile !== null">
+    v-if="account.profile !== null || profile !== null">
 
-    <img class="user-image"
-      v-bind:src="account.profile.image_url">
-    
-    <div class="row">
-      <input type="text" class="user-image-input" placeholder="your profile image url"
-        v-model="newProfileImageUrl">
-      <button class="user-image-button"
-        v-on:click="setProfileImage">confirm</button>
+    <div v-if="isSelfProfile">
+      <img class="user-image"
+        v-bind:src="account.profile.image_url">
+      
+      <div class="row">
+        <input type="text" class="user-image-input" placeholder="your profile image url"
+          v-model="newProfileImageUrl">
+        <button class="user-image-button"
+          v-on:click="setProfileImage">confirm</button>
+      </div>
     </div>
 
+    <div v-else-if="profile !== null">
+      <img class="user-image"
+        v-bind:src="profile.image_url">
 
+    </div>
   </div>
 </template>
-
 
 <script>
 import { endpoints } from 'Shared/endpoints.ts'
@@ -27,19 +32,29 @@ export default {
   },
   data: () => ({
     newProfileImageUrl: '',
-    profileImageUrl: ''
+    profileImageUrl: '',
+    profile: null,
+    isSelfProfile: false
   }),
   created() {
     this.fetchData()
   },
-  watch: {
-    '$route': 'fetchData'
-  },
   methods: {
     fetchData() {
-      this.global.ws.onAnswer(endpoints.setUserImage, e => {
-        this.global.updateProfileData()
-      })
+      // looking at self profile
+      if (this.account.username === this.$route.params.user) {
+        this.global.ws.onAnswer(endpoints.setUserImage, e => {
+          this.global.updateProfileData()
+        })
+
+        this.isSelfProfile = true
+      }
+
+      else {
+        this.global.updateProfileData(this.$route.params.user, e => {
+          this.profile = e.message.user
+        })
+      }
     },
 
     setProfileImage() {
@@ -52,7 +67,7 @@ export default {
 
 <style scoped>
 
-.profile {
+.profile > div {
   display: flex;
   flex-direction: column;
   align-items: center;

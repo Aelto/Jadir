@@ -739,13 +739,26 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     }
   };
 
-  data.global.updateProfileData = () => {
-    if (!data.account.username) {
+  data.global.updateProfileData = (username = data.account.username, callback = null) => {
+    if (!username) {
       throw new Error('no username in memory to update profile data');
     }
 
-    __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].users.getUserProfile(ws, data.account.username);
+    ws.onAnswer('getUserProfile', res => {
+      // update self profile data only when it is equals
+      // to the username in memory
+      if (username === data.account.username) {
+        data.account.profile = res.message.user;
+      }
+
+      if (callback !== null) callback(res);
+    });
+
+    __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].users.getUserProfile(ws, username);
   };
+
+  data.global.setProfile = profile => data.account.profile = profile;
+
   data.global.setCurrentPost = p => data.currentPost = p;
   data.global.setCurrentPostScore = score => data.currentPost.score = score;
   data.global.setAccountUsername = username => {
@@ -770,10 +783,6 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
   ws.onAnswer('signinToken', res => {
     data.global.setAccountUsername(res.message.login);
     data.global.updateProfileData();
-  });
-
-  ws.onAnswer('getUserProfile', res => {
-    data.account.profile = res.message.user;
   });
 
   if (localStorage.session) {
@@ -1558,6 +1567,10 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
   methods: {
     searchTag(tag) {
       this.global.route(`/tag/${tag.replace('#', '')}`);
+    },
+
+    goToProfile(username) {
+      this.global.route(`/profile/${username}`);
     }
   }
 });
@@ -1573,6 +1586,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('div', [_vm._v("submitted by "), _c('a', {
     attrs: {
       "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        _vm.goToProfile(_vm.author)
+      }
     }
   }, [_vm._v("@" + _vm._s(_vm.author))]), _vm._v(",")]), _vm._v(" "), _c('div', {
     staticClass: "points"
@@ -2983,6 +3001,7 @@ exports.push([module.i, "\n@keyframes messageSlide-data-v-01f2fe17 {\nfrom {\r\n
         this.global.route('/');
 
         this.global.setLocalStorageAccount(data.message.login, data.message.token);
+        this.global.updateProfileData();
       } else {
 
         if (data.state === 404) {
@@ -3497,7 +3516,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.profile[data-v-76ea5e84] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\n}\n.profile .user-image[data-v-76ea5e84] {\r\n  margin-top: 2em;\r\n  border-radius: 6px;\r\n  width: 50%;\r\n  border: solid 3px black;\n}\n.profile .user-image-input[data-v-76ea5e84] {\r\n  display: inline-block;\r\n  margin: 1em;\r\n  width: 50%;\n}\n.profile .user-image-button[data-v-76ea5e84] {\r\n  display: inline-block;\n}\r\n", ""]);
+exports.push([module.i, "\n.profile > div[data-v-76ea5e84] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\n}\n.profile .user-image[data-v-76ea5e84] {\r\n  margin-top: 2em;\r\n  border-radius: 6px;\r\n  width: 50%;\r\n  border: solid 3px black;\n}\n.profile .user-image-input[data-v-76ea5e84] {\r\n  display: inline-block;\r\n  margin: 1em;\r\n  width: 50%;\n}\n.profile .user-image-button[data-v-76ea5e84] {\r\n  display: inline-block;\n}\r\n", ""]);
 
 // exports
 
@@ -3527,6 +3546,11 @@ exports.push([module.i, "\n.profile[data-v-76ea5e84] {\r\n  display: flex;\r\n  
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3537,19 +3561,27 @@ exports.push([module.i, "\n.profile[data-v-76ea5e84] {\r\n  display: flex;\r\n  
   },
   data: () => ({
     newProfileImageUrl: '',
-    profileImageUrl: ''
+    profileImageUrl: '',
+    profile: null,
+    isSelfProfile: false
   }),
   created() {
     this.fetchData();
   },
-  watch: {
-    '$route': 'fetchData'
-  },
   methods: {
     fetchData() {
-      this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].setUserImage, e => {
-        this.global.updateProfileData();
-      });
+      // looking at self profile
+      if (this.account.username === this.$route.params.user) {
+        this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].setUserImage, e => {
+          this.global.updateProfileData();
+        });
+
+        this.isSelfProfile = true;
+      } else {
+        this.global.updateProfileData(this.$route.params.user, e => {
+          this.profile = e.message.user;
+        });
+      }
     },
 
     setProfileImage() {
@@ -3564,9 +3596,9 @@ exports.push([module.i, "\n.profile[data-v-76ea5e84] {\r\n  display: flex;\r\n  
 
 "use strict";
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.account.profile !== null) ? _c('div', {
+  return (_vm.account.profile !== null || _vm.profile !== null) ? _c('div', {
     staticClass: "profile"
-  }, [_c('img', {
+  }, [(_vm.isSelfProfile) ? _c('div', [_c('img', {
     staticClass: "user-image",
     attrs: {
       "src": _vm.account.profile.image_url
@@ -3599,7 +3631,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.setProfileImage
     }
-  }, [_vm._v("confirm")])])]) : _vm._e()
+  }, [_vm._v("confirm")])])]) : (_vm.profile !== null) ? _c('div', [_c('img', {
+    staticClass: "user-image",
+    attrs: {
+      "src": _vm.profile.image_url
+    }
+  })]) : _vm._e()]) : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

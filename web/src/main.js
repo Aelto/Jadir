@@ -29,13 +29,27 @@ ws.open(`${location.hostname}:${location.port}`)
     }
   }
 
-  data.global.updateProfileData = () => {
-    if (!data.account.username) {
+  data.global.updateProfileData = (username = data.account.username, callback = null) => {
+    if (!username) {
       throw new Error('no username in memory to update profile data')
     }
 
-    api.users.getUserProfile(ws, data.account.username)
+    ws.onAnswer('getUserProfile', res => {
+      // update self profile data only when it is equals
+      // to the username in memory
+      if (username === data.account.username) {
+        data.account.profile = res.message.user
+      }
+
+      if (callback !== null) 
+        callback(res)
+    })
+
+    api.users.getUserProfile(ws, username)
   }
+
+  data.global.setProfile = profile => data.account.profile = profile
+
   data.global.setCurrentPost = p => data.currentPost = p
   data.global.setCurrentPostScore = score => data.currentPost.score = score
   data.global.setAccountUsername = username => {
@@ -61,10 +75,6 @@ ws.open(`${location.hostname}:${location.port}`)
   ws.onAnswer('signinToken', res => {
     data.global.setAccountUsername(res.message.login)
     data.global.updateProfileData()
-  })
-
-  ws.onAnswer('getUserProfile', res => {
-    data.account.profile = res.message.user
   })
 
   if (localStorage.session) {

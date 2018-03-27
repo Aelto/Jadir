@@ -45,6 +45,7 @@ export default {
         this.global.route('/')
 
         this.global.setLocalStorageAccount(data.message.login, data.message.token)
+        this.global.updateProfileData()
       }
 
       else {

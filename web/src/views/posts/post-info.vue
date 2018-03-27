@@ -1,7 +1,7 @@
 <template>
 
   <div class='post-info'>
-    <div>submitted by <a href="#">@{{ author }}</a>,</div>
+    <div>submitted by <a href="#" v-on:click="goToProfile(author)">@{{ author }}</a>,</div>
     <div class="points"><b>{{ score }}</b> points</div>
     <div>in <a class="tag" v-for="(tag, index) in tags.split(' ')"
         :key="index"
@@ -17,6 +17,10 @@ export default {
   methods: {
     searchTag(tag) {
       this.global.route(`/tag/${tag.replace('#', '')}`)
+    },
+
+    goToProfile(username) {
+      this.global.route(`/profile/${username}`)
     }
   }
 }
