@@ -5,6 +5,7 @@ import signup from './views/signup.vue'
 import signin from './views/signin.vue'
 import newPost from './views/posts/new-post.vue'
 import profile from './views/profile.vue'
+import userPosts from './views/posts/user-posts.vue'
 
 export default [
   {
@@ -50,6 +51,11 @@ export default [
     path: '/profile/:user',
     component: profile,
     name: 'profile'
+  },
+  {
+    path: '/posts/:user',
+    component: userPosts,
+    name: 'user-post'
   },
   {
     path: '*',

@@ -34,3 +34,9 @@ export function getPostScore(ws: any, id: number) {
     post_id: id
   } as interfaces.message_getPostScore)
 }
+
+export function getUserPosts(ws: any, username: string) {
+  ws.send(endpoints.getUserPosts, {
+    username
+  } as interfaces.message_getUserPosts)
+}

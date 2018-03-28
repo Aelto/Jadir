@@ -40,6 +40,18 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.getPagePosts, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.getUserPosts, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const results = yield db_query_1.default(con, `SELECT * FROM posts WHERE author = ? ORDER BY date DESC`, [message.message.username]);
+            ws.answer(wsClient, endpoints_1.endpoints.getUserPosts, {
+                posts: results,
+                username: message.message.username
+            });
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.getUserPosts, {}, interfaces.MessageState.databaseError);
+        }
+    }));
     ws.on(endpoints_1.endpoints.getPost, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
         let id = 0;
         if (message.message.id && message.message.id > 0)

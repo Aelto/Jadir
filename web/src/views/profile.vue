@@ -2,6 +2,8 @@
   <div class="profile">
 
     <div v-if="isSelfProfile && account.profile !== null">
+      <div class="profile-name">{{ account.profile.name }}</div>
+
       <img class="user-image"
         v-bind:src="account.profile.image_url">
       
@@ -14,6 +16,8 @@
     </div>
 
     <div v-else-if="currentProfile !== null">
+      <div class="profile-name">{{ currentProfile.name }}</div>
+
       <img class="user-image"
         v-bind:src="currentProfile.image_url">
 
@@ -71,6 +75,11 @@ export default {
   flex-direction: column;
   align-items: center;
 } 
+
+.profile .profile-name {
+  font-weight: bold;
+  font-size: 2em;
+}
 
 .profile .user-image {
   margin-top: 2em;

@@ -3,7 +3,7 @@
 
     <img src="/assets/img/adrian-infernus.jpg" alt="" class="background-img">
 
-    <comp-menu :global="global"></comp-menu>
+    <comp-menu :global="global" :account="account"></comp-menu>
 
     <div class="content background">
       <comp-nav :global='global' :account="account"></comp-nav>

@@ -337,3 +337,22 @@ export interface response_getUserProfile {
   message: responseMessage_getUserProfile
 }
 //#endregion
+
+//#region getUserPosts
+export interface message_getUserPosts {
+  username: string
+}
+
+export interface query_getUserPosts {
+  message: message_getUserPosts
+}
+
+export interface responseMessage_getUserPosts {
+  posts: [Post],
+  username: string
+}
+
+export interface response_getUserPosts {
+  message: responseMessage_getUserPosts
+}
+//#endregion

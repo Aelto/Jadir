@@ -4,7 +4,9 @@
     <div class="jadir">jadir</div>
 
     <router-link to="/explore/1" class='option home'>Home</router-link>
-    <router-link to="/explore/1" class='option'>My posts</router-link>
+    <a class='option'
+      v-if="account.logged"
+      v-on:click="goToMyPosts()">My posts</a>
 
   </div>
 </template>
@@ -12,7 +14,12 @@
 <script>
 
 export default {
-  props: ['global'],
+  props: ['global', 'account'],
+  methods: {
+    goToMyPosts() {
+      this.global.route(`/posts/${this.account.username}`)
+    }
+  }
 }
 
 </script>
@@ -34,6 +41,7 @@ export default {
 .menu .option {
   padding: .5em;
   font-size: 1.2em;
+  cursor: pointer;
 }
 
 .menu .option:hover {

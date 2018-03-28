@@ -39,6 +39,19 @@ export default function(ws: WsManager, con: any) {
     }
   })
 
+  ws.on(endpoints.getUserPosts, async (wsClient, message: interfaces.query_getUserPosts) => {
+    try {
+      const results = await dbQuery(con, `SELECT * FROM posts WHERE author = ? ORDER BY date DESC`, [message.message.username])
+
+      ws.answer(wsClient, endpoints.getUserPosts, {
+        posts: results,
+        username: message.message.username
+      } as interfaces.responseMessage_getUserPosts)
+    } catch (err) {
+      ws.answer(wsClient, endpoints.getUserPosts, {}, interfaces.MessageState.databaseError)
+    }
+  })
+
   ws.on(endpoints.getPost, async (wsClient, message: interfaces.query_getPost) => {
     let id = 0
 
