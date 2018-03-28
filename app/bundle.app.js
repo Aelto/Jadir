@@ -3589,6 +3589,9 @@ exports.push([module.i, "\n.profile > div[data-v-76ea5e84] {\r\n  display: flex;
 //
 //
 //
+//
+//
+//
 
 
 
@@ -3624,6 +3627,12 @@ exports.push([module.i, "\n.profile > div[data-v-76ea5e84] {\r\n  display: flex;
 
     setProfileImage() {
       this.global.api.users.setUserImage(this.global.ws, this.newProfileImageUrl);
+    },
+
+    seeUserPosts() {
+      if (!this.currentProfile.name) return;
+
+      this.global.route(`/posts/${this.currentProfile.name}`);
     }
   }
 });
@@ -3673,7 +3682,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("confirm")])])]) : (_vm.currentProfile !== null) ? _c('div', [_c('div', {
     staticClass: "profile-name"
-  }, [_vm._v(_vm._s(_vm.currentProfile.name))]), _vm._v(" "), _c('img', {
+  }, [_vm._v(_vm._s(_vm.currentProfile.name))]), _vm._v(" "), _c('a', {
+    staticClass: "see-posts",
+    on: {
+      "click": function($event) {
+        _vm.seeUserPosts()
+      }
+    }
+  }, [_vm._v("see user posts")]), _vm._v(" "), _c('img', {
     staticClass: "user-image",
     attrs: {
       "src": _vm.currentProfile.image_url

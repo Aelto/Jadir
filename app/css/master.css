@@ -30,6 +30,7 @@ html, body {
 a {
   color: rgb(101, 134, 148);
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:hover {

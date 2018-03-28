@@ -18,6 +18,9 @@
     <div v-else-if="currentProfile !== null">
       <div class="profile-name">{{ currentProfile.name }}</div>
 
+      <a class="see-posts"
+        v-on:click="seeUserPosts()">see user posts</a>
+
       <img class="user-image"
         v-bind:src="currentProfile.image_url">
 
@@ -62,6 +65,13 @@ export default {
 
     setProfileImage() {
       this.global.api.users.setUserImage(this.global.ws, this.newProfileImageUrl)
+    },
+
+    seeUserPosts() {
+      if (!this.currentProfile.name)
+        return
+
+      this.global.route(`/posts/${this.currentProfile.name}`)
     }
   }
 }
