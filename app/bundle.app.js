@@ -2311,6 +2311,7 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
 //
 //
 //
+//
 
 
 
@@ -2337,6 +2338,10 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
   methods: {
     toggleAnswerWindow() {
       this.newCommentWindowShown = !this.newCommentWindowShown;
+    },
+
+    goToProfile() {
+      this.global.route(`/profile/${author}`);
     }
   }
 });
@@ -2491,8 +2496,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "date"
   }, [_vm._v(_vm._s(_vm.creation_date_ago) + " by")]), _vm._v(" "), _c('a', {
     staticClass: "author",
-    attrs: {
-      "href": "#"
+    on: {
+      "click": function($event) {
+        _vm.goToProfile()
+      }
     }
   }, [_vm._v("@" + _vm._s(_vm.author))])]), _vm._v(" "), (_vm.newCommentWindowShown) ? _c('button', {
     staticClass: "default link-style answer-button",

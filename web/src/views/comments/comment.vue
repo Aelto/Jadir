@@ -4,7 +4,8 @@
     <pre class="comment-content">{{ content }}</pre>
     <div class='author-wrapper'>
       <div class="date">{{ creation_date_ago }} by</div>
-      <a class='author' href='#'>@{{ author }}</a>
+      <a class='author'
+        v-on:click="goToProfile()">@{{ author }}</a>
     </div>
 
     <button class='default link-style answer-button'
@@ -66,6 +67,10 @@ export default {
   methods: {
     toggleAnswerWindow() {
       this.newCommentWindowShown = !this.newCommentWindowShown
+    },
+
+    goToProfile() {
+      this.global.route(`/profile/${author}`)
     }
   }
 }
