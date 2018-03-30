@@ -206,4 +206,27 @@ export default function(ws: WsManager, con: any) {
       ws.answer(wsClient, endpoints.votePost, {}, interfaces.MessageState.databaseError)
     }
   })
+
+  ws.on(endpoints.getPostUserVote, async (wsClient, message: interfaces.query_getPostUserVote) => {
+    if (!message.isAuth) {
+      return ws.answer(wsClient, endpoints.getPostUserVote, {}, interfaces.MessageState.unauthorized)
+    }
+
+    try {
+      const votes: [interfaces.PostVote] = await dbQuery(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ? AND user_id = (SELECT id FROM users WHERE name = ?)`,
+        [message.message.id, message.login])
+      const post_vote: interfaces.PostVote | null = votes[0] || null
+
+      if (post_vote === null) {
+        ws.answer(wsClient, endpoints.getPostUserVote, { post_vote: { is_upvote: null }, user: message.login }, interfaces.MessageState.success, message.thenableId)
+      }
+
+      else {
+        ws.answer(wsClient, endpoints.getPostUserVote, { post_vote: { is_upvote: !!post_vote.is_upvote }, user: message.login }, interfaces.MessageState.success, message.thenableId)
+      }
+
+    } catch (err) {
+      ws.answer(wsClient, endpoints.getPostUserVote, {}, interfaces.MessageState.databaseError)
+    }
+  })
 }

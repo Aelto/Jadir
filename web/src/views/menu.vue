@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
 
-    <div class="jadir">jadir</div>
+    <div class="jadir">jadir<span>{{ this.$route.path }}</span></div>
 
     <router-link to="/explore/1" class='option home'>Home</router-link>
     <a class='option'
@@ -39,9 +39,14 @@ export default {
 }
 
 .menu .option {
+  display: flex;
   padding: .5em;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+.menu .option .filler {
+  flex-grow: 1;
 }
 
 .menu .option:hover {
@@ -53,6 +58,10 @@ export default {
   font-weight: bold;
   text-align: center;
   padding: .5em;
+}
+
+.jadir span {
+  font-size: 30%;
 }
 
 </style>

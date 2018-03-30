@@ -14,5 +14,6 @@ export enum endpoints {
   createPostComment = "createPostComment",
   setUserImage = "setUserImage",
   getUserProfile = "getUserProfile",
-  getUserPosts = "getUserPosts"
+  getUserPosts = "getUserPosts",
+  getPostUserVote = "getPostUserVote"
 }

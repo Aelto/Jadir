@@ -13,7 +13,7 @@
           v-model="login">
         <input type='password' placeholder="password"
           v-model="password">
-        <input type='password'placeholder="confirm password"
+        <input type='password' placeholder="confirm password"
           v-model="passwordConfirm"
           v-on:keypress.enter="submitSignup">
         <button
@@ -41,12 +41,8 @@ export default {
     setTimeout(() => this.$refs.logininput.focus(), 100)
     
     this.global.ws.onAnswer(endpoints.signup, data => {
-      console.log(data)
-
       if (data.message.success) {
-
         this.global.route('/signin')
-
       }
 
       else {

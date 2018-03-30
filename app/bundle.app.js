@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -165,7 +165,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(12)
+var listToStyles = __webpack_require__(13)
 
 /*
 type StyleObject = {
@@ -486,6 +486,7 @@ var endpoints;
     endpoints["setUserImage"] = "setUserImage";
     endpoints["getUserProfile"] = "getUserProfile";
     endpoints["getUserPosts"] = "getUserPosts";
+    endpoints["getPostUserVote"] = "getPostUserVote";
 })(endpoints || (endpoints = {}));
 
 
@@ -494,12 +495,12 @@ var endpoints;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3be7a708_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(37);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(10)
+  __webpack_require__(11)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
@@ -547,12 +548,12 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_explore_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_explore_vue__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_15fd4a6e_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_explore_vue__ = __webpack_require__(31);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(19)
+  __webpack_require__(20)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
@@ -597,6 +598,59 @@ if (false) {(function () {
 
 /***/ }),
 /* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_post_display_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10e31674_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_post_display_vue__ = __webpack_require__(30);
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(23)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+
+/* template */
+
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-10e31674"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_post_display_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10e31674_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_post_display_vue__["a" /* default */],
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "src\\views\\posts\\post-display.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] post-display.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-10e31674", Component.options)
+  } else {
+    hotAPI.reload("data-v-10e31674", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -649,7 +703,7 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -702,15 +756,15 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__routes__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_app_vue__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ws_manager_js__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_api_ts__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ws_manager_js__ = __webpack_require__(78);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__api_api_ts__ = __webpack_require__(79);
 
 
 
@@ -793,6 +847,11 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     data.global.setLocalStorageAccount('', '');
   };
 
+  window.test = id => {
+    // TODO
+    __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].posts.getPostUserVote(data.global.ws, id).then(console.log);
+  };
+
   ws.onAnswer('signinToken', res => {
     data.global.setAccountUsername(res.message.login);
     data.global.updateProfileData();
@@ -815,7 +874,7 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -826,7 +885,7 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_signin_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__views_posts_new_post_vue__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__views_profile_vue__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_posts_user_posts_vue__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__views_posts_user_posts_vue__ = __webpack_require__(73);
 
 
 
@@ -883,13 +942,13 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
 }]);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(11);
+var content = __webpack_require__(12);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -909,7 +968,7 @@ if(false) {
 }
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -923,7 +982,7 @@ exports.push([module.i, "\n.app {\r\n  position: relative;\r\n  display: flex;\r
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -956,11 +1015,11 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__nav_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__nav_vue__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__explore_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__menu_vue__ = __webpack_require__(32);
 //
@@ -993,16 +1052,16 @@ module.exports = function listToStyles (parentId, list) {
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_nav_vue__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_78790a7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_nav_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_nav_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_78790a7e_hasScoped_false_node_modules_vue_loader_lib_selector_type_template_index_0_nav_vue__ = __webpack_require__(19);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(15)
+  __webpack_require__(16)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
@@ -1046,13 +1105,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(16);
+var content = __webpack_require__(17);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -1072,7 +1131,7 @@ if(false) {
 }
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -1086,7 +1145,7 @@ exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0)
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1153,7 +1212,7 @@ exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0)
 });
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1236,13 +1295,13 @@ if (false) {
 }
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(20);
+var content = __webpack_require__(21);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -1262,7 +1321,7 @@ if(false) {
 }
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -1276,12 +1335,12 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-righ
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__posts_post_display_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__posts_post_display_vue__ = __webpack_require__(6);
 //
 //
 //
@@ -1376,59 +1435,6 @@ exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-righ
 });
 
 /***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_post_display_vue__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10e31674_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_post_display_vue__ = __webpack_require__(30);
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(23)
-}
-var normalizeComponent = __webpack_require__(2)
-/* script */
-
-/* template */
-
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-10e31674"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_post_display_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_10e31674_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_post_display_vue__["a" /* default */],
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "src\\views\\posts\\post-display.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] post-display.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-10e31674", Component.options)
-  } else {
-    hotAPI.reload("data-v-10e31674", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1473,7 +1479,7 @@ exports.push([module.i, "\n.post[data-v-10e31674] {\r\n  display: flex;\n}\n.pos
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__post_info_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__post_info_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_Shared_endpoints_ts__ = __webpack_require__(3);
 //
 //
@@ -1557,7 +1563,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info .submit-by[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\n.tag[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\r\n", ""]);
+exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\n  font-size: 75%;\r\n  opacity: .8;\r\n  margin-bottom: 1.2rem;\n}\n.post-info .submit-by a[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\n.post-info div[data-v-ce1da54c] {\r\n  display: inline-block;\n}\n.tag[data-v-ce1da54c] {\r\n  cursor: pointer;\n}\r\n", ""]);
 
 // exports
 
@@ -1580,9 +1586,14 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-  props: ['author', 'score', 'tags', 'global'],
+  props: ['author', 'score', 'tags', 'global', 'date'],
+  data: () => ({
+    now: Date.now()
+  }),
   methods: {
     searchTag(tag) {
       this.global.route(`/tag/${tag.replace('#', '')}`);
@@ -1590,6 +1601,10 @@ exports.push([module.i, "\n.post-info[data-v-ce1da54c] {\r\n  display: block;\r\
 
     goToProfile(username) {
       this.global.route(`/profile/${username}`);
+    },
+
+    getHoursDifference(before, after) {
+      return Math.floor((after - before) / (1000 * 60 * 60));
     }
   }
 });
@@ -1610,7 +1625,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
         _vm.goToProfile(_vm.author)
       }
     }
-  }, [_vm._v("@" + _vm._s(_vm.author))]), _vm._v(",")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("@" + _vm._s(_vm.author))]), _vm._v(" "), _c('div', [_vm._v(_vm._s(_vm.getHoursDifference(new Date(_vm.date), _vm.now)) + " hours ago")]), _vm._v(",\n  ")]), _vm._v(" "), _c('div', {
     staticClass: "points"
   }, [_c('b', [_vm._v(_vm._s(_vm.score))]), _vm._v(" points")]), _vm._v(" "), _c('div', [_vm._v("in "), _vm._l((_vm.tags.split(' ')), function(tag, index) {
     return _c('a', {
@@ -1671,6 +1686,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "author": _vm.post.author,
       "score": _vm.post.score,
       "tags": _vm.post.tags,
+      "date": _vm.post.date,
       "global": _vm.global
     }
   })], 1)])
@@ -1818,7 +1834,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.menu[data-v-0efdded8] {\r\n  min-width: 200px;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  /* padding-top: 6em; */\r\n\r\n  z-index: var(--z-menu);\r\n  background: white;\n}\n.menu .option[data-v-0efdded8] {\r\n  padding: .5em;\r\n  font-size: 1.2em;\r\n  cursor: pointer;\n}\n.menu .option[data-v-0efdded8]:hover {\r\n  background: whitesmoke;\n}\n.jadir[data-v-0efdded8] {\r\n  font-size: 2em;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  padding: .5em;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.menu[data-v-0efdded8] {\r\n  min-width: 200px;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  /* padding-top: 6em; */\r\n\r\n  z-index: var(--z-menu);\r\n  background: white;\n}\n.menu .option[data-v-0efdded8] {\r\n  display: flex;\r\n  padding: .5em;\r\n  font-size: 1.2em;\r\n  cursor: pointer;\n}\n.menu .option .filler[data-v-0efdded8] {\r\n  flex-grow: 1;\n}\n.menu .option[data-v-0efdded8]:hover {\r\n  background: whitesmoke;\n}\n.jadir[data-v-0efdded8] {\r\n  font-size: 2em;\r\n  font-weight: bold;\r\n  text-align: center;\r\n  padding: .5em;\n}\n.jadir span[data-v-0efdded8] {\r\n  font-size: 30%;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -1862,7 +1878,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "menu"
   }, [_c('div', {
     staticClass: "jadir"
-  }, [_vm._v("jadir")]), _vm._v(" "), _c('router-link', {
+  }, [_vm._v("jadir"), _c('span', [_vm._v(_vm._s(this.$route.path))])]), _vm._v(" "), _c('router-link', {
     staticClass: "option home",
     attrs: {
       "to": "/explore/1"
@@ -2022,7 +2038,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-description[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-description[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  width: 100%;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\n.upvote-wrapper button.active[data-v-3c0b775e] {\r\n  font-weight: bold;\n}\r\n", ""]);
 
 // exports
 
@@ -2032,10 +2048,12 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__post_info_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__post_info_vue__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comments_comment_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__comments_new_comment_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__comments_new_comment_vue__ = __webpack_require__(8);
+//
+//
 //
 //
 //
@@ -2100,7 +2118,8 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
     comments: [],
     displayEmptyMessage: false,
     newCommentContent: '',
-    displayFullImage: false
+    displayFullImage: false,
+    postVote: false
   }),
   created() {
     setTimeout(function () {
@@ -2110,15 +2129,16 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__["a" /* endpoints */].getPost, data => {
       this.global.route(`/post/${data.message.post.id}`);
       this.global.setCurrentPost(data.message.post);
+      this.updatePostVote();
     });
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__["a" /* endpoints */].getPostComments, data => {
-      console.log(data);
       this.comments = data.message.comments;
     });
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__["a" /* endpoints */].votePost, data => {
       this.global.setCurrentPostScore(data.message.score);
+      this.updatePostVote();
     });
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__["a" /* endpoints */].createPostComment, data => {
@@ -2166,6 +2186,14 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
 
     toggleFullImageView() {
       this.displayFullImage = !this.displayFullImage;
+    },
+
+    updatePostVote() {
+      this.global.api.posts.getPostUserVote(this.global.ws, this.$route.params.id).then(res => {
+        if (res.message.post_vote === null) {
+          this.postVote = null;
+        } else this.postVote = res.message.post_vote.is_upvote;
+      });
     }
   }
 });
@@ -2268,7 +2296,7 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_comment_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__new_comment_vue__ = __webpack_require__(8);
 //
 //
 //
@@ -2572,6 +2600,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "author": _vm.currentPost.author,
       "score": _vm.currentPost.score,
       "tags": _vm.currentPost.tags,
+      "date": _vm.currentPost.date,
       "global": _vm.global
     }
   }), _vm._v(" "), _c('pre', {
@@ -2580,11 +2609,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "upvote-wrapper"
   }, [_c('button', {
     staticClass: "up default link-style",
+    class: {
+      active: _vm.postVote !== null && _vm.postVote
+    },
     on: {
       "click": _vm.upvotePost
     }
   }, [_vm._v("upvote")]), _vm._v(" "), _c('button', {
     staticClass: "down default link-style",
+    class: {
+      active: _vm.postVote !== null && !_vm.postVote
+    },
     on: {
       "click": _vm.downvotePost
     }
@@ -2767,10 +2802,7 @@ exports.push([module.i, "\n.signup[data-v-1689548d] {\r\n  display: flex;\r\n  f
     setTimeout(() => this.$refs.logininput.focus(), 100);
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].signup, data => {
-      console.log(data);
-
       if (data.message.success) {
-
         this.global.route('/signin');
       } else {
         if (data.message.message === 'user-already-exists') {
@@ -3287,7 +3319,6 @@ exports.push([module.i, "\n.new-post[data-v-3cc8bd5e] {\r\n  display: flex;\r\n 
   }),
   watch: {
     postTags(val) {
-      console.log('!!');
       let changed = false;
 
       const tags = val.trim().split(' ');
@@ -3719,279 +3750,12 @@ if (false) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class WsManager {
-  constructor() {
-    /**
-     * created for later, will be the
-     * variable holding the reference
-     * of the connection websocket.
-     */
-    this.ws = null;
-
-    /**
-     * created for later, will be the
-     * variable storing all the event
-     * functions by their names.
-     */
-    this.events = {};
-
-    /**
-     * created for later, will be passed
-     * into each of the messages sent
-     * to the server to identify us.
-     */
-    this.token = 'none';
-
-    /**
-     * created for later, this is the
-     * name used for login
-     */
-    this.username = null;
-
-    /**
-     * a list of functions executed
-     * when the onclose event is fired
-     */
-    this.oncloseEvents = [];
-  }
-
-  on(name, fn) {
-    this.events[name] = fn;
-  }
-
-  onAnswer(name, fn) {
-    this.events[name + '-done'] = fn;
-  }
-
-  emit(name, obj) {
-    const chosenEvent = this.events[name];
-    if (chosenEvent && typeof chosenEvent === 'function') {
-      chosenEvent(obj);
-    }
-  }
-
-  _onmessage(message) {
-    this.emit(message.title, message);
-  }
-
-  _onclose(e) {
-    this.oncloseEvents.forEach(fn => fn());
-  }
-
-  addOnclose(fn) {
-    this.oncloseEvents.push(fn);
-  }
-
-  send(name, message) {
-    console.log('sent %c' + name, 'color: green');
-
-    if (this.username === null) {
-      this.ws.send(JSON.stringify({ title: name, message, token: this.token || null }));
-    } else {
-      this.ws.send(JSON.stringify({ title: name, login: this.username, message, token: this.token || null }));
-    }
-  }
-
-  thenable(name, message) {
-    return new Promise((resolve, reject) => {
-      this.on(name + '-done', message => {
-        resolve(message);
-      });
-
-      this.send(name, message);
-    });
-  }
-
-  /**
-   * simply opens the websocket connection.
-   */
-  open(address) {
-    return new Promise((resolve, reject) => {
-      if (window.location.protocol === 'https:') {
-        this.ws = new WebSocket(`wss://${address}/ws`);
-      } else {
-        this.ws = new WebSocket(`ws://${address}/ws`);
-      }
-
-      this.ws.onopen = _ => resolve(this);
-
-      this.ws.onclose = e => this._onclose(e);
-
-      this.ws.onmessage = e => {
-        this._onmessage(JSON.parse(e.data));
-      };
-    });
-  }
-
-  /**
-   * hit the server to let it know we want
-   * to get a fresh new clientId, which
-   * will be used for every request sent
-   * to the server via a ws connection.
-   */
-  synchronize() {
-    return new Promise((resolve, reject) => {
-      // this event will be emitted once the
-      // synchronisation is done.
-      this.on('synchronize-done', response => {
-        this.token = response.message.token;
-        resolve(response);
-      });
-
-      this.send('synchronize', {});
-    });
-  }
-
-  setUsername(username) {
-    this.username = username;
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = WsManager;
-
-
-/***/ }),
-/* 74 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__posts_ts__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comments_ts__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__account_ts__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__users_ts__ = __webpack_require__(78);
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    posts: __WEBPACK_IMPORTED_MODULE_0__posts_ts__, comments: __WEBPACK_IMPORTED_MODULE_1__comments_ts__, account: __WEBPACK_IMPORTED_MODULE_2__account_ts__, users: __WEBPACK_IMPORTED_MODULE_3__users_ts__
-});
-
-
-/***/ }),
-/* 75 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["getPagePosts"] = getPagePosts;
-/* harmony export (immutable) */ __webpack_exports__["getPagePostsSearch"] = getPagePostsSearch;
-/* harmony export (immutable) */ __webpack_exports__["getPost"] = getPost;
-/* harmony export (immutable) */ __webpack_exports__["newPost"] = newPost;
-/* harmony export (immutable) */ __webpack_exports__["votePost"] = votePost;
-/* harmony export (immutable) */ __webpack_exports__["getPostScore"] = getPostScore;
-/* harmony export (immutable) */ __webpack_exports__["getUserPosts"] = getUserPosts;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
-
-function getPagePosts(ws, page) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPagePosts, { page });
-}
-function getPagePostsSearch(ws, page, search) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPagePostsSearch, { page, search });
-}
-function getPost(ws, id) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPost, { id });
-}
-function newPost(ws, title, description, tags, image_url = '') {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].newPost, {
-        title,
-        content: description,
-        tags,
-        image_url: image_url.length ? image_url : null
-    });
-}
-function votePost(ws, id, is_upvote) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].votePost, {
-        post_id: id,
-        is_upvote
-    });
-}
-function getPostScore(ws, id) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPostScore, {
-        post_id: id
-    });
-}
-function getUserPosts(ws, username) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getUserPosts, {
-        username
-    });
-}
-
-
-/***/ }),
-/* 76 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["getPostComments"] = getPostComments;
-/* harmony export (immutable) */ __webpack_exports__["createPostComment"] = createPostComment;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
-
-function getPostComments(ws, id) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPostComments, { id });
-}
-function createPostComment(ws, post_id, answers_comment, content) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].createPostComment, {
-        post_id, answers_comment, content
-    });
-}
-
-
-/***/ }),
-/* 77 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["signup"] = signup;
-/* harmony export (immutable) */ __webpack_exports__["signin"] = signin;
-/* harmony export (immutable) */ __webpack_exports__["signinToken"] = signinToken;
-/* harmony export (immutable) */ __webpack_exports__["logoff"] = logoff;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
-
-function signup(ws, login, password) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signup, { login, password });
-}
-function signin(ws, login, password) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signin, { login, password });
-}
-function signinToken(ws, login, token) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signinToken, { login, token });
-}
-function logoff(ws, login, token) {
-    ws.send(); // TODO
-}
-
-
-/***/ }),
-/* 78 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["setUserImage"] = setUserImage;
-/* harmony export (immutable) */ __webpack_exports__["getUserProfile"] = getUserProfile;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
-
-function setUserImage(ws, image_url) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].setUserImage, { image_url });
-}
-function getUserProfile(ws, username) {
-    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getUserProfile, { username });
-}
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_user_posts_vue__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_44ba2bc2_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_user_posts_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_user_posts_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_44ba2bc2_hasScoped_true_node_modules_vue_loader_lib_selector_type_template_index_0_user_posts_vue__ = __webpack_require__(77);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(80)
+  __webpack_require__(74)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
@@ -4035,13 +3799,13 @@ if (false) {(function () {
 
 
 /***/ }),
-/* 80 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(81);
+var content = __webpack_require__(75);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -4061,7 +3825,7 @@ if(false) {
 }
 
 /***/ }),
-/* 81 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)(undefined);
@@ -4075,12 +3839,12 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 82 */
+/* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__post_display_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__post_display_vue__ = __webpack_require__(6);
 //
 //
 //
@@ -4136,7 +3900,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 });
 
 /***/ }),
-/* 83 */
+/* 77 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4166,6 +3930,310 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-44ba2bc2", esExports)
   }
 }
+
+/***/ }),
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class WsManager {
+  constructor() {
+    /**
+     * created for later, will be the
+     * variable holding the reference
+     * of the connection websocket.
+     */
+    this.ws = null;
+
+    /**
+     * created for later, will be the
+     * variable storing all the event
+     * functions by their names.
+     */
+    this.events = {};
+
+    /**
+     * created for later, will be passed
+     * into each of the messages sent
+     * to the server to identify us.
+     */
+    this.token = 'none';
+
+    /**
+     * created for later, this is the
+     * name used for login
+     */
+    this.username = null;
+
+    /**
+     * a list of functions executed
+     * when the onclose event is fired
+     */
+    this.oncloseEvents = [];
+
+    /**
+     * a list of `unique-id: Promise`
+     */
+    this.thenables = {};
+
+    /**
+     * the counter used as a unique id in this.thenables
+     */
+    this.counter = 0;
+  }
+
+  on(name, fn) {
+    this.events[name] = fn;
+  }
+
+  onAnswer(name, fn) {
+    this.events[name + '-done'] = fn;
+  }
+
+  emit(name, obj) {
+    const chosenEvent = this.events[name];
+    if (chosenEvent && typeof chosenEvent === 'function') {
+      chosenEvent(obj);
+    }
+  }
+
+  _onmessage(message) {
+    if (message.thenableId) {
+      this.consumeThenable(message.thenableId, message);
+    }
+
+    this.emit(message.title, message);
+  }
+
+  _onclose(e) {
+    this.oncloseEvents.forEach(fn => fn());
+  }
+
+  addOnclose(fn) {
+    this.oncloseEvents.push(fn);
+  }
+
+  send(name, message, thenableId = null) {
+    console.log('sent %c' + name, 'color: green');
+
+    if (this.username === null) {
+      this.ws.send(JSON.stringify({ title: name, message, thenableId, token: this.token || null }));
+    } else {
+      this.ws.send(JSON.stringify({ title: name, login: this.username, message, thenableId, token: this.token || null }));
+    }
+  }
+
+  generateNewId() {
+    this.counter = (this.counter + 1) % 1000;
+
+    return this.counter;
+  }
+
+  hasThenable(id) {
+    return !!this.thenables[id];
+  }
+
+  consumeThenable(id, data = null) {
+    if (!this.hasThenable(id)) return;
+
+    this.thenables[id](data);
+
+    delete this.thenables[id];
+  }
+
+  thenable(name, message) {
+    const uniqueId = this.generateNewId();
+    const promise = new Promise(resolve => {
+      this.thenables[uniqueId] = resolve;
+    });
+
+    this.send(name, message, uniqueId);
+
+    return promise;
+  }
+
+  /**
+   * simply opens the websocket connection.
+   */
+  open(address) {
+    return new Promise((resolve, reject) => {
+      if (window.location.protocol === 'https:') {
+        this.ws = new WebSocket(`wss://${address}/ws`);
+      } else {
+        this.ws = new WebSocket(`ws://${address}/ws`);
+      }
+
+      this.ws.onopen = _ => resolve(this);
+
+      this.ws.onclose = e => this._onclose(e);
+
+      this.ws.onmessage = e => {
+        this._onmessage(JSON.parse(e.data));
+      };
+    });
+  }
+
+  /**
+   * hit the server to let it know we want
+   * to get a fresh new clientId, which
+   * will be used for every request sent
+   * to the server via a ws connection.
+   */
+  synchronize() {
+    return new Promise((resolve, reject) => {
+      // this event will be emitted once the
+      // synchronisation is done.
+      this.on('synchronize-done', response => {
+        this.token = response.message.token;
+        resolve(response);
+      });
+
+      this.send('synchronize', {});
+    });
+  }
+
+  setUsername(username) {
+    this.username = username;
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = WsManager;
+
+
+/***/ }),
+/* 79 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__posts_ts__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comments_ts__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__account_ts__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__users_ts__ = __webpack_require__(83);
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    posts: __WEBPACK_IMPORTED_MODULE_0__posts_ts__, comments: __WEBPACK_IMPORTED_MODULE_1__comments_ts__, account: __WEBPACK_IMPORTED_MODULE_2__account_ts__, users: __WEBPACK_IMPORTED_MODULE_3__users_ts__
+});
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["getPagePosts"] = getPagePosts;
+/* harmony export (immutable) */ __webpack_exports__["getPagePostsSearch"] = getPagePostsSearch;
+/* harmony export (immutable) */ __webpack_exports__["getPost"] = getPost;
+/* harmony export (immutable) */ __webpack_exports__["newPost"] = newPost;
+/* harmony export (immutable) */ __webpack_exports__["votePost"] = votePost;
+/* harmony export (immutable) */ __webpack_exports__["getPostScore"] = getPostScore;
+/* harmony export (immutable) */ __webpack_exports__["getUserPosts"] = getUserPosts;
+/* harmony export (immutable) */ __webpack_exports__["getPostUserVote"] = getPostUserVote;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
+
+function getPagePosts(ws, page) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPagePosts, { page });
+}
+function getPagePostsSearch(ws, page, search) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPagePostsSearch, { page, search });
+}
+function getPost(ws, id) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPost, { id });
+}
+function newPost(ws, title, description, tags, image_url = '') {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].newPost, {
+        title,
+        content: description,
+        tags,
+        image_url: image_url.length ? image_url : null
+    });
+}
+function votePost(ws, id, is_upvote) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].votePost, {
+        post_id: id,
+        is_upvote
+    });
+}
+function getPostScore(ws, id) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPostScore, {
+        post_id: id
+    });
+}
+function getUserPosts(ws, username) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getUserPosts, {
+        username
+    });
+}
+function getPostUserVote(ws, id) {
+    return ws.thenable("getPostUserVote", { id });
+}
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["getPostComments"] = getPostComments;
+/* harmony export (immutable) */ __webpack_exports__["createPostComment"] = createPostComment;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
+
+function getPostComments(ws, id) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getPostComments, { id });
+}
+function createPostComment(ws, post_id, answers_comment, content) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].createPostComment, {
+        post_id, answers_comment, content
+    });
+}
+
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["signup"] = signup;
+/* harmony export (immutable) */ __webpack_exports__["signin"] = signin;
+/* harmony export (immutable) */ __webpack_exports__["signinToken"] = signinToken;
+/* harmony export (immutable) */ __webpack_exports__["logoff"] = logoff;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
+
+function signup(ws, login, password) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signup, { login, password });
+}
+function signin(ws, login, password) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signin, { login, password });
+}
+function signinToken(ws, login, token) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].signinToken, { login, token });
+}
+function logoff(ws, login, token) {
+    ws.send(); // TODO
+}
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (immutable) */ __webpack_exports__["setUserImage"] = setUserImage;
+/* harmony export (immutable) */ __webpack_exports__["getUserProfile"] = getUserProfile;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
+
+function setUserImage(ws, image_url) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].setUserImage, { image_url });
+}
+function getUserProfile(ws, username) {
+    ws.send(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getUserProfile, { username });
+}
+
 
 /***/ })
 /******/ ]);

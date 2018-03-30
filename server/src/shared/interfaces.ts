@@ -16,7 +16,8 @@ export interface MessageInterface {
   message: any,
   state: MessageState,
   token: string,
-  isAuth: boolean
+  isAuth: boolean,
+  thenableId?: number
 }
 
 export interface MessageAuthInterface extends MessageInterface {
@@ -325,7 +326,7 @@ export interface message_getUserProfile {
   username: string
 }
 
-export interface query_getUserProfile {
+export interface query_getUserProfile extends MessageInterface {
   message: message_getUserProfile
 }
 
@@ -333,7 +334,7 @@ export interface responseMessage_getUserProfile {
   user: SafeUser
 }
 
-export interface response_getUserProfile {
+export interface response_getUserProfile extends MessageInterface {
   message: responseMessage_getUserProfile
 }
 //#endregion
@@ -343,7 +344,7 @@ export interface message_getUserPosts {
   username: string
 }
 
-export interface query_getUserPosts {
+export interface query_getUserPosts extends MessageInterface {
   message: message_getUserPosts
 }
 
@@ -352,7 +353,26 @@ export interface responseMessage_getUserPosts {
   username: string
 }
 
-export interface response_getUserPosts {
+export interface response_getUserPosts extends MessageInterface {
   message: responseMessage_getUserPosts
+}
+//#endregion
+
+//#region getPostUserVote
+export interface message_getPostUserVote {
+  id: number
+}
+
+export interface query_getPostUserVote extends MessageAuthInterface {
+  message: message_getPostUserVote
+}
+
+export interface responseMessage_getPostUserVote {
+  post_vote: PostVote
+  user: string
+}
+
+export interface response_getPostUserVote extends MessageAuthInterface {
+  message: responseMessage_getPostUserVote
 }
 //#endregion

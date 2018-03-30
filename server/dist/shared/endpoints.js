@@ -17,4 +17,5 @@ var endpoints;
     endpoints["setUserImage"] = "setUserImage";
     endpoints["getUserProfile"] = "getUserProfile";
     endpoints["getUserPosts"] = "getUserPosts";
+    endpoints["getPostUserVote"] = "getPostUserVote";
 })(endpoints = exports.endpoints || (exports.endpoints = {}));

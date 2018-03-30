@@ -32,6 +32,16 @@ export default class WsManager {
      * when the onclose event is fired
      */
     this.oncloseEvents = []
+
+    /**
+     * a list of `unique-id: Promise`
+     */
+    this.thenables = {}
+
+    /**
+     * the counter used as a unique id in this.thenables
+     */
+    this.counter = 0
   }
 
   on(name, fn) {
@@ -50,6 +60,10 @@ export default class WsManager {
   }
 
   _onmessage(message) {
+    if (message.thenableId) {
+      this.consumeThenable(message.thenableId, message)
+    }
+
     this.emit(message.title, message)
   }
 
@@ -61,27 +75,47 @@ export default class WsManager {
     this.oncloseEvents.push(fn)
   }
 
-  send(name, message) {
+  send(name, message, thenableId = null) {
     console.log('sent %c' + name, 'color: green')
 
     if (this.username === null) {
-      this.ws.send(JSON.stringify({ title: name, message, token: this.token || null }))
+      this.ws.send(JSON.stringify({ title: name, message, thenableId, token: this.token || null }))
     }
 
     else {
-      this.ws.send(JSON.stringify({ title: name, login: this.username, message, token: this.token || null }))
+      this.ws.send(JSON.stringify({ title: name, login: this.username, message, thenableId, token: this.token || null }))
     }
 
   }
 
-  thenable(name, message) {
-    return new Promise((resolve, reject) => {
-      this.on(name + '-done', message => {
-        resolve(message)
-      })
+  generateNewId() {
+    this.counter = (this.counter + 1) % 1000
 
-      this.send(name, message)
+    return this.counter
+  }
+
+  hasThenable(id) {
+    return !!this.thenables[id]
+  }
+
+  consumeThenable(id, data = null) {
+    if (!this.hasThenable(id))
+      return
+
+    this.thenables[id](data)
+
+    delete this.thenables[id]
+  }
+
+  thenable(name, message) {
+    const uniqueId = this.generateNewId()
+    const promise = new Promise(resolve => {
+      this.thenables[uniqueId] = resolve
     })
+    
+    this.send(name, message, uniqueId)
+
+    return promise 
   }
 
   /**

@@ -40,3 +40,7 @@ export function getUserPosts(ws: any, username: string) {
     username
   } as interfaces.message_getUserPosts)
 }
+
+export function getPostUserVote(ws: any, id: number) {
+  return ws.thenable("getPostUserVote", { id })
+}

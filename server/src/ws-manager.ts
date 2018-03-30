@@ -37,12 +37,12 @@ export default class WsManager {
     }
   }
 
-  send(wsClient: Websocket, name: string, message: { [key: string]: any }, state: interfaces.MessageState) {
-    wsClient.send(JSON.stringify({ title: name, message: message, state }))
+  send(wsClient: Websocket, name: string, message: { [key: string]: any }, state: interfaces.MessageState, thenableId: number | null = null) {
+    wsClient.send(JSON.stringify({ title: name, message: message, state, thenableId }))
   }
 
-  answer(wsClient: Websocket, name: string, message: { [key: string]: any }, state: interfaces.MessageState = interfaces.MessageState.success) {
-    this.send(wsClient, name + '-done', message, state)
+  answer(wsClient: Websocket, name: string, message: { [key: string]: any }, state: interfaces.MessageState = interfaces.MessageState.success, thenableId: number | null = null) {
+    this.send(wsClient, name + '-done', message, state, thenableId)
   }
 
   accept(app: any, path: string) {

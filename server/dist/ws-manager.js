@@ -24,11 +24,11 @@ class WsManager {
             chosenEvent(ws, obj);
         }
     }
-    send(wsClient, name, message, state) {
-        wsClient.send(JSON.stringify({ title: name, message: message, state }));
+    send(wsClient, name, message, state, thenableId = null) {
+        wsClient.send(JSON.stringify({ title: name, message: message, state, thenableId }));
     }
-    answer(wsClient, name, message, state = interfaces.MessageState.success) {
-        this.send(wsClient, name + '-done', message, state);
+    answer(wsClient, name, message, state = interfaces.MessageState.success, thenableId = null) {
+        this.send(wsClient, name + '-done', message, state, thenableId);
     }
     accept(app, path) {
         this.on('synchronize', (wsClient, message) => {

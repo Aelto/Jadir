@@ -11,14 +11,16 @@
       <div class='post-content' v-if="currentPost">
         <h5>{{ currentPost.title }}</h5>
 
-        <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :global="global">
+        <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :date="currentPost.date" :global="global">
         </postinfo>
 
         <pre class="post-description">{{ currentPost.content }}</pre>
 
         <div class="upvote-wrapper" v-if="account.logged">
-          <button class="up default link-style" v-on:click="upvotePost">upvote</button>
-          <button class="down default link-style" v-on:click="downvotePost">downvote</button>
+          <button class="up default link-style" v-on:click="upvotePost"
+            v-bind:class="{ active: postVote !== null && postVote }">upvote</button>
+          <button class="down default link-style" v-on:click="downvotePost"
+            v-bind:class="{ active: postVote !== null && !postVote }">downvote</button>
         </div>
       </div>
 
@@ -62,7 +64,8 @@ export default {
     comments: [],
     displayEmptyMessage: false,
     newCommentContent: '',
-    displayFullImage: false
+    displayFullImage: false,
+    postVote: false
   }),
   created() {
     setTimeout(function() {
@@ -72,15 +75,16 @@ export default {
     this.global.ws.onAnswer(endpoints.getPost, data => {
       this.global.route(`/post/${data.message.post.id}`)
       this.global.setCurrentPost(data.message.post)
+      this.updatePostVote()
     })
 
     this.global.ws.onAnswer(endpoints.getPostComments, data => {
-      console.log(data)
       this.comments = data.message.comments
     })
 
     this.global.ws.onAnswer(endpoints.votePost, data => {
       this.global.setCurrentPostScore(data.message.score)
+      this.updatePostVote()
     })
 
     this.global.ws.onAnswer(endpoints.createPostComment, data => {
@@ -135,6 +139,16 @@ export default {
     
     toggleFullImageView() {
       this.displayFullImage = !this.displayFullImage
+    },
+
+    updatePostVote() {
+      this.global.api.posts.getPostUserVote(this.global.ws, this.$route.params.id)
+      .then(res => {
+        if (res.message.post_vote === null) {
+          this.postVote = null
+        }
+        else this.postVote = res.message.post_vote.is_upvote
+      })
     }
   }
 }
@@ -228,5 +242,9 @@ img.full-view-image {
 
 .upvote-wrapper button:hover {
   text-decoration: underline;
+}
+
+.upvote-wrapper button.active {
+  font-weight: bold;
 }
 </style>

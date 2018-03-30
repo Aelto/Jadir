@@ -177,5 +177,23 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.getPostUserVote, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        if (!message.isAuth) {
+            return ws.answer(wsClient, endpoints_1.endpoints.getPostUserVote, {}, interfaces.MessageState.unauthorized);
+        }
+        try {
+            const votes = yield db_query_1.default(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ? AND user_id = (SELECT id FROM users WHERE name = ?)`, [message.message.id, message.login]);
+            const post_vote = votes[0] || null;
+            if (post_vote === null) {
+                ws.answer(wsClient, endpoints_1.endpoints.getPostUserVote, { post_vote: { is_upvote: null }, user: message.login }, interfaces.MessageState.success, message.thenableId);
+            }
+            else {
+                ws.answer(wsClient, endpoints_1.endpoints.getPostUserVote, { post_vote: { is_upvote: !!post_vote.is_upvote }, user: message.login }, interfaces.MessageState.success, message.thenableId);
+            }
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.getPostUserVote, {}, interfaces.MessageState.databaseError);
+        }
+    }));
 }
 exports.default = default_1;

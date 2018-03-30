@@ -35,7 +35,6 @@ export default {
   }),
   watch: {
     postTags(val) {
-      console.log('!!')
       let changed = false
       
       const tags = val.trim().split(' ')
