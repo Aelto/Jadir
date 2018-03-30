@@ -42,7 +42,12 @@ export default {
     
     this.global.ws.onAnswer(endpoints.signup, data => {
       if (data.message.success) {
-        this.global.route('/signin')
+        this.showInformation('You successfully signed up. You will be redirected in few seconds')
+
+        setTimeout(() => {
+          this.global.route('/signin')
+        }, 2500)
+
       }
 
       else {

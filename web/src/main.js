@@ -82,12 +82,6 @@ ws.open(`${location.hostname}:${location.port}`)
     data.global.setLocalStorageAccount('', '')
   }
 
-  window.test = (id) => { // TODO
-    api.posts.getPostUserVote(data.global.ws, id)
-    .then(console.log)
-  }
-
-
   ws.onAnswer('signinToken', res => {
     data.global.setAccountUsername(res.message.login)
     data.global.updateProfileData()

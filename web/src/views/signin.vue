@@ -38,8 +38,6 @@ export default {
     setTimeout(() => this.$refs.logininput.focus(), 100)
 
     this.global.ws.onAnswer(endpoints.signin, data => {
-      console.log(data)
-
       if (data.state === 200) {
         this.global.setAccountUsername(data.message.login)
         this.global.route('/')

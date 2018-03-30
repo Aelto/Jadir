@@ -847,11 +847,6 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     data.global.setLocalStorageAccount('', '');
   };
 
-  window.test = id => {
-    // TODO
-    __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].posts.getPostUserVote(data.global.ws, id).then(console.log);
-  };
-
   ws.onAnswer('signinToken', res => {
     data.global.setAccountUsername(res.message.login);
     data.global.updateProfileData();
@@ -2803,7 +2798,11 @@ exports.push([module.i, "\n.signup[data-v-1689548d] {\r\n  display: flex;\r\n  f
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].signup, data => {
       if (data.message.success) {
-        this.global.route('/signin');
+        this.showInformation('You successfully signed up. You will be redirected in few seconds');
+
+        setTimeout(() => {
+          this.global.route('/signin');
+        }, 2500);
       } else {
         if (data.message.message === 'user-already-exists') {
           this.informationMessage = 'The user already exists';
@@ -3068,8 +3067,6 @@ exports.push([module.i, "\n@keyframes messageSlide-data-v-01f2fe17 {\nfrom {\r\n
     setTimeout(() => this.$refs.logininput.focus(), 100);
 
     this.global.ws.onAnswer(__WEBPACK_IMPORTED_MODULE_0_Shared_endpoints_ts__["a" /* endpoints */].signin, data => {
-      console.log(data);
-
       if (data.state === 200) {
         this.global.setAccountUsername(data.message.login);
         this.global.route('/');
