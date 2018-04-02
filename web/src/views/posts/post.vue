@@ -14,7 +14,7 @@
         <postinfo :author="currentPost.author" :score="currentPost.score" :tags="currentPost.tags" :date="currentPost.date" :global="global">
         </postinfo>
 
-        <pre class="post-description">{{ currentPost.content }}</pre>
+        <div class="post-description" ref="postcontent"></div>
 
         <div class="upvote-wrapper" v-if="account.logged">
           <button class="up default link-style" v-on:click="upvotePost"
@@ -67,6 +67,9 @@ export default {
     displayFullImage: false,
     postVote: false
   }),
+  watch: {
+    'currentPost': 'setPostContent'
+  },
   created() {
     setTimeout(function() {
       this.displayEmptyMessage = true
@@ -149,6 +152,29 @@ export default {
         }
         else this.postVote = res.message.post_vote.is_upvote
       })
+    },
+
+    setPostContent() {
+      if (!this.$refs.postcontent) // TODO: Find an other way to delay the content parsing
+        return setTimeout(() => this.setPostContent(), 25)
+
+      this.$refs.postcontent.innerHTML = this.parsePostContent(this.currentPost.content)
+    },
+
+    parsePostContent(content) {
+      const matches = content.match(/(\[.+\]\(.+\))/g)
+
+      if (matches === null)
+        return content
+
+      let parsedContent = content
+      for (const match of matches) {
+        const [input, text, link] = match.match(/\[(.+)\]\((.+)\)/)
+
+        parsedContent = parsedContent.replace(input, `<a href="${link}">${text}</a>`)
+      }
+
+      return parsedContent
     }
   }
 }

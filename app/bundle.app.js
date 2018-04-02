@@ -2116,6 +2116,9 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
     displayFullImage: false,
     postVote: false
   }),
+  watch: {
+    'currentPost': 'setPostContent'
+  },
   created() {
     setTimeout(function () {
       this.displayEmptyMessage = true;
@@ -2189,6 +2192,28 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
           this.postVote = null;
         } else this.postVote = res.message.post_vote.is_upvote;
       });
+    },
+
+    setPostContent() {
+      if (!this.$refs.postcontent) // TODO: Find an other way to delay the content parsing
+        return setTimeout(() => this.setPostContent(), 25);
+
+      this.$refs.postcontent.innerHTML = this.parsePostContent(this.currentPost.content);
+    },
+
+    parsePostContent(content) {
+      const matches = content.match(/(\[.+\]\(.+\))/g);
+
+      if (matches === null) return content;
+
+      let parsedContent = content;
+      for (const match of matches) {
+        const [input, text, link] = match.match(/\[(.+)\]\((.+)\)/);
+
+        parsedContent = parsedContent.replace(input, `<a href="${link}">${text}</a>`);
+      }
+
+      return parsedContent;
     }
   }
 });
@@ -2598,9 +2623,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "date": _vm.currentPost.date,
       "global": _vm.global
     }
-  }), _vm._v(" "), _c('pre', {
+  }), _vm._v(" "), _c('div', {
+    ref: "postcontent",
     staticClass: "post-description"
-  }, [_vm._v(_vm._s(_vm.currentPost.content))]), _vm._v(" "), (_vm.account.logged) ? _c('div', {
+  }), _vm._v(" "), (_vm.account.logged) ? _c('div', {
     staticClass: "upvote-wrapper"
   }, [_c('button', {
     staticClass: "up default link-style",
