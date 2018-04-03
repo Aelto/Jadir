@@ -65,7 +65,8 @@ export default {
     displayEmptyMessage: false,
     newCommentContent: '',
     displayFullImage: false,
-    postVote: false
+    postVote: false,
+    md: window.markdownit()
   }),
   watch: {
     'currentPost': 'setPostContent'
@@ -158,23 +159,7 @@ export default {
       if (!this.$refs.postcontent) // TODO: Find an other way to delay the content parsing
         return setTimeout(() => this.setPostContent(), 25)
 
-      this.$refs.postcontent.innerHTML = this.parsePostContent(this.currentPost.content)
-    },
-
-    parsePostContent(content) {
-      const matches = content.match(/(\[.+\]\(.+\))/g)
-
-      if (matches === null)
-        return content
-
-      let parsedContent = content
-      for (const match of matches) {
-        const [input, text, link] = match.match(/\[(.+)\]\((.+)\)/)
-
-        parsedContent = parsedContent.replace(input, `<a href="${link}">${text}</a>`)
-      }
-
-      return parsedContent
+      this.$refs.postcontent.innerHTML = this.md.render(this.currentPost.content)
     }
   }
 }
