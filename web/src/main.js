@@ -58,6 +58,11 @@ ws.open(`${location.hostname}:${location.port}`)
     api.users.getUserProfile(ws, username)
   }
 
+  window.test = () => {
+    api.users.getUserScore(ws, 'Aeltoth')
+    .then(console.log)
+  }
+
   data.global.setProfile = profile => data.account.profile = profile
 
   data.global.setCurrentPost = p => data.currentPost = p

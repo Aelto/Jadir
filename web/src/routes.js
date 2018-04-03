@@ -6,6 +6,7 @@ import signin from './views/signin.vue'
 import newPost from './views/posts/new-post.vue'
 import profile from './views/profile.vue'
 import userPosts from './views/posts/user-posts.vue'
+import features from './views/features.vue'
 
 export default [
   {
@@ -56,6 +57,11 @@ export default [
     path: '/posts/:user',
     component: userPosts,
     name: 'user-post'
+  },
+  {
+    path: '/features',
+    component: features,
+    name: 'features'
   },
   {
     path: '*',

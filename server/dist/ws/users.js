@@ -39,5 +39,15 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.getUserProfile, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.getUserScore, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const postsScores = yield db_query_1.default(con, `SELECT score FROM posts WHERE author = ?`, [message.message.name]);
+            const totalScore = postsScores.reduce((acc, post) => acc + post.score, 0);
+            ws.answer(wsClient, endpoints_1.endpoints.getUserScore, { score: totalScore, user: message.message.name }, interfaces.MessageState.success, message.thenableId);
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.getUserScore, {}, interfaces.MessageState.databaseError);
+        }
+    }));
 }
 exports.default = default_1;

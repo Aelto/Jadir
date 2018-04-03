@@ -38,4 +38,17 @@ export default function(ws: WsManager, con: any) {
     }
   })
 
+  ws.on(endpoints.getUserScore, async (wsClient, message: interfaces.query_getUserScore) => {
+    try {
+      const postsScores = await dbQuery(con, `SELECT score FROM posts WHERE author = ?`, [message.message.name]) 
+      const totalScore = postsScores.reduce((acc, post) => acc + post.score, 0)
+
+      ws.answer(wsClient, endpoints.getUserScore, { score: totalScore, user: message.message.name } as interfaces.responseMessage_getUserScore, interfaces.MessageState.success, message.thenableId)
+    } catch (err) {
+      ws.answer(wsClient, endpoints.getUserScore, {}, interfaces.MessageState.databaseError)
+    }
+
+
+  })
+
 }

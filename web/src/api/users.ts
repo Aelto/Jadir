@@ -8,3 +8,7 @@ export function setUserImage(ws: any, image_url: string) {
 export function getUserProfile(ws: any, username: string) {
   ws.send(endpoints.getUserProfile, { username } as interfaces.message_getUserProfile)
 }
+
+export function getUserScore(ws: any, username: string) {
+  return ws.thenable(endpoints.getUserScore, { name: username } as interfaces.message_getUserScore)
+}

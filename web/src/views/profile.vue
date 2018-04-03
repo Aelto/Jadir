@@ -4,9 +4,13 @@
     <div v-if="isSelfProfile && account.profile !== null">
       <div class="profile-name">{{ account.profile.name }}</div>
 
+      <div class="row center">
+        <div class="profile-score">{{ userScore }} points</div>
+      </div>
+      
       <img class="user-image"
         v-bind:src="account.profile.image_url">
-      
+
       <div class="row">
         <input type="text" class="user-image-input" placeholder="your profile image url"
           v-model="newProfileImageUrl">
@@ -18,8 +22,12 @@
     <div v-else-if="currentProfile !== null">
       <div class="profile-name">{{ currentProfile.name }}</div>
 
-      <a class="see-posts"
-        v-on:click="seeUserPosts()">see user posts</a>
+      <div class="row center">
+        <a class="see-posts"
+          v-on:click="seeUserPosts()">see user posts</a>
+        <span class="profile-score">, {{ userScore }} points</span>
+      </div>
+
 
       <img class="user-image"
         v-bind:src="currentProfile.image_url">
@@ -38,7 +46,8 @@ export default {
   },
   data: () => ({
     newProfileImageUrl: '',
-    profileImageUrl: ''
+    profileImageUrl: '',
+    userScore: 0
   }),
   created() {
     this.fetchData()
@@ -61,6 +70,13 @@ export default {
           this.global.setCurrentProfile(e.message.user)
         })
       }
+
+      this.global.api.users.getUserScore(this.global.ws, this.$route.params.user)
+      .then(res => {
+        if (res.message.user === this.$route.params.user) {
+          this.userScore = res.message.score
+        }
+      })
     },
 
     setProfileImage() {
@@ -84,11 +100,19 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-} 
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+}
 
 .profile .profile-name {
   font-weight: bold;
   font-size: 2em;
+}
+
+.profile .profile-score {
 }
 
 .profile .user-image {

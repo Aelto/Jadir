@@ -8,6 +8,8 @@
       v-if="account.logged"
       v-on:click="goToMyPosts()">My posts</a>
 
+    <router-link to="/features" class="option">Features</router-link>
+
   </div>
 </template>
 

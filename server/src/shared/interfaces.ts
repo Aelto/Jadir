@@ -376,3 +376,22 @@ export interface response_getPostUserVote extends MessageAuthInterface {
   message: responseMessage_getPostUserVote
 }
 //#endregion
+
+//#region getUserScore
+export interface message_getUserScore {
+  name: string
+}
+
+export interface query_getUserScore extends MessageInterface {
+  message: message_getUserScore
+}
+
+export interface responseMessage_getUserScore {
+  score: number
+  user: string
+}
+
+export interface response_getUserScore extends MessageInterface {
+  message: responseMessage_getUserScore
+}
+//#endregion
