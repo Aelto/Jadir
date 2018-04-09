@@ -196,7 +196,8 @@ export default {
 }
 
 img {
-  width: 100%;
+  max-width: 100%;
+  margin: auto;
 }
 
 img.full-view-image {

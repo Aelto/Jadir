@@ -4,9 +4,9 @@
     <div class="jadir">jadir<span>{{ this.$route.path }}</span></div>
 
     <router-link to="/explore/1" class='option home'>Home</router-link>
-    <a class='option'
-      v-if="account.logged"
-      v-on:click="goToMyPosts()">My posts</a>
+
+    <router-link class="option"
+      :to="myPostsUrl">My posts</router-link>
 
     <router-link to="/features" class="option">Features</router-link>
 
@@ -17,11 +17,12 @@
 
 export default {
   props: ['global', 'account'],
-  methods: {
-    goToMyPosts() {
-      this.global.route(`/posts/${this.account.username}`)
+  computed: {
+    myPostsUrl() {
+      return `/posts/${this.account.username}`
     }
-  }
+  },
+  methods: {}
 }
 
 </script>

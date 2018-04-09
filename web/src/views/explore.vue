@@ -14,6 +14,9 @@
 
     <div class='page-navigation'>
       <button class="previous" v-on:click="previousPage" v-if="$route.params.page > 1">Previous page</button>
+
+      <div class="current-page">{{ $route.params.page }}</div>
+
       <button class="next" v-on:click="nextPage" v-if="posts.length >= 20">Next page</button>
     </div>
 

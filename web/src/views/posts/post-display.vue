@@ -8,7 +8,8 @@
       v-on:click="readPost(post.id)"></div>
 
     <div class="post-text">
-      <a class="post-title" v-on:click="readPost(post.id)">{{ post.title }}</a>
+      <router-link class="post-title"
+        :to="postUrl">{{ post.title }}</router-link>
 
       <postinfo :author="post.author" :score="post.score" :tags="post.tags" :date="post.date" :global="global"></postinfo>
     </div>
@@ -25,6 +26,11 @@ export default {
   components: {
     postinfo: postInfo
   },
+  computed: {
+    postUrl() {
+      return `/post/${this.post.id}`
+    }
+  },
   data: () => ({
     defaultPostImage: '/assets/img/typewriter.jpg'
   }),
@@ -35,10 +41,6 @@ export default {
     })
   },
   methods: {
-    readPost(id) {
-      this.global.route(`/post/${id}`)
-    },
-
     isNsfw() {
       return this.post.tags.indexOf('nsfw') >= 0
     }
