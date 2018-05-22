@@ -1147,7 +1147,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0);\n}\nto {\r\n    transform: scaleX(1);\n}\n}\n.nav {\r\n  display: flex;\r\n  flex-direction: row;\r\n  padding: 1em;\r\n  align-items: center;\r\n  z-index: var(--z-nav);\r\n  font-weight: 900;\r\n  filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));\n}\n.nav .search-area {\r\n  flex-grow: 1;\r\n  display: flex;\n}\n.nav .search-area .search-input {\r\n  margin: 0;\r\n  flex-grow: 1;\n}\n.nav .home {\r\n  font-weight: bold;\n}\n.nav a, .nav div {\r\n  padding: 0.3em;\r\n  text-decoration: none;\n}\n.nav a:hover {\r\n  text-decoration: underline;\n}\n.nav .wrapper {\r\n  flex-grow: 1;\r\n  display: flex;\r\n  flex-direction: row;\r\n  /* justify-content: flex-end; */\r\n  align-items: center;\n}\n.nav .wrapper .bar {\r\n  flex-grow: 1;\r\n  height: 3px;\r\n  background: currentColor;\r\n  opacity: 0.8;\r\n  padding: 0;\r\n  /* transform-origin: right; */\r\n  margin: 0 5vw;\r\n  animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;\n}\n.nav .wrapper input {\r\n  margin: 0 .2em;\n}\n.nav .profile-pic {\r\n  background-size: cover;\r\n  background-position: center;\r\n  width: 32px;\r\n  height: 32px;\r\n  border-radius: 50%;\r\n  margin-left: 1em;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.2);\r\n  cursor: pointer;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0);\n}\nto {\r\n    transform: scaleX(1);\n}\n}\n.nav {\r\n  display: flex;\r\n  flex-direction: row;\r\n  padding: 1em;\r\n  align-items: center;\r\n  z-index: var(--z-nav);\r\n  font-weight: 900;\r\n  filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));\n}\n.nav .search-area {\r\n  flex-grow: 1;\r\n  display: flex;\n}\n.nav .search-area .search-input {\r\n  margin: 0;\r\n  flex-grow: 1;\n}\n.nav .home {\r\n  font-weight: bold;\n}\n.nav a, .nav div {\r\n  padding: 0.3em;\r\n  text-decoration: none;\n}\n.nav a:hover {\r\n  text-decoration: underline;\n}\n.nav .wrapper {\r\n  flex-grow: 1;\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: flex-end;\r\n  align-items: center;\n}\n.nav .wrapper.left {\r\n  justify-content: flex-start;\n}\n.nav .wrapper .bar {\r\n  flex-grow: 1;\r\n  height: 3px;\r\n  background: currentColor;\r\n  opacity: 0.8;\r\n  padding: 0;\r\n  /* transform-origin: right; */\r\n  margin: 0 5vw;\r\n  animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;\n}\n.nav .wrapper input {\r\n  margin: 0 .2em;\n}\n.nav .profile-pic {\r\n  background-size: cover;\r\n  background-position: center;\r\n  width: 32px;\r\n  height: 32px;\r\n  border-radius: 50%;\r\n  margin-left: 1em;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.2);\r\n  cursor: pointer;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -1276,7 +1276,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_vm._v("Sign up")])], 1) : _c('div', {
     staticClass: "wrapper"
   }, [(_vm.account.profile !== null && _vm.account.profile.role === 1) ? _c('div', {
-    staticClass: "wrapper"
+    staticClass: "wrapper left"
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -2168,6 +2168,7 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
 //
 //
 //
+//
 
 
 
@@ -2274,7 +2275,13 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
       this.$refs.postcontent.innerHTML = this.md.render(this.currentPost.content);
     },
 
-    deletePost() {}
+    deletePost() {
+      this.global.api.posts.deletePost(this.global.ws, this.currentPost.id).then(res => {
+        if (res.state === 200) {
+          this.global.route('/');
+        }
+      });
+    }
   }
 });
 
@@ -2704,12 +2711,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.downvotePost
     }
-  }, [_vm._v("downvote")])]) : _vm._e(), _vm._v(" "), _c('div', [(_vm.account.admin_privileges && _vm.account.profile.role === 1) ? _c('button', {
+  }, [_vm._v("downvote")])]) : _vm._e(), _vm._v(" "), (_vm.account.profile !== null) ? _c('div', {
+    staticClass: "post-controls"
+  }, [(_vm.account.admin_privileges && _vm.account.profile.role === 1 || _vm.account.username === _vm.currentPost.author) ? _c('button', {
     staticClass: "delete default link-style",
     on: {
       "click": _vm.deletePost
     }
-  }, [_vm._v("delete post")]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), (_vm.account.logged) ? _c('newcomment', {
+  }, [_vm._v("delete post")]) : _vm._e()]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.account.logged) ? _c('newcomment', {
     attrs: {
       "current-post-id": _vm.currentPost.id,
       "global": _vm.global,
@@ -4536,6 +4545,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["getPostScore"] = getPostScore;
 /* harmony export (immutable) */ __webpack_exports__["getUserPosts"] = getUserPosts;
 /* harmony export (immutable) */ __webpack_exports__["getPostUserVote"] = getPostUserVote;
+/* harmony export (immutable) */ __webpack_exports__["deletePost"] = deletePost;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
 
 function getPagePosts(ws, page) {
@@ -4573,6 +4583,9 @@ function getUserPosts(ws, username) {
 }
 function getPostUserVote(ws, id) {
     return ws.thenable("getPostUserVote", { id });
+}
+function deletePost(ws, post_id) {
+    return ws.thenable(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].deletePost, { post_id });
 }
 
 

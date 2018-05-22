@@ -20,4 +20,5 @@ var endpoints;
     endpoints["getPostUserVote"] = "getPostUserVote";
     endpoints["getUserScore"] = "getUserScore";
     endpoints["isUserAdmin"] = "isUserAdmin";
+    endpoints["deletePost"] = "deletePost";
 })(endpoints = exports.endpoints || (exports.endpoints = {}));

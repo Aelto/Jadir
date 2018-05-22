@@ -44,3 +44,7 @@ export function getUserPosts(ws: any, username: string) {
 export function getPostUserVote(ws: any, id: number) {
   return ws.thenable("getPostUserVote", { id })
 }
+
+export function deletePost(ws: any, post_id: number) {
+  return ws.thenable(endpoints.deletePost, { post_id } as interfaces.message_deletePost)
+}

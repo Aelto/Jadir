@@ -1,16 +1,23 @@
 const mysql = require('mysql')
 
 export default function(dbConfig: any) {
-  const connection = mysql.createConnection({
-    host: dbConfig.host,
-    user: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.database,
-    dateStrings: 'date',
-    multipleStatements: true
-  })
+  let connection = null
 
-  connection.connect()
+  try {
+    connection = mysql.createConnection({
+      host: dbConfig.host,
+      user: dbConfig.user,
+      password: dbConfig.password,
+      database: dbConfig.database,
+      dateStrings: 'date',
+      multipleStatements: true
+    })
+
+    connection.connect()
+  } catch (err) {
+    console.log(`error when opening database connection: ${err.message}`)
+    process.exit()
+  }
 
   return connection
 }

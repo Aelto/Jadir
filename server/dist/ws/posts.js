@@ -195,5 +195,49 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.getPostUserVote, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.deletePost, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        if (!message.isAuth) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.unauthorized, message.thenableId);
+        }
+        let user = null;
+        try {
+            const users = yield db_query_1.default(con, `SELECT id, name, role FROM users WHERE name = ?`, [message.login]);
+            if (users.length) {
+                user = users[0];
+            }
+        }
+        catch (err) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.databaseError, message.thenableId);
+        }
+        if (user === null) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.unauthorized, message.thenableId);
+        }
+        let post = null;
+        console.log(message.message.post_id);
+        try {
+            const posts = yield db_query_1.default(con, `SELECT id, author_id FROM posts WHERE id = ?`, [message.message.post_id]);
+            if (posts.length) {
+                post = posts[0];
+            }
+        }
+        catch (err) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.databaseError, message.thenableId);
+        }
+        if (post === null) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.notFound, message.thenableId);
+        }
+        if (user.id !== post.author_id && user.role !== interfaces.UserRole.admin) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.unauthorized, message.thenableId);
+        }
+        try {
+            yield db_query_1.default(con, `DELETE FROM comments WHERE post_id = ?`, [message.message.post_id]);
+            yield db_query_1.default(con, `DELETE FROM posts_votes WHERE post_id = ?`, [message.message.post_id]);
+            yield db_query_1.default(con, `DELETE FROM posts WHERE id = ?`, [message.message.post_id]);
+        }
+        catch (err) {
+            return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.databaseError, message.thenableId);
+        }
+        return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.success, message.thenableId);
+    }));
 }
 exports.default = default_1;

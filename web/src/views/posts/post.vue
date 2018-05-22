@@ -1,4 +1,4 @@
-<template>
+u<template>
   <div class="post no-padding"
     v-if="currentPost !== null">
 
@@ -23,10 +23,11 @@
             v-bind:class="{ active: postVote !== null && !postVote }">downvote</button>
         </div>
 
-        <div>
+        <div class='post-controls'
+          v-if="account.profile !== null">
           <button class="delete default link-style" 
             v-on:click="deletePost"
-            v-if="account.admin_privileges && account.profile.role === 1">delete post</button>
+            v-if="account.admin_privileges && account.profile.role === 1 || account.username === currentPost.author">delete post</button>
         </div>
       </div>
 
@@ -169,7 +170,12 @@ export default {
     },
 
     deletePost() {
-      
+      this.global.api.posts.deletePost(this.global.ws, this.currentPost.id)
+      .then(res => {
+        if (res.state === 200) {
+          this.global.route('/')
+        }
+      })
     }
   }
 }

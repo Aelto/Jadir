@@ -15,7 +15,7 @@
     </div>
 
     <div class='wrapper' v-else>
-      <div class='wrapper'
+      <div class='wrapper left'
         v-if="account.profile !== null && account.profile.role === 1">
         <input type="checkbox" name="admin-privileges" id="admin-privileges"
           v-model="account.admin_privileges">
@@ -122,8 +122,12 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  /* justify-content: flex-end; */
+  justify-content: flex-end;
   align-items: center;
+}
+
+.nav .wrapper.left {
+  justify-content: flex-start;
 }
 
 .nav .wrapper .bar {
