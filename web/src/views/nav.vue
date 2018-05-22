@@ -15,6 +15,13 @@
     </div>
 
     <div class='wrapper' v-else>
+      <div class='wrapper'
+        v-if="account.profile !== null && account.profile.role === 1">
+        <input type="checkbox" name="admin-privileges" id="admin-privileges"
+          v-model="account.admin_privileges">
+        <span>admin privileges</span>
+      </div>
+
       <router-link to="/new-post">New post</router-link>
 
       <a href="#" 
@@ -115,7 +122,7 @@ export default {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   align-items: center;
 }
 
@@ -128,6 +135,10 @@ export default {
   /* transform-origin: right; */
   margin: 0 5vw;
   animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;
+}
+
+.nav .wrapper input {
+  margin: 0 .2em;
 }
 
 .nav .profile-pic {

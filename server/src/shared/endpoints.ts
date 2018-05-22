@@ -16,5 +16,7 @@ export enum endpoints {
   getUserProfile = "getUserProfile",
   getUserPosts = "getUserPosts",
   getPostUserVote = "getPostUserVote",
-  getUserScore = "getUserScore"
+  getUserScore = "getUserScore",
+  isUserAdmin = "isUserAdmin",
+  deletePost = "deletePost"
 }

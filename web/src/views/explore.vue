@@ -113,6 +113,7 @@ export default {
   display: flex;
   justify-content: center;
   padding-bottom: 1em;
+  align-items: center;
 }
 .page-navigation button, .page-navigation .next {
   margin: 1em;

@@ -22,6 +22,12 @@
           <button class="down default link-style" v-on:click="downvotePost"
             v-bind:class="{ active: postVote !== null && !postVote }">downvote</button>
         </div>
+
+        <div>
+          <button class="delete default link-style" 
+            v-on:click="deletePost"
+            v-if="account.admin_privileges && account.profile.role === 1">delete post</button>
+        </div>
       </div>
 
       <newcomment v-if="account.logged" :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
@@ -160,6 +166,10 @@ export default {
         return setTimeout(() => this.setPostContent(), 25)
 
       this.$refs.postcontent.innerHTML = this.md.render(this.currentPost.content)
+    },
+
+    deletePost() {
+      
     }
   }
 }
@@ -258,5 +268,14 @@ img.full-view-image {
 
 .upvote-wrapper button.active {
   font-weight: bold;
+}
+
+.delete {
+  cursor: pointer;
+  background: none;
+  outline: none;
+  border: 0;
+  text-decoration: none;
+  color: lightcoral
 }
 </style>

@@ -12,3 +12,7 @@ export function getUserProfile(ws: any, username: string) {
 export function getUserScore(ws: any, username: string) {
   return ws.thenable(endpoints.getUserScore, { name: username } as interfaces.message_getUserScore)
 }
+
+export function isUserAdmin(ws: any, username: string) {
+  return ws.thenable(endpoints.isUserAdmin, { username } as interfaces.message_isUserAdmin)
+}

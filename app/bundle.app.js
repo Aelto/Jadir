@@ -488,6 +488,8 @@ var endpoints;
     endpoints["getUserPosts"] = "getUserPosts";
     endpoints["getPostUserVote"] = "getPostUserVote";
     endpoints["getUserScore"] = "getUserScore";
+    endpoints["isUserAdmin"] = "isUserAdmin";
+    endpoints["deletePost"] = "deletePost";
 })(endpoints || (endpoints = {}));
 
 
@@ -792,7 +794,8 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
     account: {
       logged: false,
       username: null,
-      profile: null
+      profile: null,
+      admin_privileges: false
     }
   };
 
@@ -806,7 +809,6 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
 
     if (!ws.events['getUserProfile-done']) {
       ws.onAnswer('getUserProfile', res => {
-        console.log(res);
         // update self profile data only when it is equals
         // to the username in memory
         if (res.message.user.name === data.account.username) {
@@ -825,7 +827,7 @@ ws.open(`${location.hostname}:${location.port}`).then(manager => ws.synchronize(
   };
 
   window.test = () => {
-    __WEBPACK_IMPORTED_MODULE_3__api_api_ts__["a" /* default */].users.getUserScore(ws, 'Aeltoth').then(console.log);
+    console.log(data.account.admin_privileges);
   };
 
   data.global.setProfile = profile => data.account.profile = profile;
@@ -1145,7 +1147,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0);\n}\nto {\r\n    transform: scaleX(1);\n}\n}\n.nav {\r\n  display: flex;\r\n  flex-direction: row;\r\n  padding: 1em;\r\n  align-items: center;\r\n  z-index: var(--z-nav);\r\n  font-weight: 900;\r\n  filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));\n}\n.nav .search-area {\r\n  flex-grow: 1;\r\n  display: flex;\n}\n.nav .search-area .search-input {\r\n  margin: 0;\r\n  flex-grow: 1;\n}\n.nav .home {\r\n  font-weight: bold;\n}\n.nav a, .nav div {\r\n  padding: 0.3em;\r\n  text-decoration: none;\n}\n.nav a:hover {\r\n  text-decoration: underline;\n}\n.nav .wrapper {\r\n  flex-grow: 1;\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: flex-end;\r\n  align-items: center;\n}\n.nav .wrapper .bar {\r\n  flex-grow: 1;\r\n  height: 3px;\r\n  background: currentColor;\r\n  opacity: 0.8;\r\n  padding: 0;\r\n  /* transform-origin: right; */\r\n  margin: 0 5vw;\r\n  animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;\n}\n.nav .profile-pic {\r\n  background-size: cover;\r\n  background-position: center;\r\n  width: 32px;\r\n  height: 32px;\r\n  border-radius: 50%;\r\n  margin-left: 1em;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.2);\r\n  cursor: pointer;\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0);\n}\nto {\r\n    transform: scaleX(1);\n}\n}\n.nav {\r\n  display: flex;\r\n  flex-direction: row;\r\n  padding: 1em;\r\n  align-items: center;\r\n  z-index: var(--z-nav);\r\n  font-weight: 900;\r\n  filter: drop-shadow(0 0 2px rgba(20, 20, 20, 0.08));\n}\n.nav .search-area {\r\n  flex-grow: 1;\r\n  display: flex;\n}\n.nav .search-area .search-input {\r\n  margin: 0;\r\n  flex-grow: 1;\n}\n.nav .home {\r\n  font-weight: bold;\n}\n.nav a, .nav div {\r\n  padding: 0.3em;\r\n  text-decoration: none;\n}\n.nav a:hover {\r\n  text-decoration: underline;\n}\n.nav .wrapper {\r\n  flex-grow: 1;\r\n  display: flex;\r\n  flex-direction: row;\r\n  /* justify-content: flex-end; */\r\n  align-items: center;\n}\n.nav .wrapper .bar {\r\n  flex-grow: 1;\r\n  height: 3px;\r\n  background: currentColor;\r\n  opacity: 0.8;\r\n  padding: 0;\r\n  /* transform-origin: right; */\r\n  margin: 0 5vw;\r\n  animation: grow cubic-bezier(0.86, 0, 0.07, 1) 0.9s forwards;\n}\n.nav .wrapper input {\r\n  margin: 0 .2em;\n}\n.nav .profile-pic {\r\n  background-size: cover;\r\n  background-position: center;\r\n  width: 32px;\r\n  height: 32px;\r\n  border-radius: 50%;\r\n  margin-left: 1em;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.2);\r\n  cursor: pointer;\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -1155,6 +1157,13 @@ exports.push([module.i, "\n@keyframes grow {\nfrom {\r\n    transform: scaleX(0)
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1266,7 +1275,42 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }
   }, [_vm._v("Sign up")])], 1) : _c('div', {
     staticClass: "wrapper"
-  }, [_c('router-link', {
+  }, [(_vm.account.profile !== null && _vm.account.profile.role === 1) ? _c('div', {
+    staticClass: "wrapper"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.account.admin_privileges),
+      expression: "account.admin_privileges"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "name": "admin-privileges",
+      "id": "admin-privileges"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.account.admin_privileges) ? _vm._i(_vm.account.admin_privileges, null) > -1 : (_vm.account.admin_privileges)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.account.admin_privileges,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.account.admin_privileges = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.account.admin_privileges = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.account.admin_privileges = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("admin privileges")])]) : _vm._e(), _vm._v(" "), _c('router-link', {
     attrs: {
       "to": "/new-post"
     }
@@ -1335,7 +1379,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;\r\n  opacity: 0;\n}\n.page-navigation[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  padding-bottom: 1em;\n}\n.page-navigation button[data-v-15fd4a6e], .page-navigation .next[data-v-15fd4a6e] {\r\n  margin: 1em;\n}\n.no-posts[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  min-height: 50vh;\r\n  animation-name: messagePop-data-v-15fd4a6e;\r\n  animation-duration: .25s;\r\n  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1)\n}\n@keyframes messagePop-data-v-15fd4a6e {\nfrom {\r\n    transform: scale(0);\n}\nto {\r\n    transform: scale(1);\n}\n}\r\n\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-15fd4a6e] {\r\n  animation: fade-in-right cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s forwards;\r\n  opacity: 0;\n}\n.page-navigation[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  padding-bottom: 1em;\r\n  align-items: center;\n}\n.page-navigation button[data-v-15fd4a6e], .page-navigation .next[data-v-15fd4a6e] {\r\n  margin: 1em;\n}\n.no-posts[data-v-15fd4a6e] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  min-height: 50vh;\r\n  animation-name: messagePop-data-v-15fd4a6e;\r\n  animation-duration: .25s;\r\n  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1)\n}\n@keyframes messagePop-data-v-15fd4a6e {\nfrom {\r\n    transform: scale(0);\n}\nto {\r\n    transform: scale(1);\n}\n}\r\n\r\n", ""]);
 
 // exports
 
@@ -2055,7 +2099,7 @@ exports = module.exports = __webpack_require__(0)(undefined);
 
 
 // module
-exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-description[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  max-width: 100%;\r\n  margin: auto;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\n.upvote-wrapper button.active[data-v-3c0b775e] {\r\n  font-weight: bold;\n}\r\n", ""]);
+exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n  display: flex;\r\n  flex-direction: column;\r\n\r\n  border-radius: 3px;\r\n  background: white;\r\n  padding: 0;\r\n  overflow: hidden;\r\n  box-shadow: 0 0 12px rgba(20, 20, 20, 0.08);\r\n\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1.5em;\r\n  flex-grow: 1;\n}\n.post-view[data-v-3c0b775e] {\r\n  padding: 1em;\n}\n.post-view .post-description[data-v-3c0b775e] {\r\n  font-family: 'Encode Sans';\r\n  margin: 0;\r\n\r\n  white-space: pre-wrap;\r\n  word-wrap: break-word;\n}\nimg[data-v-3c0b775e] {\r\n  max-width: 100%;\r\n  margin: auto;\n}\nimg.full-view-image[data-v-3c0b775e] {\r\n    box-shadow: 0 -100px 40px 40px rgba(20, 20, 20, 0.3);\r\n    background: white;\r\n    transition: 0.5s margin;\n}\n.post .post-content[data-v-3c0b775e] {\r\n  border-bottom: solid 1px rgba(20, 20, 20, 0.2);\r\n  padding-bottom: 1em;\r\n  margin-bottom: 1em;\n}\n.post .post-content h5[data-v-3c0b775e] {\r\n  margin-bottom: 0;\n}\n.post .post-content a.tag[data-v-3c0b775e] {\r\n  margin-right: 0.4em;\n}\r\n/**\r\n * Answer input wrapper\r\n **/\n.post .answer-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  padding: 1em;\n}\n.post .answer-wrapper textarea[data-v-3c0b775e] {\r\n  width: 90%;\r\n  max-width: 90%;\r\n  min-width: 45%;\r\n  min-height: 150px;\n}\n.post .comments-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  flex-direction: column-reverse;\n}\n.upvote-wrapper[data-v-3c0b775e] {\r\n  display: flex;\r\n  /* justify-content: space-around; */\r\n  padding: 1em;\n}\n.upvote-wrapper button[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\n}\n.upvote-wrapper button[data-v-3c0b775e]:hover {\r\n  text-decoration: underline;\n}\n.upvote-wrapper button.active[data-v-3c0b775e] {\r\n  font-weight: bold;\n}\n.delete[data-v-3c0b775e] {\r\n  cursor: pointer;\r\n  background: none;\r\n  outline: none;\r\n  border: 0;\r\n  text-decoration: none;\r\n  color: lightcoral\n}\r\n", ""]);
 
 // exports
 
@@ -2069,6 +2113,12 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__comments_comment_vue__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_Shared_endpoints_ts__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__comments_new_comment_vue__ = __webpack_require__(8);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2222,7 +2272,9 @@ exports.push([module.i, "\n.post[data-v-3c0b775e] {\r\n  position: relative;\r\n
         return setTimeout(() => this.setPostContent(), 25);
 
       this.$refs.postcontent.innerHTML = this.md.render(this.currentPost.content);
-    }
+    },
+
+    deletePost() {}
   }
 });
 
@@ -2397,7 +2449,7 @@ exports.push([module.i, "\n.comment[data-v-8559db0e] {\r\n  padding: 1em 0;\r\n 
     },
 
     goToProfile() {
-      this.global.route(`/profile/${author}`);
+      this.global.route(`/profile/${this.author}`);
     }
   }
 });
@@ -2652,7 +2704,12 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.downvotePost
     }
-  }, [_vm._v("downvote")])]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.account.logged) ? _c('newcomment', {
+  }, [_vm._v("downvote")])]) : _vm._e(), _vm._v(" "), _c('div', [(_vm.account.admin_privileges && _vm.account.profile.role === 1) ? _c('button', {
+    staticClass: "delete default link-style",
+    on: {
+      "click": _vm.deletePost
+    }
+  }, [_vm._v("delete post")]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), (_vm.account.logged) ? _c('newcomment', {
     attrs: {
       "current-post-id": _vm.currentPost.id,
       "global": _vm.global,
@@ -4129,8 +4186,8 @@ exports.push([module.i, "\n.feature[data-v-692ce9f2] {\r\n  padding-left: 1em;\n
 
     features: {
       todo: ['Email signup and password resetting', 'Add tag to our favorites and favorites page', 'Add bio/description to profile page', 'Edit a post', 'Edit a comment', 'Admin controls: delete a post, delete a comment'],
-      inprogress: ['Open posts in new tabs. (currently forces a full-load even if it is not in a new tab)'],
-      done: ['Be able to filter todos, inprogress and dones on this page', 'Do not resize small images', 'Show user score in the profile page', 'Add state indication on downvote & upvote button', 'Display the current page']
+      inprogress: [],
+      done: ['Be able to filter todos, inprogress and dones on this page', 'Do not resize small images', 'Show user score in the profile page', 'Add state indication on downvote & upvote button', 'Display the current page', 'Open posts in new tabs. (currently forces a full-load even if it is not in a new tab)']
     }
   })
 });
@@ -4574,6 +4631,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["setUserImage"] = setUserImage;
 /* harmony export (immutable) */ __webpack_exports__["getUserProfile"] = getUserProfile;
 /* harmony export (immutable) */ __webpack_exports__["getUserScore"] = getUserScore;
+/* harmony export (immutable) */ __webpack_exports__["isUserAdmin"] = isUserAdmin;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__ = __webpack_require__(3);
 
 function setUserImage(ws, image_url) {
@@ -4584,6 +4642,9 @@ function getUserProfile(ws, username) {
 }
 function getUserScore(ws, username) {
     return ws.thenable(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].getUserScore, { name: username });
+}
+function isUserAdmin(ws, username) {
+    return ws.thenable(__WEBPACK_IMPORTED_MODULE_0__server_src_shared_endpoints_ts__["a" /* endpoints */].isUserAdmin, { username });
 }
 
 

@@ -49,5 +49,20 @@ function default_1(ws, con) {
             ws.answer(wsClient, endpoints_1.endpoints.getUserScore, {}, interfaces.MessageState.databaseError);
         }
     }));
+    ws.on(endpoints_1.endpoints.isUserAdmin, (wsClient, message) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const users = yield db_query_1.default(con, `SELECT role FROM users WHERE name = ?`, [message.message.username]);
+            if (users.length) {
+                const user = users[0];
+                ws.answer(wsClient, endpoints_1.endpoints.isUserAdmin, { is_admin: user.role === interfaces.UserRole.admin }, interfaces.MessageState.success, message.thenableId);
+            }
+            else {
+                ws.answer(wsClient, endpoints_1.endpoints.isUserAdmin, { is_admin: false }, interfaces.MessageState.notFound, message.thenableId);
+            }
+        }
+        catch (err) {
+            ws.answer(wsClient, endpoints_1.endpoints.isUserAdmin, { is_admin: false }, interfaces.MessageState.databaseError, message.thenableId);
+        }
+    }));
 }
 exports.default = default_1;

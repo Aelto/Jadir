@@ -59,7 +59,8 @@ export interface SafeUser {
   id: number,
   name: string,
   password: string,
-  image_url: string
+  image_url: string,
+  user_role: UserRole
 }
 
 export interface User extends SafeUser{
@@ -393,5 +394,39 @@ export interface responseMessage_getUserScore {
 
 export interface response_getUserScore extends MessageInterface {
   message: responseMessage_getUserScore
+}
+//#endregion
+
+//#region isUserAdmin
+export interface message_isUserAdmin {
+  username: string
+}
+
+export interface query_isUserAdmin extends MessageAuthInterface {
+  message: message_isUserAdmin
+}
+
+export interface responseMessage_isUserAdmin {
+  is_admin: boolean
+}
+
+export interface response_isUserAdmin extends MessageAuthInterface {
+  message: responseMessage_isUserAdmin
+}
+//#endregion
+
+//#region deletePost
+export interface message_deletePost {
+  post_id: number
+}
+
+export interface query_deletePost extends MessageAuthInterface {
+  message: message_deletePost
+}
+
+export interface responseMessage_deletePost {}
+
+export interface response_deletePost extends MessageAuthInterface {
+  message: responseMessage_deletePost
 }
 //#endregion

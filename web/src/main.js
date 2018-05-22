@@ -26,7 +26,8 @@ ws.open(`${location.hostname}:${location.port}`)
     account: {
       logged: false,
       username: null,
-      profile: null
+      profile: null,
+      admin_privileges: false
     }
   }
 
@@ -40,7 +41,6 @@ ws.open(`${location.hostname}:${location.port}`)
 
     if (!ws.events['getUserProfile-done']) {
       ws.onAnswer('getUserProfile', res => {
-        console.log(res)
         // update self profile data only when it is equals
         // to the username in memory
         if (res.message.user.name === data.account.username) {
@@ -59,8 +59,7 @@ ws.open(`${location.hostname}:${location.port}`)
   }
 
   window.test = () => {
-    api.users.getUserScore(ws, 'Aeltoth')
-    .then(console.log)
+    console.log(data.account.admin_privileges)
   }
 
   data.global.setProfile = profile => data.account.profile = profile

@@ -70,7 +70,7 @@ export default {
     },
 
     goToProfile() {
-      this.global.route(`/profile/${author}`)
+      this.global.route(`/profile/${this.author}`)
     }
   }
 }

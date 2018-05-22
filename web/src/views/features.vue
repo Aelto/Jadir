@@ -52,7 +52,7 @@ export default {
         'Admin controls: delete a post, delete a comment',
       ],
       inprogress: [
-        'Open posts in new tabs. (currently forces a full-load even if it is not in a new tab)'
+        
       ],
       done: [
         'Be able to filter todos, inprogress and dones on this page',
@@ -60,6 +60,7 @@ export default {
         'Show user score in the profile page',
         'Add state indication on downvote & upvote button',
         'Display the current page',
+        'Open posts in new tabs. (currently forces a full-load even if it is not in a new tab)'
       ]
     }
   })

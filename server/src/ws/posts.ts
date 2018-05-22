@@ -229,4 +229,54 @@ export default function(ws: WsManager, con: any) {
       ws.answer(wsClient, endpoints.getPostUserVote, {}, interfaces.MessageState.databaseError)
     }
   })
+
+  ws.on(endpoints.deletePost, async (wsClient, message: interfaces.query_deletePost) => {
+    if (!message.isAuth) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.unauthorized, message.thenableId)
+    }
+    
+    let user = null
+    try {
+      const users = await dbQuery(con, `SELECT id, name, role FROM users WHERE name = ?`, [message.login])
+
+      if (users.length) {
+        user = users[0]
+      }
+    } catch (err) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.databaseError, message.thenableId)
+    }
+
+    if (user === null) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.unauthorized, message.thenableId)
+    }
+
+    let post = null
+    try {
+      const posts = await dbQuery(con, `SELECT id, author_id FROM posts WHERE id = ?`, [message.message.post_id])
+
+      if (posts.length) {
+        post = posts[0]
+      }
+    } catch (err) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.databaseError, message.thenableId)
+    }
+
+    if (post === null) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.notFound, message.thenableId)
+    }
+
+    if (user.id !== post.author_id && user.role !== interfaces.UserRole.admin) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.unauthorized, message.thenableId)
+    }
+
+    try {
+      await dbQuery(con, `DELETE FROM comments WHERE post_id = ?`, [message.message.post_id])
+      await dbQuery(con, `DELETE FROM posts_votes WHERE post_id = ?`, [message.message.post_id])
+      await dbQuery(con, `DELETE FROM posts WHERE id = ?`, [message.message.post_id])  
+    } catch (err) {
+      return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.databaseError, message.thenableId)
+    }
+
+    return ws.answer(wsClient, endpoints.deletePost, {} as interfaces.responseMessage_deletePost, interfaces.MessageState.success, message.thenableId)
+  })
 }

@@ -2,6 +2,7 @@ import WsManager from '../ws-manager'
 import * as interfaces from '../shared/interfaces'
 import { endpoints } from '../shared/endpoints'
 import dbQuery from '../db-query'
+import { WSAEPROCLIM } from 'constants';
 
 export default function(ws: WsManager, con: any) {
 
@@ -47,8 +48,24 @@ export default function(ws: WsManager, con: any) {
     } catch (err) {
       ws.answer(wsClient, endpoints.getUserScore, {}, interfaces.MessageState.databaseError)
     }
+  })
 
+  ws.on(endpoints.isUserAdmin, async (wsClient, message: interfaces.query_isUserAdmin) => {
+    try {
+      const users = await dbQuery(con, `SELECT role FROM users WHERE name = ?`, [message.message.username])
 
+      if (users.length) {
+        const user = users[0]
+        
+        ws.answer(wsClient, endpoints.isUserAdmin, { is_admin: user.role === interfaces.UserRole.admin } as interfaces.responseMessage_isUserAdmin, interfaces.MessageState.success, message.thenableId)
+      }
+      
+      else {
+        ws.answer(wsClient, endpoints.isUserAdmin, { is_admin: false } as interfaces.responseMessage_isUserAdmin, interfaces.MessageState.notFound, message.thenableId)
+      }
+    } catch (err) {
+      ws.answer(wsClient, endpoints.isUserAdmin, { is_admin: false } as interfaces.responseMessage_isUserAdmin, interfaces.MessageState.databaseError, message.thenableId)
+    }
   })
 
 }
