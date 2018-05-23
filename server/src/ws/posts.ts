@@ -101,7 +101,7 @@ export default function(ws: WsManager, con: any) {
         `INSERT INTO posts (title, date, author_id, content, tags, author, score, image_url)
          VALUES (?, ?, ?, ?, ?, ?, 0, ?)`,
         [message.message.title, new Date()
-          .toISOString()
+          .toLocaleString()
           .slice(0, 19)
           .replace('T', ' '), user.id, message.message.content, message.message.tags, user.name, message.message.image_url])
     } catch(err) {
@@ -200,8 +200,6 @@ export default function(ws: WsManager, con: any) {
     try {
       votes = await dbQuery(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ?`,
         [message.message.post_id])
-
-      console.log(votes)
     } catch (err) {
       ws.answer(wsClient, endpoints.votePost, {}, interfaces.MessageState.databaseError)
     }

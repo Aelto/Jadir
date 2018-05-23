@@ -3,7 +3,7 @@
   <div class="comment">
     <pre class="comment-content">{{ content }}</pre>
     <div class='author-wrapper'>
-      <div class="date">{{ creation_date_ago }} by</div>
+      <time-diff class='date' :before="new Date(creationdate)" :after="now"></time-diff> by
       <a class='author'
         v-on:click="goToProfile()">@{{ author }}</a>
     </div>
@@ -43,12 +43,14 @@
 
 <script>
 import newComment from './new-comment.vue'
+import TimeDiff from '../time-diff.vue'
 
 export default {
   name: "comment",
   props: ['content', 'author', 'creationdate', 'commentId', 'global', 'childrenComments', 'currentPostId'],
   components: {
-    newcomment: newComment
+    newcomment: newComment,
+    TimeDiff
   },
   computed: {
     creation_date_ago() {
@@ -62,7 +64,8 @@ export default {
     }
   },
   data: () => ({
-    newCommentWindowShown: false
+    newCommentWindowShown: false,
+    now: Date.now()
   }),
   methods: {
     toggleAnswerWindow() {
@@ -96,15 +99,17 @@ export default {
 .comment .author-wrapper {
   display: flex;
   align-items: center;
+  font-size: .8rem;
 }
 
 .comment .author-wrapper .author {
   display: flex;
+  font-size: 1rem;
+  margin-left: .2em
 }
 
 .comment .author-wrapper .date {
-  font-size: .8em;
-  padding-right: .2em;
+  margin-right: .2em;
 }
 
 button.answer-button {

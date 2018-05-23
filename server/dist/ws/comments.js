@@ -83,7 +83,7 @@ function default_1(ws, con) {
             const insertResult = yield db_query_1.default(con, `INSERT INTO comments (answers_comment, author_id, post_id, content, creation_date, root_id)
           VALUES (?, ?, ?, ?, ?, ?)`, [message.message.answers_comment, user.id, message.message.post_id,
                 message.message.content, new Date()
-                    .toISOString()
+                    .toLocaleString()
                     .slice(0, 19)
                     .replace('T', ' '), root_id === null ? message.message.answers_comment : root_id]);
             const results = yield db_query_1.default(con, `SELECT * from comments WHERE id = ?`, [insertResult.insertId]);

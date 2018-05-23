@@ -101,7 +101,7 @@ export default function(ws: WsManager, con: any) {
           VALUES (?, ?, ?, ?, ?, ?)`,
         [message.message.answers_comment, user.id, message.message.post_id,
           message.message.content, new Date()
-          .toISOString()
+          .toLocaleString()
           .slice(0, 19)
           .replace('T', ' '), root_id === null ? message.message.answers_comment : root_id])
 

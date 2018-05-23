@@ -2,7 +2,7 @@
 
   <div class='post-info'>
     <div class='submit-by'>submitted by <a v-on:click="goToProfile(author)">@{{ author }}</a>
-    <div>{{ getHoursDifference(new Date(date), now) }} hours ago</div>,
+      <time-diff :before="new Date(date)" :after="now"></time-diff>,
     </div>
     <div class="points"><b>{{ score }}</b> points</div>
     <div>in <a class="tag" v-for="(tag, index) in tags.split(' ')"
@@ -14,8 +14,13 @@
 </template>
 
 <script>
+import TimeDiff from '../time-diff.vue'
+
 export default {
   props: ['author', 'score', 'tags', 'global', 'date'],
+  components: {
+    TimeDiff
+  },
   data: () => ({
     now: Date.now() 
   }),

@@ -91,7 +91,7 @@ function default_1(ws, con) {
         try {
             results = yield db_query_1.default(con, `INSERT INTO posts (title, date, author_id, content, tags, author, score, image_url)
          VALUES (?, ?, ?, ?, ?, ?, 0, ?)`, [message.message.title, new Date()
-                    .toISOString()
+                    .toLocaleString()
                     .slice(0, 19)
                     .replace('T', ' '), user.id, message.message.content, message.message.tags, user.name, message.message.image_url]);
         }
@@ -171,7 +171,6 @@ function default_1(ws, con) {
         let votes = null;
         try {
             votes = yield db_query_1.default(con, `SELECT is_upvote FROM posts_votes WHERE post_id = ?`, [message.message.post_id]);
-            console.log(votes);
         }
         catch (err) {
             ws.answer(wsClient, endpoints_1.endpoints.votePost, {}, interfaces.MessageState.databaseError);

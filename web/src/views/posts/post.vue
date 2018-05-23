@@ -22,6 +22,13 @@ u<template>
           :is-downvote-active="postVote !== null && !postVote"
           v-on:upvote="upvotePost"
           v-on:downvote="downvotePost"></upvote-control>
+
+        <div class='post-controls'
+          v-if="account.profile !== null">
+          <button class="delete default link-style" 
+            v-on:click="deletePost"
+            v-if="account.admin_privileges && account.profile.role === 1 || account.username === currentPost.author">delete post</button>
+        </div>
       </div>
 
       <newcomment v-if="account.logged" :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
