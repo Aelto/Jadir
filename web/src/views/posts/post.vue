@@ -16,19 +16,12 @@ u<template>
 
         <div class="post-description" ref="postcontent"></div>
 
-        <div class="upvote-wrapper" v-if="account.logged">
-          <button class="up default link-style" v-on:click="upvotePost"
-            v-bind:class="{ active: postVote !== null && postVote }">upvote</button>
-          <button class="down default link-style" v-on:click="downvotePost"
-            v-bind:class="{ active: postVote !== null && !postVote }">downvote</button>
-        </div>
-
-        <div class='post-controls'
-          v-if="account.profile !== null">
-          <button class="delete default link-style" 
-            v-on:click="deletePost"
-            v-if="account.admin_privileges && account.profile.role === 1 || account.username === currentPost.author">delete post</button>
-        </div>
+        <upvote-control
+          :v-if="account.logged"
+          :is-upvote-active="postVote !== null && postVote"
+          :is-downvote-active="postVote !== null && !postVote"
+          v-on:upvote="upvotePost"
+          v-on:downvote="downvotePost"></upvote-control>
       </div>
 
       <newcomment v-if="account.logged" :current-post-id="currentPost.id" :global="global" :account="account" :attached-comment:="null">
@@ -59,13 +52,15 @@ import postInfo from './post-info.vue'
 import Comment from '../comments/comment.vue'
 import { endpoints } from 'Shared/endpoints.ts'
 import newComment from '../comments/new-comment.vue'
+import upvoteControl from '../upvote-control.vue'
 
 export default {
   props: ['global', 'currentPost', 'account'],
   components: {
     postinfo: postInfo,
     comment: Comment,
-    newcomment: newComment
+    newcomment: newComment,
+    upvoteControl
   },
   data: () => ({
     comments: [],
@@ -252,28 +247,6 @@ img.full-view-image {
 .post .comments-wrapper {
   display: flex;
   flex-direction: column-reverse;
-}
-
-.upvote-wrapper {
-  display: flex;
-  /* justify-content: space-around; */
-  padding: 1em;
-}
-
-.upvote-wrapper button {
-  cursor: pointer;
-  background: none;
-  outline: none;
-  border: 0;
-  text-decoration: none;
-}
-
-.upvote-wrapper button:hover {
-  text-decoration: underline;
-}
-
-.upvote-wrapper button.active {
-  font-weight: bold;
 }
 
 .delete {

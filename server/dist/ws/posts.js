@@ -213,7 +213,6 @@ function default_1(ws, con) {
             return ws.answer(wsClient, endpoints_1.endpoints.deletePost, {}, interfaces.MessageState.unauthorized, message.thenableId);
         }
         let post = null;
-        console.log(message.message.post_id);
         try {
             const posts = yield db_query_1.default(con, `SELECT id, author_id FROM posts WHERE id = ?`, [message.message.post_id]);
             if (posts.length) {
