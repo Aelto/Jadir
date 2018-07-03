@@ -157,10 +157,10 @@ p {
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-a {
+a, button.link-style {
   color: #1EAEDB;
 text-decoration: none; }
-a:hover {
+a:hover, button.link-style {
   color: #0FA0CE;
 text-decoration: underline }
 
@@ -168,7 +168,7 @@ text-decoration: underline }
 /* Buttons
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .button,
-button,
+button:not(.default),
 input[type="submit"],
 input[type="reset"],
 input[type="button"] {
@@ -191,20 +191,21 @@ input[type="button"] {
   cursor: pointer;
   box-sizing: border-box; }
 .button:hover,
-button:hover,
+button:hover:not(.default),
 input[type="submit"]:hover,
 input[type="reset"]:hover,
 input[type="button"]:hover,
-.button:focus,
-button:focus,
+.button:focus:not(.default),
+button:focus:not(.default),
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
   color: #333;
+  box-shadow: 0 0 6px rgba(20, 20, 20, 0.2);
   border-color: #888;
   outline: 0; }
-.button.button-primary,
-button.button-primary,
+.button.button-primary:not(.default),
+button.button-primary:not(.default),
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
@@ -218,8 +219,8 @@ button.button-primary:hover,
 input[type="submit"].button-primary:hover,
 input[type="reset"].button-primary:hover,
 input[type="button"].button-primary:hover,
-.button.button-primary:focus,
-button.button-primary:focus,
+.button.button-primary:focus:not(.default),
+button.button-primary:focus:not(.default),
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
@@ -227,7 +228,7 @@ input[type="button"].button-primary:focus {
   background-color: #1EAEDB;
   border-color: #1EAEDB; }
 
-button.disabled {
+button.disabled:not(.default) {
   opacity: .7;
   border-color: #888;
   cursor: default;

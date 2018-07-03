@@ -1,8 +1,20 @@
+@font-face {
+  font-family: 'Encode Sans';
+  src: url('../assets/fonts/EncodeSans-Regular.ttf'); /* IE9 Compat Modes */
+}
+
 :root {
+  --z-menu: 11;
   --z-nav: 10;
   --z-content: 9;
+  --z-content-view: 10;
 
   --color-blue: rgb(63, 81, 181);
+  --color-black: rgb(38, 50, 56);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html, body {
@@ -10,36 +22,21 @@ html, body {
   padding: 0;
   margin: 0;
   color: rgb(38, 50, 56);
+
+  font-size: 14px;
 }
 
 
 a {
-  color: rgb(101, 134, 148)
+  color: rgb(101, 134, 148);
+  text-decoration: none;
+  cursor: pointer;
 }
 
-
-.content {
-  flex-grow: 1;
-  background: rgb(245, 245, 245);
-
-  z-index: var(--z-content);
-  padding-top: 5em;
+a:hover {
+  text-decoration: underline;
 }
 
-.content .post {
-  margin: 1em 20vw;
-
-  border-bottom: solid 1px rgba(20, 20, 20, 0.2);
-  padding-bottom: 1em;
-}
-
-.content .post div div {
-  display: inline-block;
-}
-
-.content .post div div {
-  margin-right: 1em;
-}
 
 @keyframes fade-in-right {
   from {
@@ -61,4 +58,9 @@ a {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.background {
+  background-image: url('/assets/img/adrian-infernus.jpg');
+  background-size: cover;
 }

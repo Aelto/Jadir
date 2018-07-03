@@ -1,49 +1,73 @@
 import app from './views/app.vue'
-import home from './views/home.vue'
-import signin from './views/signin.vue'
+import explore from './views/explore.vue'
+import post from './views/posts/post.vue'
 import signup from './views/signup.vue'
-import newPost from './views/new-post.vue'
-import post from './views/post/post.vue'
-
-let beforeSigninRoute = null
+import signin from './views/signin.vue'
+import newPost from './views/posts/new-post.vue'
+import profile from './views/profile.vue'
+import userPosts from './views/posts/user-posts.vue'
+import features from './views/features.vue'
 
 export default [
   {
     path: '/',
-    beforeEnter: (to, form, next) => next('/home/1')
+    beforeEnter: (to, from, next) => next('/explore/1')
   },
   {
-    path: '/home',
-    beforeEnter: (to, from, next) => next('/home/1')
+    path: '/explore',
+    beforeEnter: (to, from, next) => next('/explore/1')
   },
   {
-    path: '/home/:page',
-    component: home,
-    props: { home: true }
+    path: '/explore/:page',
+    component: explore,
+    name: 'explore'
   },
-  { path: '/signup', component: signup },
-  { path: '/signin', component: signin,
-    beforeEnter: (to, from, next) => {
-      beforeSigninRoute = from
-
-      next()
-    }
+  {
+    path: '/post/:id',
+    component: post
   },
-  { path: '/signin/done', 
-    beforeEnter: (to, from, next) => {
-      if (beforeSigninRoute === null) {
-        next('/')
-      }
-
-      else {
-        next(beforeSigninRoute.path)
-      }
-    }
+  {
+    path: '/signup',
+    component: signup
   },
-  { path: '/new-post', component: newPost },
-  { path: '/post/:id', component: post, props: { post: true } },
-  { 
+  {
+    path: '/signin',
+    component: signin
+  },
+  {
+    path: '/new-post',
+    component: newPost
+  },
+  {
+    path: '/tag/:tag',
+    component: explore,
+    name: 'tag'
+  },
+  {
+    path: '/search/:search',
+    component: explore,
+    name: 'search'
+  },
+  {
+    path: '/profile/:user',
+    component: profile,
+    name: 'profile'
+  },
+  {
+    path: '/posts/:user',
+    component: userPosts,
+    name: 'user-post'
+  },
+  {
+    path: '/features',
+    component: features,
+    name: 'features'
+  },
+  {
     path: '*',
-    beforeEnter: (to, from, next) => next('/home')
-  }
+    beforeEnter: (to, from, next) => {
+
+      next('/')
+    }
+  },
 ]
