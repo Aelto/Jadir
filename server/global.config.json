@@ -1,9 +1,0 @@
-{
-  "database": {
-    "host": "localhost",
-    "user": "root",
-    "password": "",
-    "database": "jadir_database"
-  },
-  "port": 3000
-}
