@@ -1,22 +1,7 @@
 # jadir
 
-> My stupendous Nuxt.js project
 
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## project architecture
+- `/server` is a node.js project for the Jadir back-end
+- `/app` is the vue.js front-end application, building it create a bundle in `/app/dist`
+- `/static` is a directory served by the node back-end under the `/static` url. Supposedly used for static files only
