@@ -1,0 +1,11 @@
+{
+  "private_hash_key": "private",
+  "prefix_hash_string": "jadir_prefix",
+  "suffix_hash_string": "jadir_suffix",
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "",
+    "database": "jadir_database"
+  }
+}
