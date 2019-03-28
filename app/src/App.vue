@@ -1,5 +1,8 @@
 <template>
-  <router-view></router-view>
+  <div id="app">
+    <Nav />
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
@@ -22,10 +25,16 @@ export default {
   --red-main: #d63031;
 }
 
+@font-face {
+  font-family: 'Encode Sans';
+  src: url('/static/fonts/EncodeSans-Regular.ttf');
+}
+
 html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+  font-family: 'Encode Sans', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px;
+  line-height: 1.6;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;

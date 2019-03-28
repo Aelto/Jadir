@@ -19,7 +19,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/account/signin.vue')
+      component: () => import(/* webpackChunkName: "signin" */ './views/account/signin.vue')
     },
     {
       path: '/account/signup',
@@ -27,7 +27,12 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/account/signup.vue')
+      component: () => import(/* webpackChunkName: "signup" */ './views/account/signup.vue')
+    },
+    {
+      path: '/post/:id',
+      name: 'post',
+      component: () => import(/* webpackChunkName: "post" */ './views/post.vue')
     }
   ]
 })

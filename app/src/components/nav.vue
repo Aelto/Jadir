@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <h1>Jadir</h1>
+    <h1>Jadir<span>{{ this.$route.path }}</span></h1>
     
     <div class="controls" v-if="isLogged">
       <button v-on:click="signout">sign-out</button>
@@ -37,6 +37,10 @@ nav {
   background: #f3f4f5;
   box-shadow: 0 1px 6px rgba(20, 20, 20, .1);
   border-bottom: solid 1px #E1E1E1;
+}
+
+h1 span {
+  font-size: 30%;
 }
 
 .controls {
