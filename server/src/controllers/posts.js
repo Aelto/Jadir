@@ -1,7 +1,7 @@
 const express = require('express');
 const consola = require('consola');
 
-const { getRecentPosts, getPostById } = require('../db/posts');
+const { getRecentPosts } = require('../db/posts');
 
 const router = express.Router();
 const POSTS_PER_PAGE = 20;
@@ -21,12 +21,5 @@ router.get('/recent/:page', async (req, res) => {
     res.status(500).json({ message: 'an error occured when fetching for posts' });
   }
 });
-
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  const post = await getPostById(id);
-
-  res.send({ post });
-})
 
 module.exports = router;

@@ -1,19 +1,14 @@
 <template>
   <div class="home">
+    <Nav />
     <div class="content">
 
-      <div class="posts">
-        <PostDisplay
-          v-for="(post, index) of this.$store.state.posts" 
-          :title="post.title"
-          :id="post.id"
-          :author="post.author"
-          :score="post.score"
-          :tags="post.tags"
-          :date="post.date"
-          :image_url="post.image_url"
-          :key="post.id"
-          :style="'animation-delay: ' + index * 0.05 + 's'"></PostDisplay>
+      <div class="post"
+        v-for="post of $store.state.posts" :key="post.id">
+        <h2>{{ post.title }}</h2>
+        <div class="description">
+          by <span>{{ post.author }}</span>
+        </div>
       </div>
 
     </div>
@@ -21,13 +16,15 @@
 </template>
 
 <script>
-import PostDisplay from '../components/posts/post-display.vue';
+import Nav from '../components/nav.vue'
 
 export default {
   created() {
     this.$store.dispatch('loadRecentPosts', { page: 0 });
+
+    console.log(this.$store);
   },
-  components: { PostDisplay }
+  components: { Nav }
 }
 </script>
 
@@ -36,7 +33,11 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
-  padding: 2em;
+
+  .post {
+
+  }
 }
 </style>

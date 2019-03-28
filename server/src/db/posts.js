@@ -19,9 +19,3 @@ exports.getRecentPosts = async function(offset, number) {
     offset, offset + number
   ])).map(postResult => new Post(postResult));
 }
-
-exports.getPostById = async function(id = 0) {
-  const posts = await dbQuery(`select * from posts where id = ?`, [id]);
-
-  return posts[0] ? new Post(posts[0]) : null;
-}
