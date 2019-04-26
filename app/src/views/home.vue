@@ -1,30 +1,38 @@
 <template>
   <div class="home">
     <Nav />
+    <Menu class="menu" />
     <div class="content">
+      <PostLister :posts="$store.state.posts" class="post-lister" />
 
-      <div class="post"
-        v-for="post of $store.state.posts" :key="post.id">
-        <h2>{{ post.title }}</h2>
-        <div class="description">
-          by <span>{{ post.author }}</span>
+      <div class="column">
+
+        <div class="your-home">
+          <h2>Your home</h2>
+          <ul>
+            <li>#all <a href="">🗑</a></li>
+            <li>#first-post <a href="">🗑</a></li>
+          </ul>
+
+          <input type="text" class="small">
+          <button class="small">add</button>
         </div>
-      </div>
 
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import Nav from '../components/nav.vue'
+import Menu from '../components/menu.vue'
+import PostLister from '../components/post-lister.vue'
 
 export default {
   created() {
     this.$store.dispatch('loadRecentPosts', { page: 0 });
-
-    console.log(this.$store);
   },
-  components: { Nav }
+  components: { Nav, PostLister, Menu }
 }
 </script>
 
@@ -32,12 +40,20 @@ export default {
 <style lang="scss" scoped>
 .content {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
+  flex-direction: row;
 
-  .post {
+  .post-lister {
+    flex-direction: column;
+    flex-grow: 1;
+  }
 
+  .column {
+    .your-home {
+      padding: 1em;
+      // box-shadow: 0 3px 6px var(--light-grey);
+      // background: var(--light-grey);
+      // border: solid 1px var(--black-text);
+    }
   }
 }
 </style>

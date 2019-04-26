@@ -20,6 +20,10 @@ export default {
   --green-main: #41ba90;
   --light-grey: #f3f4f5;
   --red-main: #d63031;
+
+  --z-nav: 10;
+  --z-menu: 9;
+  --z-default: 0;
 }
 
 html {
@@ -58,6 +62,15 @@ input {
   padding: .3em;
   border-radius: 4px;
   border: solid 1px #E1E1E1;
+
+  &.small {
+    padding: 0 .2em;
+  }
+
+  &:active {
+    outline: none;
+    box-shadow: 0 0 6px var(--green-main);
+  }
 }
 
 input[type=submit], button {
@@ -67,9 +80,13 @@ input[type=submit], button {
   font-size: 1em;
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  padding: .4em 1em;
+  padding: .3em 1em;
   border-radius: 4px;
   border: none;
+
+  &.small {
+    padding: 0 1em;
+  }
 }
 
 a {

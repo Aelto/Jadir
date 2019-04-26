@@ -37,6 +37,7 @@ nav {
   background: #f3f4f5;
   box-shadow: 0 1px 6px rgba(20, 20, 20, .1);
   border-bottom: solid 1px #E1E1E1;
+  z-index: var(--z-nav);
 }
 
 .controls {
